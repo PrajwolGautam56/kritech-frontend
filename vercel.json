@@ -7,6 +7,7 @@
     { "source": "/blog/:slug", "destination": "/" },
     { "source": "/contact", "destination": "/" },
     { "source": "/admin-login", "destination": "/" },
+    { "source": "/admin-reset", "destination": "/" },
     { "source": "/digital-marketing-agency-butwal", "destination": "/" },
     { "source": "/seo-services-butwal", "destination": "/" },
     { "source": "/web-development-butwal", "destination": "/" },

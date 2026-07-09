@@ -40,6 +40,7 @@ const API_BASE = import.meta.env.VITE_API_URL || '';
 const ACCESS_MODULES = [
   ['posts', 'Blog CMS'],
   ['inquiries', 'Inquiries'],
+  ['leads', 'Leads'],
   ['seo', 'Site SEO'],
   ['sitemap', 'Sitemap'],
   ['users', 'Users']
@@ -914,7 +915,7 @@ function App() {
     const canonicalUrl = `${SITE_URL}${route === '/' ? '' : route}`;
     document.title = meta.title;
     setMeta('description', meta.description);
-    setMeta('robots', route.startsWith('/admin-login') ? 'noindex, nofollow' : 'index, follow');
+    setMeta('robots', route.startsWith('/admin-login') || route.startsWith('/admin-reset') ? 'noindex, nofollow' : 'index, follow');
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', meta.title);
     setMeta('twitter:description', meta.description);
@@ -936,6 +937,10 @@ function App() {
       return <AdminLogin setAdminSession={setAdminSession} go={go} />;
     }
     return <Admin posts={posts} setPosts={setPosts} seo={seo} setSeo={setSeo} go={go} apiState={apiState} adminSession={adminSession} setAdminSession={setAdminSession} />;
+  }
+
+  if (route.startsWith('/admin-reset')) {
+    return <AdminPasswordReset go={go} />;
   }
 
   return (
@@ -2099,6 +2104,7 @@ function AdminLogin({ setAdminSession, go }) {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const [resetBusy, setResetBusy] = useState(false);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -2119,6 +2125,22 @@ function AdminLogin({ setAdminSession, go }) {
     }
   };
 
+  const requestReset = async () => {
+    setResetBusy(true);
+    setMessage('Sending reset link...');
+    try {
+      const result = await apiRequest('/api/auth/request-reset', {
+        method: 'POST',
+        body: JSON.stringify({ email })
+      });
+      setMessage(result.message || 'If the email exists, a reset link has been sent.');
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setResetBusy(false);
+    }
+  };
+
   return (
     <main className="admin-login-page">
       <section className="admin-login-card">
@@ -2135,7 +2157,53 @@ function AdminLogin({ setAdminSession, go }) {
           <button className="primary" disabled={busy}>{busy ? 'Signing in...' : 'Login to admin'} <ArrowRight size={17} /></button>
         </form>
         {message && <p className="login-message">{message}</p>}
+        <button className="text-link" onClick={requestReset} disabled={resetBusy}>{resetBusy ? 'Sending reset link...' : 'Forgot password? Send reset email'} <ChevronRight size={16} /></button>
         <button className="text-link" onClick={() => go('/')}>Back to website <ChevronRight size={16} /></button>
+      </section>
+    </main>
+  );
+}
+
+function AdminPasswordReset({ go }) {
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [busy, setBusy] = useState(false);
+  const token = new URLSearchParams(window.location.search).get('token') || '';
+
+  const submit = async (event) => {
+    event.preventDefault();
+    setBusy(true);
+    setMessage('Resetting password...');
+    try {
+      const result = await apiRequest('/api/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, password })
+      });
+      setMessage(result.message || 'Password reset successful.');
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <main className="admin-login-page">
+      <section className="admin-login-card">
+        <img src="/kritech-logo.webp" alt="Kritech Solution" />
+        <span className="eyebrow"><ShieldCheck size={15} /> Password Reset</span>
+        <h1>Set a new CMS password</h1>
+        <p>Enter a new password for your Kritech CMS account. Reset links expire in 30 minutes.</p>
+        <form onSubmit={submit}>
+          <label>
+            New Password
+            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} required />
+          </label>
+          <button className="primary" disabled={busy || !token}>{busy ? 'Saving...' : 'Reset password'} <ArrowRight size={17} /></button>
+        </form>
+        {!token && <p className="login-message">Reset token is missing.</p>}
+        {message && <p className="login-message">{message}</p>}
+        <button className="text-link" onClick={() => go('/admin-login')}>Back to login <ChevronRight size={16} /></button>
       </section>
     </main>
   );
@@ -2148,6 +2216,8 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   const [uploadState, setUploadState] = useState({ busy: false, message: '' });
   const [inquiries, setInquiries] = useState([]);
   const [inquiryState, setInquiryState] = useState({ busy: false, message: '' });
+  const [leads, setLeads] = useState([]);
+  const [leadState, setLeadState] = useState({ busy: false, message: '' });
   const [users, setUsers] = useState([]);
   const [userState, setUserState] = useState({ busy: false, message: '' });
   const [query, setQuery] = useState('');
@@ -2166,9 +2236,10 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     ['Drafts', posts.filter((post) => post.status === 'Draft').length],
     ['Avg SEO', `${Math.round(posts.reduce((sum, post) => sum + seoScore(post), 0) / Math.max(posts.length, 1))}%`],
     ['Inquiries', inquiries.length],
+    ['Leads', leads.length],
     ['Users', users.length || 1],
     ['Sitemap URLs', Object.keys(seo).length + posts.filter((post) => post.status === 'Published').length]
-  ], [posts, seo, inquiries, users]);
+  ], [posts, seo, inquiries, leads, users]);
   const allowedModules = ACCESS_MODULES.filter(([key]) => sessionCan(adminSession, key));
   const can = (module) => sessionCan(adminSession, module);
 
@@ -2193,6 +2264,17 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setInquiryState({ busy: false, message: '' });
       })
       .catch((error) => setInquiryState({ busy: false, message: error.message }));
+  }, [active, adminSession]);
+
+  useEffect(() => {
+    if (active !== 'leads' || !adminSession || !can('leads')) return;
+    setLeadState({ busy: true, message: 'Loading leads...' });
+    apiRequest('/api/leads')
+      .then((items) => {
+        setLeads(Array.isArray(items) ? items : []);
+        setLeadState({ busy: false, message: '' });
+      })
+      .catch((error) => setLeadState({ busy: false, message: error.message }));
   }, [active, adminSession]);
 
   useEffect(() => {
@@ -2305,6 +2387,60 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     }
   };
 
+  const createLead = async (payload) => {
+    setLeadState({ busy: true, message: 'Saving lead...' });
+    try {
+      const created = await apiRequest('/api/leads', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setLeads([created, ...leads]);
+      setLeadState({ busy: false, message: 'Lead saved.' });
+    } catch (error) {
+      setLeadState({ busy: false, message: error.message });
+    }
+  };
+
+  const updateLead = async (id, patch) => {
+    setLeads(leads.map((lead) => lead.id === id ? { ...lead, ...patch } : lead));
+    try {
+      const updated = await apiRequest(`/api/leads/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(patch)
+      });
+      setLeads((items) => items.map((lead) => lead.id === id ? updated : lead));
+    } catch (error) {
+      setLeadState({ busy: false, message: error.message });
+    }
+  };
+
+  const deleteLead = async (id) => {
+    if (!window.confirm('Delete this lead?')) return;
+    const previous = leads;
+    setLeads(leads.filter((lead) => lead.id !== id));
+    try {
+      await apiRequest(`/api/leads/${id}`, { method: 'DELETE' });
+    } catch (error) {
+      setLeads(previous);
+      setLeadState({ busy: false, message: error.message });
+    }
+  };
+
+  const sendBulkLeadEmail = async (payload) => {
+    setLeadState({ busy: true, message: 'Sending email campaign...' });
+    try {
+      const result = await apiRequest('/api/leads/bulk-email', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setLeadState({ busy: false, message: `Email sent to ${result.sent} lead(s).` });
+      const refreshed = await apiRequest('/api/leads');
+      setLeads(Array.isArray(refreshed) ? refreshed : leads);
+    } catch (error) {
+      setLeadState({ busy: false, message: error.message });
+    }
+  };
+
   const createUser = async (payload) => {
     setUserState({ busy: true, message: 'Creating user...' });
     try {
@@ -2350,6 +2486,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         <img src="/kritech-logo.webp" alt="Kritech Solution" />
         {can('posts') && <button className={active === 'posts' ? 'active' : ''} onClick={() => setActive('posts')}><PenLine /> Blog CMS</button>}
         {can('inquiries') && <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>}
+        {can('leads') && <button className={active === 'leads' ? 'active' : ''} onClick={() => setActive('leads')}><Target /> Leads</button>}
         {can('seo') && <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>}
         {can('sitemap') && <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>}
         {can('users') && <button className={active === 'users' ? 'active' : ''} onClick={() => setActive('users')}><ShieldCheck /> Users</button>}
@@ -2508,6 +2645,16 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             deleteInquiry={deleteInquiry}
           />
         )}
+        {active === 'leads' && can('leads') && (
+          <LeadsPanel
+            leads={leads}
+            leadState={leadState}
+            createLead={createLead}
+            updateLead={updateLead}
+            deleteLead={deleteLead}
+            sendBulkLeadEmail={sendBulkLeadEmail}
+          />
+        )}
         {active === 'seo' && can('seo') && <SeoManager seo={seo} setSeo={setSeo} />}
         {active === 'sitemap' && can('sitemap') && <Sitemap posts={posts} seo={seo} />}
         {active === 'users' && can('users') && (
@@ -2652,6 +2799,131 @@ function InquiriesPanel({ inquiries, inquiryState, updateInquiry, deleteInquiry 
           ))}
         </div>
       )}
+    </section>
+  );
+}
+
+function LeadsPanel({ leads, leadState, createLead, updateLead, deleteLead, sendBulkLeadEmail }) {
+  const [selected, setSelected] = useState([]);
+  const [leadForm, setLeadForm] = useState({
+    company: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    website: '',
+    location: '',
+    serviceInterest: '',
+    source: '',
+    status: 'New',
+    remarks: ''
+  });
+  const [campaign, setCampaign] = useState({
+    subject: '',
+    message: 'Hi {{name}},\n\nI noticed {{company}} may benefit from stronger digital marketing, SEO or website support. Kritech Solution is a Nepal-based remote team helping businesses improve online presence with reliable execution and clear reporting.\n\nWould you be open to a quick conversation this week?\n\nRegards,\nKritech Solution'
+  });
+
+  const updateLeadForm = (key, value) => setLeadForm((current) => ({ ...current, [key]: value }));
+  const toggleSelected = (id) => {
+    setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  };
+
+  const submitLead = (event) => {
+    event.preventDefault();
+    createLead(leadForm);
+    setLeadForm({ company: '', contactName: '', email: '', phone: '', website: '', location: '', serviceInterest: '', source: '', status: 'New', remarks: '' });
+  };
+
+  const submitCampaign = (event) => {
+    event.preventDefault();
+    sendBulkLeadEmail({ leadIds: selected, ...campaign });
+  };
+
+  return (
+    <section className="cms-panel leads-panel">
+      <div className="cms-toolbar">
+        <div>
+          <h2>Lead management</h2>
+          <p>Collect company contacts, keep remarks, track status and send focused email campaigns from one place.</p>
+        </div>
+        <div className="inquiry-summary">
+          <span>{selected.length} selected</span>
+          <span>{leads.length} leads</span>
+        </div>
+      </div>
+      {leadState.message && <p className="admin-alert">{leadState.message}</p>}
+      <div className="leads-layout">
+        <form className="lead-create-card" onSubmit={submitLead}>
+          <h3>Add company lead</h3>
+          <Field label="Company Name" value={leadForm.company} onChange={(value) => updateLeadForm('company', value)} />
+          <Field label="Contact Person" value={leadForm.contactName} onChange={(value) => updateLeadForm('contactName', value)} />
+          <Field label="Email" value={leadForm.email} onChange={(value) => updateLeadForm('email', value)} />
+          <Field label="Phone / WhatsApp" value={leadForm.phone} onChange={(value) => updateLeadForm('phone', value)} />
+          <Field label="Website" value={leadForm.website} onChange={(value) => updateLeadForm('website', value)} />
+          <div className="two-col">
+            <Field label="Location" value={leadForm.location} onChange={(value) => updateLeadForm('location', value)} />
+            <label>Status<select value={leadForm.status} onChange={(event) => updateLeadForm('status', event.target.value)}>
+              <option>New</option>
+              <option>Contacted</option>
+              <option>Interested</option>
+              <option>Proposal</option>
+              <option>Won</option>
+              <option>Lost</option>
+            </select></label>
+          </div>
+          <Field label="Service Interest" value={leadForm.serviceInterest} onChange={(value) => updateLeadForm('serviceInterest', value)} />
+          <Field label="Source" value={leadForm.source} onChange={(value) => updateLeadForm('source', value)} />
+          <Field label="Remarks" value={leadForm.remarks} onChange={(value) => updateLeadForm('remarks', value)} textarea />
+          <button className="primary">Save lead <Plus size={16} /></button>
+        </form>
+        <div className="lead-workspace">
+          <form className="bulk-mail-card" onSubmit={submitCampaign}>
+            <h3>Bulk email selected leads</h3>
+            <p>Use <code>{'{{name}}'}</code> and <code>{'{{company}}'}</code> to personalize each email.</p>
+            <Field label="Subject" value={campaign.subject} onChange={(value) => setCampaign({ ...campaign, subject: value })} />
+            <Field label="Message" value={campaign.message} onChange={(value) => setCampaign({ ...campaign, message: value })} textarea tall />
+            <button className="primary small" disabled={!selected.length}>Send to {selected.length} lead(s) <Send size={16} /></button>
+          </form>
+          <div className="lead-list">
+            {leads.map((lead) => (
+              <article className="lead-card" key={lead.id}>
+                <div className="lead-head">
+                  <label className="lead-select"><input type="checkbox" checked={selected.includes(lead.id)} onChange={() => toggleSelected(lead.id)} /> Select</label>
+                  <div>
+                    <h3>{lead.company}</h3>
+                    <p>{lead.contactName || 'No contact person'} · {lead.email}</p>
+                  </div>
+                  <select value={lead.status || 'New'} onChange={(event) => updateLead(lead.id, { status: event.target.value })}>
+                    <option>New</option>
+                    <option>Contacted</option>
+                    <option>Interested</option>
+                    <option>Proposal</option>
+                    <option>Won</option>
+                    <option>Lost</option>
+                  </select>
+                </div>
+                <div className="lead-meta">
+                  <span>{lead.phone || 'No phone'}</span>
+                  <span>{lead.location || 'No location'}</span>
+                  <span>{lead.serviceInterest || 'No service selected'}</span>
+                  <span>{lead.emailCount || 0} emails sent</span>
+                </div>
+                {lead.website && <small>Website: {lead.website}</small>}
+                <Field label="Remarks" value={lead.remarks || ''} onChange={(value) => updateLead(lead.id, { remarks: value })} textarea />
+                <div className="user-actions">
+                  <button className="secondary small" onClick={() => deleteLead(lead.id)}>Delete lead</button>
+                </div>
+              </article>
+            ))}
+            {!leads.length && (
+              <div className="empty-inquiries">
+                <Target size={24} />
+                <h3>No leads yet</h3>
+                <p>Add company leads manually, then select them for follow-up email campaigns.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
