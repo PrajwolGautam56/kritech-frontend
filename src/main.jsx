@@ -2433,7 +2433,12 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         method: 'POST',
         body: JSON.stringify(payload)
       });
-      setLeadState({ busy: false, message: `Email sent to ${result.sent} lead(s).` });
+      setLeadState({
+        busy: false,
+        message: result.failed
+          ? `Email sent to ${result.sent} lead(s). ${result.failed} failed.`
+          : `Email sent to ${result.sent} lead(s).`
+      });
       const refreshed = await apiRequest('/api/leads');
       setLeads(Array.isArray(refreshed) ? refreshed : leads);
     } catch (error) {
