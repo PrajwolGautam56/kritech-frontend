@@ -275,6 +275,12 @@ const internationalSeoTargets = [
   }
 ];
 
+const proofDescriptions = [
+  'Clear service positioning so visitors quickly understand what you offer and why they should contact you.',
+  'A fast, professional experience with strong calls-to-action for phone, WhatsApp and form inquiries.',
+  'Monthly improvement based on real inquiries, traffic quality and the services your customers ask about most.'
+];
+
 const defaultSeo = {
   home: {
     path: '/',
@@ -507,7 +513,7 @@ const internationalLandingPages = Object.fromEntries(internationalSeoTargets.map
     processAreas: target.processAreas,
     areaLine: target.areaLine,
     marketIntro:
-      `Google needs pages that prove Kritech can serve ${target.eyebrow.toLowerCase()} searches with real service detail, remote delivery clarity, useful FAQs, strong internal links and measurable next steps.`
+      `If you need ${target.eyebrow.toLowerCase()}, Kritech gives you a remote team that can plan the work, build the pages, improve campaigns and report progress without the cost of a large local agency.`
   }
 ]));
 
@@ -647,12 +653,11 @@ const localLandingPages = {
   ...internationalLandingPages
 };
 
-const keywordClusters = [
-  ['Digital Marketing', ['digital marketing agency in Butwal', 'digital marketing agency in Nepal', 'social media marketing Nepal', 'Google Ads agency Nepal']],
-  ['SEO', ['SEO services in Butwal', 'SEO company in Nepal', 'local SEO Nepal', 'Google ranking service Nepal']],
-  ['Web Development', ['website development company in Butwal', 'web development company Nepal', 'business website Butwal', 'web design company Nepal']],
-  ['Local Areas', ['digital marketing Bhairahawa', 'SEO services Tilottama', 'IT company Rupandehi', 'web development Bhairahawa']],
-  ['Global Outsourcing', ['remote digital marketing agency', 'outsourced SEO services USA', 'digital marketing agency UAE', 'web development company Dubai']]
+const clientGoalClusters = [
+  ['Local Growth', ['More calls from nearby customers', 'Better visibility in Butwal and Rupandehi', 'A website that builds trust quickly', 'Clear monthly reporting']],
+  ['Marketing Systems', ['SEO, ads and content working together', 'Landing pages built for inquiries', 'Social content with a clear plan', 'Campaigns tied to real leads']],
+  ['Website & IT', ['Fast business websites', 'Blog and CMS setup', 'Hosting, email and maintenance', 'Dashboards and workflow support']],
+  ['Remote Clients', ['Affordable execution for UAE and USA teams', 'White-label support for agencies', 'Web and SEO production from Nepal', 'Clear async communication']]
 ];
 
 const packages = [
@@ -1218,7 +1223,7 @@ function HomeRankingEngine({ go }) {
         <span>Growth engine</span>
         <h2>Not just a good-looking website. A complete search and lead system.</h2>
         <p>
-          For Kritech to rank in Butwal and Nepal, the homepage needs to explain the business clearly, connect to keyword-focused service pages, support topical authority with blogs, and guide visitors toward a call, WhatsApp message or consultation.
+          Your website should do more than look modern. It should explain your services clearly, earn trust fast, answer buyer questions and guide visitors toward a call, WhatsApp message or consultation.
         </p>
         <div className="ranking-actions">
           <button onClick={() => go('/seo-services-butwal')}>SEO services Butwal <ChevronRight size={16} /></button>
@@ -1227,10 +1232,10 @@ function HomeRankingEngine({ go }) {
       </div>
       <div className="ranking-console">
         {[
-          ['01', 'Keyword map', 'SEO, web development, digital marketing and IT company searches.'],
-          ['02', 'Page structure', 'Homepage, service pages, local landing pages, blog and contact flows.'],
-          ['03', 'Content depth', 'Helpful static copy, FAQs, blogs, schema and internal links.'],
-          ['04', 'Conversion tracking', 'Calls, WhatsApp clicks, forms, Search Console and campaign reports.']
+          ['01', 'Clear offer', 'People understand what you do and why your team is the right fit.'],
+          ['02', 'Better pages', 'Service pages, location pages, blogs and contact flows built around customer questions.'],
+          ['03', 'Useful content', 'Helpful FAQs, guides and proof that make buyers more confident before they contact you.'],
+          ['04', 'Lead tracking', 'Calls, WhatsApp clicks, forms and campaign reports connected to business decisions.']
         ].map(([number, title, text]) => (
           <article key={title}>
             <strong>{number}</strong>
@@ -1247,17 +1252,17 @@ function HomeRankingEngine({ go }) {
 
 function NeoModules({ go }) {
   const modules = [
-    [Search, 'SEO Services in Butwal', 'Technical SEO, local pages, schema, content planning and Search Console setup for Butwal and Nepal keywords.'],
-    [Code2, 'Web Development Company', 'Fast, responsive websites for businesses in Butwal with motion, conversion flows and SEO-ready service pages.'],
+    [Search, 'SEO Services in Butwal', 'Improve how customers find your business on Google and turn local searches into real inquiries.'],
+    [Code2, 'Web Development Company', 'Fast, responsive websites with premium design, useful service pages and easy contact flows.'],
     [ServerCog, 'IT Company in Butwal', 'Hosting, email, backups, maintenance, security and uptime-focused support for local businesses.'],
-    [Megaphone, 'Digital Marketing Nepal', 'Google Ads, Meta campaigns, social media marketing and reporting connected to landing pages.']
+    [Megaphone, 'Digital Marketing Nepal', 'Google Ads, Meta campaigns and social media support connected to pages that can convert visitors.']
   ];
   return (
     <motion.section className="neo-section neo-modules" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}>
       <motion.div className="neo-section-head" variants={fadeUp}>
         <span>01 / capabilities</span>
-        <h2>Keyword-focused services for Butwal and Nepal search demand.</h2>
-        <p>Each page is written around real buyer intent: SEO services, web development, digital marketing, IT support, software solutions and local Google ranking.</p>
+        <h2>Services built for businesses that want more trust, traffic and inquiries.</h2>
+        <p>Choose the support you need now, or combine SEO, websites, ads, content and IT into one connected growth system.</p>
       </motion.div>
       <div className="neo-module-grid">
         {modules.map(([Icon, title, text], index) => (
@@ -1269,42 +1274,42 @@ function NeoModules({ go }) {
           </motion.article>
         ))}
       </div>
-      <button className="neo-text-button" onClick={() => go('/services')}>Explore service architecture <ChevronRight size={17} /></button>
+      <button className="neo-text-button" onClick={() => go('/services')}>Explore services <ChevronRight size={17} /></button>
     </motion.section>
   );
 }
 
 function LocalSeoMap({ go }) {
   const routes = [
-    ['/digital-marketing-agency-butwal', 'Digital Marketing Agency in Butwal'],
-    ['/seo-services-butwal', 'SEO Services in Butwal'],
-    ['/website-development-company-butwal', 'Website Development Company in Butwal'],
-    ['/it-company-butwal', 'IT Company in Butwal'],
-    ['/digital-marketing-agency-nepal', 'Digital Marketing Agency in Nepal'],
-    ['/seo-company-nepal', 'SEO Company in Nepal'],
-    ['/web-development-company-nepal', 'Web Development Company in Nepal'],
-    ['/remote-digital-marketing-agency', 'Remote Marketing Agency'],
-    ['/digital-marketing-agency-uae', 'Digital Marketing Agency UAE'],
-    ['/seo-company-dubai', 'SEO Company Dubai'],
-    ['/digital-marketing-agency-usa', 'Digital Marketing Agency USA'],
-    ['/seo-company-new-york', 'SEO Company New York'],
-    ['/services-bhairahawa', 'Services in Bhairahawa'],
-    ['/services-tilottama', 'Services in Tilottama']
+    ['/digital-marketing-agency-butwal', 'Grow in Butwal'],
+    ['/seo-services-butwal', 'Rank locally'],
+    ['/website-development-company-butwal', 'Build your website'],
+    ['/it-company-butwal', 'Get IT support'],
+    ['/digital-marketing-agency-nepal', 'Market across Nepal'],
+    ['/seo-company-nepal', 'Improve organic leads'],
+    ['/web-development-company-nepal', 'Launch a better site'],
+    ['/remote-digital-marketing-agency', 'Hire remote support'],
+    ['/digital-marketing-agency-uae', 'Serve UAE customers'],
+    ['/seo-company-dubai', 'Grow in Dubai'],
+    ['/digital-marketing-agency-usa', 'Support USA clients'],
+    ['/seo-company-new-york', 'Compete in New York'],
+    ['/services-bhairahawa', 'Reach Bhairahawa'],
+    ['/services-tilottama', 'Reach Tilottama']
   ];
   return (
     <section className="local-seo-map">
       <div className="local-copy">
-        <span>SEO services for Nepal, UAE and USA</span>
-        <h2>Help local and international customers find your business when they search on Google.</h2>
+        <span>Where we can help</span>
+        <h2>Support for local businesses in Nepal and remote clients abroad.</h2>
         <p>
-          Kritech builds the SEO foundation your website needs: local pages, international service pages, technical fixes, content planning, schema, sitemap and Search Console tracking. The keyword clusters below become service pages, blogs and internal links that support real ranking growth.
+          Whether you want more customers in Butwal or remote delivery for a UAE or USA business, Kritech can support your website, search visibility, campaigns, content and technical operations from one team.
         </p>
       </div>
       <div className="keyword-clusters">
-        {keywordClusters.map(([group, keywords]) => (
+        {clientGoalClusters.map(([group, goals]) => (
           <article key={group}>
             <h3>{group}</h3>
-            {keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}
+            {goals.map((goal) => <span key={goal}>{goal}</span>)}
           </article>
         ))}
       </div>
@@ -1417,7 +1422,7 @@ function NeoCTA({ go }) {
   return (
     <section className="neo-final-cta">
       <span>Ready for the next version of Kritech?</span>
-      <h2>Let’s make Kritech the company people find when they search in Nepal, UAE and USA.</h2>
+      <h2>Let’s build a website and marketing system that brings better inquiries.</h2>
       <button className="neo-primary" onClick={() => go('/contact')}>Start consultation <Send size={18} /></button>
     </section>
   );
@@ -1425,10 +1430,10 @@ function NeoCTA({ go }) {
 
 function LocalLandingPage({ page, go }) {
   const process = [
-    ['01', 'Research buyer intent', `Map service, city and buyer questions for ${page.processAreas || 'Butwal, Bhairahawa, Tilottama and Nepal searches'}.`],
-    ['02', 'Build crawlable pages', 'Use clean URLs, strong headings, internal links, schema-friendly content and clear conversion paths.'],
-    ['03', 'Publish helpful content', 'Support service pages with FAQs, blogs, case-style proof and answers customers actually search for.'],
-    ['04', 'Measure and improve', 'Track Search Console, rankings, calls, WhatsApp clicks and form leads, then improve what is working.']
+    ['01', 'Understand your market', `We review your services, audience, location and competition before recommending what to build or improve.`],
+    ['02', 'Improve the website', 'We create clear service sections, strong calls-to-action, fast pages and contact paths that make it easier for visitors to become leads.'],
+    ['03', 'Create useful content', 'We answer the questions your customers ask before they call, message or request a proposal.'],
+    ['04', 'Improve every month', 'We track inquiries, calls, WhatsApp clicks, forms and campaign performance, then improve the work based on results.']
   ];
 
   return (
@@ -1438,9 +1443,9 @@ function LocalLandingPage({ page, go }) {
           {page.bullets.map((item) => <span key={item}><Check size={17} /> {item}</span>)}
         </div>
         <div className="landing-content">
-          <h2>Why this matters for search visibility</h2>
+          <h2>Built to turn interest into real inquiries.</h2>
           <p>
-            {page.marketIntro || `Google needs clear service pages, location relevance, helpful content, consistent business details, fast performance and structured data. This page gives Kritech a focused target for people searching for ${page.eyebrow.toLowerCase()} and related services.`}
+            {page.marketIntro || `When people are looking for ${page.eyebrow.toLowerCase()}, they need a clear reason to trust the company they contact. Kritech helps you present the right offer, answer important questions and make the next step simple.`}
           </p>
           <p>
             {page.areaLine || 'Kritech Solution serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara and businesses across Nepal with SEO, digital marketing, web development, software and IT support.'}
@@ -1451,17 +1456,17 @@ function LocalLandingPage({ page, go }) {
       <section className="section local-proof-section">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Ranking signals</span>
-            <h2>What this page strengthens for search visibility.</h2>
+            <span className="eyebrow">What you get</span>
+            <h2>A practical service system for visibility, trust and leads.</h2>
           </div>
-          <p>Dedicated local pages help Google understand service relevance, location coverage, topical depth and the next action visitors should take.</p>
+          <p>Each service plan is built to help visitors understand your value quickly, compare you with confidence and contact you without confusion.</p>
         </div>
         <div className="local-proof-grid">
           {(page.highlights || []).map((item, index) => (
             <motion.article key={item} whileHover={{ y: -8, rotate: index % 2 ? 1 : -1 }}>
               <span>{String(index + 1).padStart(2, '0')}</span>
               <h3>{item}</h3>
-              <p>{['Keyword targeting, headings and internal links aligned to local buyer intent.', 'Clear offer copy, trust signals and mobile-first lead capture for Nepal customers.', 'Search Console-ready structure that can be measured and improved after launch.'][index] || 'A practical SEO asset connected to the rest of the Kritech website.'}</p>
+              <p>{proofDescriptions[index] || 'A practical service setup connected to your website, content, campaigns and lead follow-up.'}</p>
             </motion.article>
           ))}
         </div>
@@ -1469,9 +1474,9 @@ function LocalLandingPage({ page, go }) {
       <section className="section local-process-panel">
         <div>
           <span className="eyebrow">Execution plan</span>
-          <h2>A local SEO page is only useful when it connects to the full growth system.</h2>
+          <h2>A clear process from first audit to better inquiries.</h2>
           <p>
-            Kritech combines page content, technical SEO, blog publishing, remote delivery systems, ads, analytics and conversion tracking so the site can compete for important searches over time.
+            Kritech connects your website, SEO, content, ads, analytics and follow-up so your digital presence works as one business growth system.
           </p>
           <button className="secondary-light" onClick={() => go('/services')}>See all services <ChevronRight size={17} /></button>
         </div>
@@ -1817,9 +1822,9 @@ function ServiceDeepDive() {
       <div className="section-head">
         <div>
           <span className="eyebrow">Service details</span>
-          <h2>Static SEO content for the services customers search for most.</h2>
+          <h2>Choose the service your business needs now, then scale from there.</h2>
         </div>
-        <p>Each section targets useful buyer intent for Butwal and Nepal without making the page feel like keyword stuffing.</p>
+        <p>Every service is designed to make your brand easier to find, easier to trust and easier to contact.</p>
       </div>
       <div className="deep-dive-list">
         {serviceDetails.map((service, index) => (
@@ -1864,28 +1869,28 @@ function LocalCoverage({ go }) {
   return (
     <section className="section local-coverage">
       <div>
-        <span className="eyebrow">Search coverage</span>
-        <h2>Focused in Nepal, ready for remote clients in UAE and USA.</h2>
+        <span className="eyebrow">Service areas</span>
+        <h2>Based in Butwal, serving Nepal and remote clients abroad.</h2>
         <p>
-          Kritech Solution supports businesses in Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and across Nepal, while positioning remote delivery pages for UAE and USA clients. Our SEO work connects city pages, service pages, schema, reviews, blogs and Search Console measurement.
+          Kritech Solution works with businesses in Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and across Nepal. We also support UAE and USA businesses that want reliable remote marketing, SEO, website and technical execution from a Nepal-based team.
         </p>
       </div>
       <div className="coverage-links">
         {[
-          ['/digital-marketing-agency-butwal', 'Digital Marketing Agency Butwal'],
-          ['/seo-services-butwal', 'SEO Services in Butwal'],
-          ['/website-development-company-butwal', 'Website Development Butwal'],
-          ['/it-company-butwal', 'IT Company in Butwal'],
-          ['/services-bhairahawa', 'Services in Bhairahawa'],
-          ['/services-tilottama', 'Services in Tilottama'],
-          ['/digital-marketing-agency-nepal', 'Digital Marketing Agency Nepal'],
-          ['/seo-company-nepal', 'SEO Company Nepal'],
-          ['/web-development-company-nepal', 'Web Development Company Nepal'],
-          ['/remote-digital-marketing-agency', 'Remote Marketing Agency'],
-          ['/digital-marketing-agency-uae', 'Digital Marketing Agency UAE'],
-          ['/seo-company-dubai', 'SEO Company Dubai'],
-          ['/digital-marketing-agency-usa', 'Digital Marketing Agency USA'],
-          ['/seo-company-new-york', 'SEO Company New York']
+          ['/digital-marketing-agency-butwal', 'Butwal marketing support'],
+          ['/seo-services-butwal', 'Local ranking support'],
+          ['/website-development-company-butwal', 'Website projects'],
+          ['/it-company-butwal', 'IT and maintenance'],
+          ['/services-bhairahawa', 'Bhairahawa businesses'],
+          ['/services-tilottama', 'Tilottama businesses'],
+          ['/digital-marketing-agency-nepal', 'Nepal-wide campaigns'],
+          ['/seo-company-nepal', 'Organic growth support'],
+          ['/web-development-company-nepal', 'Web development'],
+          ['/remote-digital-marketing-agency', 'Remote delivery team'],
+          ['/digital-marketing-agency-uae', 'UAE client support'],
+          ['/seo-company-dubai', 'Dubai SEO support'],
+          ['/digital-marketing-agency-usa', 'USA client support'],
+          ['/seo-company-new-york', 'New York SEO support']
         ].map(([path, label]) => (
           <button key={path} onClick={() => go(path)}>{label} <ChevronRight size={16} /></button>
         ))}
