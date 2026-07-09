@@ -1949,6 +1949,36 @@ function ArticleBody({ content = '' }) {
 }
 
 function ContactPage({ go }) {
+  const [form, setForm] = useState({
+    name: '',
+    contact: '',
+    service: '',
+    location: '',
+    message: ''
+  });
+  const [submitState, setSubmitState] = useState({ busy: false, message: '', ok: false });
+
+  const updateForm = (key, value) => setForm((current) => ({ ...current, [key]: value }));
+
+  const submitInquiry = async (event) => {
+    event.preventDefault();
+    setSubmitState({ busy: true, message: 'Sending your inquiry...', ok: false });
+
+    try {
+      await apiRequest('/api/inquiries', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...form,
+          sourcePage: window.location.href
+        })
+      });
+      setForm({ name: '', contact: '', service: '', location: '', message: '' });
+      setSubmitState({ busy: false, message: 'Inquiry received. Kritech will contact you soon.', ok: true });
+    } catch (error) {
+      setSubmitState({ busy: false, message: error.message, ok: false });
+    }
+  };
+
   return (
     <PageShell eyebrow="Contact Kritech Solution" title="Tell us where you want your business to grow next." text="Send a message and Kritech will help you choose the clearest next step for SEO, web development, digital marketing, ads, software or IT support.">
       <section className="section contact-grid">
@@ -1965,10 +1995,10 @@ function ContactPage({ go }) {
             <span>IT support and software solutions</span>
           </div>
         </div>
-        <form className="contact-form" onSubmit={(event) => event.preventDefault()}>
-          <input placeholder="Your name" />
-          <input placeholder="Phone or email" />
-          <select defaultValue="">
+        <form className="contact-form" onSubmit={submitInquiry}>
+          <input placeholder="Your name" value={form.name} onChange={(event) => updateForm('name', event.target.value)} required />
+          <input placeholder="Phone or email" value={form.contact} onChange={(event) => updateForm('contact', event.target.value)} required />
+          <select value={form.service} onChange={(event) => updateForm('service', event.target.value)}>
             <option value="" disabled>What do you need?</option>
             <option>SEO</option>
             <option>Website</option>
@@ -1977,16 +2007,19 @@ function ContactPage({ go }) {
             <option>Software or admin dashboard</option>
             <option>IT support</option>
           </select>
-          <select defaultValue="">
+          <select value={form.location} onChange={(event) => updateForm('location', event.target.value)}>
             <option value="" disabled>Where is your business?</option>
             <option>Butwal</option>
             <option>Bhairahawa / Tilottama</option>
             <option>Kathmandu</option>
             <option>Pokhara</option>
+            <option>UAE / Dubai</option>
+            <option>USA</option>
             <option>Other city in Nepal</option>
           </select>
-          <textarea placeholder="Tell us about your project" rows="5" />
-          <button className="primary">Send Message <Send size={18} /></button>
+          <textarea placeholder="Tell us about your project" rows="5" value={form.message} onChange={(event) => updateForm('message', event.target.value)} required />
+          <button className="primary" disabled={submitState.busy}>{submitState.busy ? 'Sending...' : 'Send Message'} <Send size={18} /></button>
+          {submitState.message && <p className={submitState.ok ? 'form-message success' : 'form-message'}>{submitState.message}</p>}
         </form>
       </section>
       <section className="section contact-seo-copy">
@@ -2096,6 +2129,8 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   const [editorTab, setEditorTab] = useState('content');
   const [selectedId, setSelectedId] = useState(posts[0]?.id);
   const [uploadState, setUploadState] = useState({ busy: false, message: '' });
+  const [inquiries, setInquiries] = useState([]);
+  const [inquiryState, setInquiryState] = useState({ busy: false, message: '' });
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -2111,14 +2146,26 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     ['Published', posts.filter((post) => post.status === 'Published').length],
     ['Drafts', posts.filter((post) => post.status === 'Draft').length],
     ['Avg SEO', `${Math.round(posts.reduce((sum, post) => sum + seoScore(post), 0) / Math.max(posts.length, 1))}%`],
+    ['Inquiries', inquiries.length],
     ['Sitemap URLs', Object.keys(seo).length + posts.filter((post) => post.status === 'Published').length]
-  ], [posts, seo]);
+  ], [posts, seo, inquiries]);
 
   useEffect(() => {
     if (posts.length && !posts.some((post) => post.id === selectedId)) {
       setSelectedId(posts[0].id);
     }
   }, [posts, selectedId]);
+
+  useEffect(() => {
+    if (active !== 'inquiries' || !adminSession) return;
+    setInquiryState({ busy: true, message: 'Loading inquiries...' });
+    apiRequest('/api/inquiries')
+      .then((items) => {
+        setInquiries(Array.isArray(items) ? items : []);
+        setInquiryState({ busy: false, message: '' });
+      })
+      .catch((error) => setInquiryState({ busy: false, message: error.message }));
+  }, [active, adminSession]);
 
   const updatePost = (patch) => {
     if (!selectedPost) return;
@@ -2194,11 +2241,37 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     }
   };
 
+  const updateInquiry = async (id, patch) => {
+    setInquiries(inquiries.map((inquiry) => inquiry.id === id ? { ...inquiry, ...patch } : inquiry));
+    try {
+      const updated = await apiRequest(`/api/inquiries/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(patch)
+      });
+      setInquiries((items) => items.map((inquiry) => inquiry.id === id ? updated : inquiry));
+    } catch (error) {
+      setInquiryState({ busy: false, message: error.message });
+    }
+  };
+
+  const deleteInquiry = async (id) => {
+    if (!window.confirm('Delete this inquiry from the dashboard?')) return;
+    const previous = inquiries;
+    setInquiries(inquiries.filter((inquiry) => inquiry.id !== id));
+    try {
+      await apiRequest(`/api/inquiries/${id}`, { method: 'DELETE' });
+    } catch (error) {
+      setInquiries(previous);
+      setInquiryState({ busy: false, message: error.message });
+    }
+  };
+
   return (
     <div className="admin-shell cms-shell">
       <aside>
         <img src="/kritech-logo.webp" alt="Kritech Solution" />
         <button className={active === 'posts' ? 'active' : ''} onClick={() => setActive('posts')}><PenLine /> Blog CMS</button>
+        <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>
         <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>
         <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>
         <button onClick={() => go('/')}><ArrowRight /> View Site</button>
@@ -2347,6 +2420,14 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             </div>
           </section>
         )}
+        {active === 'inquiries' && (
+          <InquiriesPanel
+            inquiries={inquiries}
+            inquiryState={inquiryState}
+            updateInquiry={updateInquiry}
+            deleteInquiry={deleteInquiry}
+          />
+        )}
         {active === 'seo' && <SeoManager seo={seo} setSeo={setSeo} />}
         {active === 'sitemap' && <Sitemap posts={posts} seo={seo} />}
       </main>
@@ -2432,6 +2513,77 @@ function Sitemap({ posts, seo }) {
       <pre className="sitemap-preview">{xml}</pre>
     </section>
   );
+}
+
+function InquiriesPanel({ inquiries, inquiryState, updateInquiry, deleteInquiry }) {
+  return (
+    <section className="cms-panel inquiries-panel">
+      <div className="cms-toolbar">
+        <div>
+          <h2>Inquiry inbox</h2>
+          <p>Contact form submissions are saved in MongoDB and can be followed up from here.</p>
+        </div>
+        <div className="inquiry-summary">
+          <span>{inquiries.filter((item) => item.status === 'New').length} new</span>
+          <span>{inquiries.length} total</span>
+        </div>
+      </div>
+      {inquiryState.message && <p className="admin-alert">{inquiryState.message}</p>}
+      {inquiries.length === 0 && !inquiryState.busy ? (
+        <div className="empty-inquiries">
+          <Mail size={24} />
+          <h3>No inquiries yet</h3>
+          <p>New contact form submissions will appear here after visitors send a message.</p>
+        </div>
+      ) : (
+        <div className="inquiry-list">
+          {inquiries.map((inquiry) => (
+            <article className="inquiry-card" key={inquiry.id}>
+              <div className="inquiry-head">
+                <div>
+                  <span>{formatDateTime(inquiry.createdAt)}</span>
+                  <h3>{inquiry.name}</h3>
+                  <p>{inquiry.contact}</p>
+                </div>
+                <select value={inquiry.status || 'New'} onChange={(event) => updateInquiry(inquiry.id, { status: event.target.value })}>
+                  <option>New</option>
+                  <option>Contacted</option>
+                  <option>Qualified</option>
+                  <option>Closed</option>
+                  <option>Spam</option>
+                </select>
+              </div>
+              <div className="inquiry-meta">
+                <span>{inquiry.service || 'Service not selected'}</span>
+                <span>{inquiry.location || 'Location not selected'}</span>
+              </div>
+              <p className="inquiry-message">{inquiry.message}</p>
+              {inquiry.sourcePage && <small>Source: {inquiry.sourcePage}</small>}
+              <textarea
+                placeholder="Internal note"
+                value={inquiry.note || ''}
+                onChange={(event) => updateInquiry(inquiry.id, { note: event.target.value })}
+              />
+              <button className="secondary small" onClick={() => deleteInquiry(inquiry.id)}>Delete inquiry</button>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function formatDateTime(value) {
+  if (!value) return 'Unknown date';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleString('en', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 }
 
 function ImageUploadField({ post, uploadState, onUpload, onUrlChange, onRemove }) {
