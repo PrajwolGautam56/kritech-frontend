@@ -1,0 +1,45 @@
+{
+  "rewrites": [
+    { "source": "/services", "destination": "/" },
+    { "source": "/about", "destination": "/" },
+    { "source": "/pricing", "destination": "/" },
+    { "source": "/blog", "destination": "/" },
+    { "source": "/blog/:slug", "destination": "/" },
+    { "source": "/contact", "destination": "/" },
+    { "source": "/admin-login", "destination": "/" },
+    { "source": "/digital-marketing-agency-butwal", "destination": "/" },
+    { "source": "/seo-services-butwal", "destination": "/" },
+    { "source": "/web-development-butwal", "destination": "/" },
+    { "source": "/website-development-company-butwal", "destination": "/" },
+    { "source": "/it-company-butwal", "destination": "/" },
+    { "source": "/digital-marketing-nepal", "destination": "/" },
+    { "source": "/digital-marketing-agency-nepal", "destination": "/" },
+    { "source": "/seo-company-nepal", "destination": "/" },
+    { "source": "/web-development-company-nepal", "destination": "/" },
+    { "source": "/it-company-nepal", "destination": "/" },
+    { "source": "/services-bhairahawa", "destination": "/" },
+    { "source": "/services-tilottama", "destination": "/" },
+    { "source": "/remote-digital-marketing-agency", "destination": "/" },
+    { "source": "/digital-marketing-agency-uae", "destination": "/" },
+    { "source": "/seo-company-uae", "destination": "/" },
+    { "source": "/web-development-company-uae", "destination": "/" },
+    { "source": "/digital-marketing-agency-dubai", "destination": "/" },
+    { "source": "/seo-company-dubai", "destination": "/" },
+    { "source": "/web-development-company-dubai", "destination": "/" },
+    { "source": "/digital-marketing-agency-usa", "destination": "/" },
+    { "source": "/seo-company-usa", "destination": "/" },
+    { "source": "/web-development-company-usa", "destination": "/" },
+    { "source": "/digital-marketing-agency-new-york", "destination": "/" },
+    { "source": "/seo-company-new-york", "destination": "/" },
+    { "source": "/web-development-company-new-york", "destination": "/" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
