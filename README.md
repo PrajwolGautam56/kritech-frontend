@@ -42,4 +42,5 @@ The build generates:
 - Local SEO pages for Nepal, Butwal, Bhairahawa and Tilottama.
 - International SEO pages for remote UAE and USA clients.
 - Admin login UI and CMS UI.
+- Super Admin user management UI with per-user access controls.
 - Vercel rewrites for clean direct URLs.

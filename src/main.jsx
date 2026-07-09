@@ -37,6 +37,13 @@ import wordpressPosts from './wordpress-posts.json';
 const SITE_URL = 'https://kritechsolution.com';
 const SEO_VERSION = '2026-07-09-local-seo-pages-v2';
 const API_BASE = import.meta.env.VITE_API_URL || '';
+const ACCESS_MODULES = [
+  ['posts', 'Blog CMS'],
+  ['inquiries', 'Inquiries'],
+  ['seo', 'Site SEO'],
+  ['sitemap', 'Sitemap'],
+  ['users', 'Users']
+];
 
 function currentRoute() {
   const hashRoute = window.location.hash.replace('#', '');
@@ -767,6 +774,11 @@ function loadAdminSession() {
   return loadState('kritech.adminSession', null);
 }
 
+function sessionCan(session, module) {
+  const admin = session?.admin || session;
+  return admin?.role === 'Super Admin' || admin?.permissions?.includes(module);
+}
+
 async function apiRequest(path, options = {}) {
   const token = loadAdminSession()?.token;
   const response = await fetch(`${API_BASE}${path}`, {
@@ -878,7 +890,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!apiState.connected || !adminSession) return undefined;
+    if (!apiState.connected || !adminSession || (!sessionCan(adminSession, 'posts') && !sessionCan(adminSession, 'seo'))) return undefined;
 
     const timeout = window.setTimeout(() => {
       apiRequest('/api/content', {
@@ -2131,6 +2143,8 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   const [uploadState, setUploadState] = useState({ busy: false, message: '' });
   const [inquiries, setInquiries] = useState([]);
   const [inquiryState, setInquiryState] = useState({ busy: false, message: '' });
+  const [users, setUsers] = useState([]);
+  const [userState, setUserState] = useState({ busy: false, message: '' });
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -2147,8 +2161,11 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     ['Drafts', posts.filter((post) => post.status === 'Draft').length],
     ['Avg SEO', `${Math.round(posts.reduce((sum, post) => sum + seoScore(post), 0) / Math.max(posts.length, 1))}%`],
     ['Inquiries', inquiries.length],
+    ['Users', users.length || 1],
     ['Sitemap URLs', Object.keys(seo).length + posts.filter((post) => post.status === 'Published').length]
-  ], [posts, seo, inquiries]);
+  ], [posts, seo, inquiries, users]);
+  const allowedModules = ACCESS_MODULES.filter(([key]) => sessionCan(adminSession, key));
+  const can = (module) => sessionCan(adminSession, module);
 
   useEffect(() => {
     if (posts.length && !posts.some((post) => post.id === selectedId)) {
@@ -2157,7 +2174,13 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   }, [posts, selectedId]);
 
   useEffect(() => {
-    if (active !== 'inquiries' || !adminSession) return;
+    if (allowedModules.length && !allowedModules.some(([key]) => key === active)) {
+      setActive(allowedModules[0][0]);
+    }
+  }, [active, allowedModules]);
+
+  useEffect(() => {
+    if (active !== 'inquiries' || !adminSession || !can('inquiries')) return;
     setInquiryState({ busy: true, message: 'Loading inquiries...' });
     apiRequest('/api/inquiries')
       .then((items) => {
@@ -2165,6 +2188,17 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setInquiryState({ busy: false, message: '' });
       })
       .catch((error) => setInquiryState({ busy: false, message: error.message }));
+  }, [active, adminSession]);
+
+  useEffect(() => {
+    if (active !== 'users' || !adminSession || !can('users')) return;
+    setUserState({ busy: true, message: 'Loading users...' });
+    apiRequest('/api/users')
+      .then((items) => {
+        setUsers(Array.isArray(items) ? items : []);
+        setUserState({ busy: false, message: '' });
+      })
+      .catch((error) => setUserState({ busy: false, message: error.message }));
   }, [active, adminSession]);
 
   const updatePost = (patch) => {
@@ -2266,20 +2300,61 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     }
   };
 
+  const createUser = async (payload) => {
+    setUserState({ busy: true, message: 'Creating user...' });
+    try {
+      const created = await apiRequest('/api/users', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setUsers([created, ...users]);
+      setUserState({ busy: false, message: 'User created.' });
+    } catch (error) {
+      setUserState({ busy: false, message: error.message });
+    }
+  };
+
+  const updateUser = async (id, patch) => {
+    setUsers(users.map((user) => user.id === id ? { ...user, ...patch } : user));
+    try {
+      const updated = await apiRequest(`/api/users/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(patch)
+      });
+      setUsers((items) => items.map((user) => user.id === id ? updated : user));
+    } catch (error) {
+      setUserState({ busy: false, message: error.message });
+    }
+  };
+
+  const deleteUser = async (id) => {
+    if (!window.confirm('Remove this admin user?')) return;
+    const previous = users;
+    setUsers(users.filter((user) => user.id !== id));
+    try {
+      await apiRequest(`/api/users/${id}`, { method: 'DELETE' });
+    } catch (error) {
+      setUsers(previous);
+      setUserState({ busy: false, message: error.message });
+    }
+  };
+
   return (
     <div className="admin-shell cms-shell">
       <aside>
         <img src="/kritech-logo.webp" alt="Kritech Solution" />
-        <button className={active === 'posts' ? 'active' : ''} onClick={() => setActive('posts')}><PenLine /> Blog CMS</button>
-        <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>
-        <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>
-        <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>
+        {can('posts') && <button className={active === 'posts' ? 'active' : ''} onClick={() => setActive('posts')}><PenLine /> Blog CMS</button>}
+        {can('inquiries') && <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>}
+        {can('seo') && <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>}
+        {can('sitemap') && <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>}
+        {can('users') && <button className={active === 'users' ? 'active' : ''} onClick={() => setActive('users')}><ShieldCheck /> Users</button>}
         <button onClick={() => go('/')}><ArrowRight /> View Site</button>
         <button onClick={logout}><X /> Logout</button>
         <div className="admin-user-box">
           <ShieldCheck size={17} />
           <span>Logged in as</span>
           <strong>{adminSession.admin?.email}</strong>
+          <small>{adminSession.admin?.role}</small>
         </div>
       </aside>
       <main className="admin-main">
@@ -2293,7 +2368,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         <div className="stat-grid">
           {stats.map(([label, value]) => <article key={label}><strong>{value}</strong><span>{label}</span></article>)}
         </div>
-        {active === 'posts' && selectedPost && (
+        {active === 'posts' && can('posts') && selectedPost && (
           <section className="cms-panel">
             <div className="cms-toolbar">
               <div>
@@ -2420,7 +2495,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             </div>
           </section>
         )}
-        {active === 'inquiries' && (
+        {active === 'inquiries' && can('inquiries') && (
           <InquiriesPanel
             inquiries={inquiries}
             inquiryState={inquiryState}
@@ -2428,8 +2503,11 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             deleteInquiry={deleteInquiry}
           />
         )}
-        {active === 'seo' && <SeoManager seo={seo} setSeo={setSeo} />}
-        {active === 'sitemap' && <Sitemap posts={posts} seo={seo} />}
+        {active === 'seo' && can('seo') && <SeoManager seo={seo} setSeo={setSeo} />}
+        {active === 'sitemap' && can('sitemap') && <Sitemap posts={posts} seo={seo} />}
+        {active === 'users' && can('users') && (
+          <UsersPanel users={users} userState={userState} createUser={createUser} updateUser={updateUser} deleteUser={deleteUser} />
+        )}
       </main>
     </div>
   );
@@ -2570,6 +2648,128 @@ function InquiriesPanel({ inquiries, inquiryState, updateInquiry, deleteInquiry 
         </div>
       )}
     </section>
+  );
+}
+
+function UsersPanel({ users, userState, createUser, updateUser, deleteUser }) {
+  const [newUser, setNewUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'Editor',
+    status: 'Active',
+    permissions: ['posts']
+  });
+
+  const toggleNewPermission = (permission) => {
+    setNewUser((current) => ({
+      ...current,
+      permissions: current.permissions.includes(permission)
+        ? current.permissions.filter((item) => item !== permission)
+        : [...current.permissions, permission]
+    }));
+  };
+
+  const submit = (event) => {
+    event.preventDefault();
+    createUser(newUser);
+    setNewUser({ name: '', email: '', password: '', role: 'Editor', status: 'Active', permissions: ['posts'] });
+  };
+
+  return (
+    <section className="cms-panel users-panel">
+      <div className="cms-toolbar">
+        <div>
+          <h2>Users and access control</h2>
+          <p>Super Admin can add users, remove users and control exactly which CMS areas each user can access.</p>
+        </div>
+      </div>
+      {userState.message && <p className="admin-alert">{userState.message}</p>}
+      <div className="users-layout">
+        <form className="user-create-card" onSubmit={submit}>
+          <h3>Add new user</h3>
+          <Field label="Name" value={newUser.name} onChange={(value) => setNewUser({ ...newUser, name: value })} />
+          <Field label="Email" value={newUser.email} onChange={(value) => setNewUser({ ...newUser, email: value })} />
+          <Field label="Temporary Password" value={newUser.password} onChange={(value) => setNewUser({ ...newUser, password: value })} />
+          <div className="two-col">
+            <label>Role<select value={newUser.role} onChange={(event) => setNewUser({ ...newUser, role: event.target.value })}>
+              <option>Admin</option>
+              <option>Editor</option>
+              <option>Support</option>
+              <option>Viewer</option>
+            </select></label>
+            <label>Status<select value={newUser.status} onChange={(event) => setNewUser({ ...newUser, status: event.target.value })}>
+              <option>Active</option>
+              <option>Disabled</option>
+            </select></label>
+          </div>
+          <AccessCheckboxes permissions={newUser.permissions} onToggle={toggleNewPermission} />
+          <button className="primary">Create user <Plus size={16} /></button>
+        </form>
+        <div className="user-list">
+          {users.map((user) => (
+            <article className="user-card" key={user.id}>
+              <div className="user-card-head">
+                <div>
+                  <span>{user.role}</span>
+                  <h3>{user.name || user.email}</h3>
+                  <p>{user.email}</p>
+                </div>
+                <strong>{user.status}</strong>
+              </div>
+              <div className="two-col">
+                <label>Role<select value={user.role} disabled={user.systemUser} onChange={(event) => updateUser(user.id, { role: event.target.value })}>
+                  <option>Super Admin</option>
+                  <option>Admin</option>
+                  <option>Editor</option>
+                  <option>Support</option>
+                  <option>Viewer</option>
+                </select></label>
+                <label>Status<select value={user.status} disabled={user.systemUser} onChange={(event) => updateUser(user.id, { status: event.target.value })}>
+                  <option>Active</option>
+                  <option>Disabled</option>
+                </select></label>
+              </div>
+              <AccessCheckboxes
+                permissions={user.permissions || []}
+                disabled={user.systemUser}
+                onToggle={(permission) => {
+                  const current = user.permissions || [];
+                  updateUser(user.id, {
+                    permissions: current.includes(permission)
+                      ? current.filter((item) => item !== permission)
+                      : [...current, permission]
+                  });
+                }}
+              />
+              {!user.systemUser && (
+                <div className="user-actions">
+                  <button className="secondary small" onClick={() => {
+                    const password = window.prompt(`Set a new password for ${user.email}`);
+                    if (password) updateUser(user.id, { password });
+                  }}>Reset password</button>
+                  <button className="secondary small" onClick={() => deleteUser(user.id)}>Remove user</button>
+                </div>
+              )}
+              {user.systemUser && <small>Permanent Super Admin from Railway environment variables.</small>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AccessCheckboxes({ permissions, onToggle, disabled = false }) {
+  return (
+    <div className="access-grid">
+      {ACCESS_MODULES.map(([key, label]) => (
+        <label key={key} className={permissions.includes(key) ? 'checked' : ''}>
+          <input type="checkbox" checked={permissions.includes(key)} disabled={disabled} onChange={() => onToggle(key)} />
+          {label}
+        </label>
+      ))}
+    </div>
   );
 }
 
