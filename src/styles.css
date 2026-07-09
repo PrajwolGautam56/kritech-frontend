@@ -4471,11 +4471,19 @@ body {
   padding: 20px;
 }
 
+.mail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 20px;
+}
+
 .user-create-card,
 .user-card,
 .lead-create-card,
 .bulk-mail-card,
-.lead-card {
+.lead-card,
+.mail-card {
   display: grid;
   gap: 14px;
   padding: 20px;
@@ -4494,7 +4502,8 @@ body {
 .user-card h3,
 .lead-create-card h3,
 .bulk-mail-card h3,
-.lead-card h3 {
+.lead-card h3,
+.mail-card h3 {
   margin: 0;
   color: #07120d;
 }
@@ -4627,9 +4636,55 @@ body {
   font-weight: 900;
 }
 
+.mail-status-pill {
+  height: max-content;
+  padding: 10px 14px;
+  color: #62400a;
+  border-radius: 999px;
+  background: #fff3d4;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.mail-status-pill.ready {
+  color: #035f36;
+  background: #dff8ea;
+}
+
+.mail-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.mail-status-grid span {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  color: #526057;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 12px;
+  background: #f8faf8;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.mail-status-grid strong {
+  color: #07120d;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.mail-card p {
+  margin: 0;
+  color: #33443a;
+  font-weight: 750;
+}
+
 @media (max-width: 1120px) {
   .users-layout,
   .leads-layout,
+  .mail-layout,
   .lead-head {
     grid-template-columns: 1fr;
   }

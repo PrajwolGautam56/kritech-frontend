@@ -41,6 +41,7 @@ const ACCESS_MODULES = [
   ['posts', 'Blog CMS'],
   ['inquiries', 'Inquiries'],
   ['leads', 'Leads'],
+  ['mail', 'Mail Delivery'],
   ['seo', 'Site SEO'],
   ['sitemap', 'Sitemap'],
   ['users', 'Users']
@@ -2218,6 +2219,8 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   const [inquiryState, setInquiryState] = useState({ busy: false, message: '' });
   const [leads, setLeads] = useState([]);
   const [leadState, setLeadState] = useState({ busy: false, message: '' });
+  const [mailStatus, setMailStatus] = useState(null);
+  const [mailState, setMailState] = useState({ busy: false, message: '' });
   const [users, setUsers] = useState([]);
   const [userState, setUserState] = useState({ busy: false, message: '' });
   const [query, setQuery] = useState('');
@@ -2237,9 +2240,10 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     ['Avg SEO', `${Math.round(posts.reduce((sum, post) => sum + seoScore(post), 0) / Math.max(posts.length, 1))}%`],
     ['Inquiries', inquiries.length],
     ['Leads', leads.length],
+    ['Mail', mailStatus?.configured ? 'Ready' : 'Check'],
     ['Users', users.length || 1],
     ['Sitemap URLs', Object.keys(seo).length + posts.filter((post) => post.status === 'Published').length]
-  ], [posts, seo, inquiries, leads, users]);
+  ], [posts, seo, inquiries, leads, mailStatus, users]);
   const allowedModules = ACCESS_MODULES.filter(([key]) => sessionCan(adminSession, key));
   const can = (module) => sessionCan(adminSession, module);
 
@@ -2286,6 +2290,17 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setUserState({ busy: false, message: '' });
       })
       .catch((error) => setUserState({ busy: false, message: error.message }));
+  }, [active, adminSession]);
+
+  useEffect(() => {
+    if (active !== 'mail' || !adminSession || !can('mail')) return;
+    setMailState({ busy: true, message: 'Checking SMTP settings...' });
+    apiRequest('/api/mail/status')
+      .then((status) => {
+        setMailStatus(status);
+        setMailState({ busy: false, message: status.configured ? 'SMTP is configured.' : 'SMTP variables are incomplete.' });
+      })
+      .catch((error) => setMailState({ busy: false, message: error.message }));
   }, [active, adminSession]);
 
   const updatePost = (patch) => {
@@ -2446,6 +2461,19 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     }
   };
 
+  const sendTestMail = async (to) => {
+    setMailState({ busy: true, message: 'Sending test email...' });
+    try {
+      const result = await apiRequest('/api/mail/test', {
+        method: 'POST',
+        body: JSON.stringify({ to })
+      });
+      setMailState({ busy: false, message: result.message || 'Test email sent.' });
+    } catch (error) {
+      setMailState({ busy: false, message: error.message });
+    }
+  };
+
   const createUser = async (payload) => {
     setUserState({ busy: true, message: 'Creating user...' });
     try {
@@ -2492,6 +2520,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         {can('posts') && <button className={active === 'posts' ? 'active' : ''} onClick={() => setActive('posts')}><PenLine /> Blog CMS</button>}
         {can('inquiries') && <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>}
         {can('leads') && <button className={active === 'leads' ? 'active' : ''} onClick={() => setActive('leads')}><Target /> Leads</button>}
+        {can('mail') && <button className={active === 'mail' ? 'active' : ''} onClick={() => setActive('mail')}><Send /> Mail Delivery</button>}
         {can('seo') && <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>}
         {can('sitemap') && <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>}
         {can('users') && <button className={active === 'users' ? 'active' : ''} onClick={() => setActive('users')}><ShieldCheck /> Users</button>}
@@ -2660,6 +2689,14 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             sendBulkLeadEmail={sendBulkLeadEmail}
           />
         )}
+        {active === 'mail' && can('mail') && (
+          <MailPanel
+            mailStatus={mailStatus}
+            mailState={mailState}
+            adminEmail={adminSession.admin?.email}
+            sendTestMail={sendTestMail}
+          />
+        )}
         {active === 'seo' && can('seo') && <SeoManager seo={seo} setSeo={setSeo} />}
         {active === 'sitemap' && can('sitemap') && <Sitemap posts={posts} seo={seo} />}
         {active === 'users' && can('users') && (
@@ -2804,6 +2841,50 @@ function InquiriesPanel({ inquiries, inquiryState, updateInquiry, deleteInquiry 
           ))}
         </div>
       )}
+    </section>
+  );
+}
+
+function MailPanel({ mailStatus, mailState, adminEmail, sendTestMail }) {
+  const [testEmail, setTestEmail] = useState(adminEmail || 'info@kritechsolution.com');
+
+  const submit = (event) => {
+    event.preventDefault();
+    sendTestMail(testEmail);
+  };
+
+  return (
+    <section className="cms-panel mail-panel">
+      <div className="cms-toolbar">
+        <div>
+          <h2>Mail delivery</h2>
+          <p>Check Hostinger SMTP settings and send a single test email before running lead campaigns or password resets.</p>
+        </div>
+        <div className={`mail-status-pill ${mailStatus?.configured ? 'ready' : ''}`}>
+          {mailStatus?.configured ? 'SMTP ready' : 'SMTP needs check'}
+        </div>
+      </div>
+      {mailState.message && <p className="admin-alert">{mailState.message}</p>}
+      <div className="mail-layout">
+        <article className="mail-card">
+          <h3>Current SMTP configuration</h3>
+          <div className="mail-status-grid">
+            <span>Host<strong>{mailStatus?.host || 'Not set'}</strong></span>
+            <span>Port<strong>{mailStatus?.port || 'Not set'}</strong></span>
+            <span>Secure SSL<strong>{mailStatus?.secure ? 'true' : 'false'}</strong></span>
+            <span>User<strong>{mailStatus?.user || 'Not set'}</strong></span>
+            <span>From<strong>{mailStatus?.from || 'Not set'}</strong></span>
+            <span>Timeout<strong>{mailStatus?.timeouts?.connection || 15000}ms</strong></span>
+          </div>
+          <p>For Hostinger, try port 587 with secure false if port 465 times out on Railway.</p>
+        </article>
+        <form className="mail-card" onSubmit={submit}>
+          <h3>Send test email</h3>
+          <Field label="Send Test To" value={testEmail} onChange={setTestEmail} />
+          <button className="primary" disabled={mailState.busy}>{mailState.busy ? 'Testing SMTP...' : 'Send test email'} <Send size={16} /></button>
+          <p>This uses the same sender as lead campaigns and password reset emails.</p>
+        </form>
+      </div>
     </section>
   );
 }
