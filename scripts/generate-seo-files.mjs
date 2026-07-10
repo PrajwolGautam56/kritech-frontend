@@ -13,6 +13,16 @@ const corePages = [
 ];
 
 const localPages = [
+  '/it-training-institute-butwal',
+  '/digital-marketing-training-butwal',
+  '/seo-training-butwal',
+  '/web-development-training-butwal',
+  '/graphic-design-training-butwal',
+  '/python-training-butwal',
+  '/javascript-training-butwal',
+  '/java-training-butwal',
+  '/ai-ml-training-butwal',
+  '/coding-classes-butwal',
   '/best-marketing-agency-butwal',
   '/digital-marketing-agency-kathmandu',
   '/digital-marketing-agency-pokhara',

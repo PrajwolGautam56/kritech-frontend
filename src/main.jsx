@@ -340,6 +340,99 @@ const cityAreaPages = [
   }
 ];
 
+const trainingPages = [
+  {
+    key: 'itTrainingButwal',
+    path: '/it-training-institute-butwal',
+    keyword: 'IT training institute in Butwal',
+    title: 'Practical IT training in Butwal for students, job seekers and business owners.',
+    course: 'IT Training',
+    skills: ['Computer fundamentals and digital tools', 'Website, hosting and email basics', 'Career guidance for IT roles', 'Project-based learning'],
+    audience: 'students, beginners, business owners and working professionals who want practical IT skills'
+  },
+  {
+    key: 'digitalMarketingTrainingButwal',
+    path: '/digital-marketing-training-butwal',
+    keyword: 'Digital marketing training in Butwal',
+    title: 'Learn SEO, social media, ads and lead generation from a working marketing team.',
+    course: 'Digital Marketing Training',
+    skills: ['SEO and keyword research', 'Facebook and Instagram marketing', 'Google Ads and Meta Ads basics', 'Analytics, reporting and lead tracking'],
+    audience: 'students, freelancers, entrepreneurs and business owners who want to understand digital marketing practically'
+  },
+  {
+    key: 'seoTrainingButwal',
+    path: '/seo-training-butwal',
+    keyword: 'SEO training in Butwal',
+    title: 'Hands-on SEO classes in Butwal for Google ranking, content and Search Console.',
+    course: 'SEO Training',
+    skills: ['Keyword research and search intent', 'On-page and technical SEO', 'Local SEO and Google Business Profile', 'Content planning and Search Console'],
+    audience: 'students, content writers, marketers and business owners who want to improve Google visibility'
+  },
+  {
+    key: 'webDevelopmentTrainingButwal',
+    path: '/web-development-training-butwal',
+    keyword: 'Web development training in Butwal',
+    title: 'Learn to build modern websites with HTML, CSS, JavaScript and real projects.',
+    course: 'Web Development Training',
+    skills: ['HTML, CSS and responsive layouts', 'JavaScript fundamentals', 'React and frontend workflows', 'Hosting, domains and deployment'],
+    audience: 'students, beginners and career switchers who want to build real websites'
+  },
+  {
+    key: 'graphicDesignTrainingButwal',
+    path: '/graphic-design-training-butwal',
+    keyword: 'Graphic design training in Butwal',
+    title: 'Graphic design classes for branding, social media posts and marketing creatives.',
+    course: 'Graphic Design Training',
+    skills: ['Design fundamentals and layout', 'Branding and social media creatives', 'Canva, Photoshop and practical workflows', 'Portfolio-ready design projects'],
+    audience: 'students, creators, small business owners and future designers'
+  },
+  {
+    key: 'pythonTrainingButwal',
+    path: '/python-training-butwal',
+    keyword: 'Python training in Butwal',
+    title: 'Python classes in Butwal for coding basics, automation and future AI learning.',
+    course: 'Python Training',
+    skills: ['Python syntax and logic', 'Problem solving and coding practice', 'Automation basics', 'Project-based programming confidence'],
+    audience: 'students and beginners who want a strong programming foundation'
+  },
+  {
+    key: 'javascriptTrainingButwal',
+    path: '/javascript-training-butwal',
+    keyword: 'JavaScript training in Butwal',
+    title: 'JavaScript classes for web development, frontend logic and interactive websites.',
+    course: 'JavaScript Training',
+    skills: ['JavaScript fundamentals', 'DOM and browser interaction', 'APIs and frontend logic', 'React-ready coding practice'],
+    audience: 'students and web development learners who want strong frontend skills'
+  },
+  {
+    key: 'javaTrainingButwal',
+    path: '/java-training-butwal',
+    keyword: 'Java training in Butwal',
+    title: 'Java programming classes in Butwal for OOP, logic and software fundamentals.',
+    course: 'Java Training',
+    skills: ['Java syntax and OOP', 'Problem solving and data structures basics', 'Console and application projects', 'Software development fundamentals'],
+    audience: 'students preparing for programming, college projects and software careers'
+  },
+  {
+    key: 'aiMlTrainingButwal',
+    path: '/ai-ml-training-butwal',
+    keyword: 'AI ML training in Butwal',
+    title: 'AI and machine learning classes for beginners who want practical foundations.',
+    course: 'AI/ML Training',
+    skills: ['AI and ML concepts', 'Python for data and automation', 'Prompting and AI tools', 'Beginner-friendly machine learning projects'],
+    audience: 'students, tech learners, marketers and professionals curious about AI tools and machine learning'
+  },
+  {
+    key: 'codingClassesButwal',
+    path: '/coding-classes-butwal',
+    keyword: 'Coding classes in Butwal',
+    title: 'Coding classes in Butwal for beginners, students and future developers.',
+    course: 'Coding Classes',
+    skills: ['Programming logic', 'Python, JavaScript and Java basics', 'Web and project practice', 'Career-focused coding guidance'],
+    audience: 'school students, college students and beginners who want to start coding'
+  }
+];
+
 const defaultSeo = {
   home: {
     path: '/',
@@ -383,6 +476,14 @@ const defaultSeo = {
       path: page.path,
       title: `${page.qualifier === 'top' ? 'Top' : 'Best'} Digital Marketing Agency in ${page.city} | Kritech Solution`,
       description: `Digital marketing agency in ${page.city} for SEO, social media marketing, Google Ads, Meta campaigns, websites and lead generation for ${page.region} businesses.`
+    }
+  ])),
+  ...Object.fromEntries(trainingPages.map((page) => [
+    page.key,
+    {
+      path: page.path,
+      title: `${page.keyword} | Kritech Solution`,
+      description: `${page.course} by Kritech Solution for ${page.audience} in Butwal. Learn practical skills through guided classes, real projects and career-focused support.`
     }
   ])),
   webButwal: {
@@ -640,6 +741,23 @@ const localLandingPages = {
         [`Do you provide digital marketing services in ${page.city}?`, `Yes. Kritech provides SEO, social media marketing, Google Ads, Meta Ads, website design, landing pages and content support for businesses in ${page.city} and nearby areas.`],
         [`Why should a ${page.city} business work with Kritech?`, `You get a connected team for website quality, local SEO, paid campaigns, content and tracking. This helps your marketing focus on real inquiries instead of only likes, impressions or random posting.`],
         [`Can you help my business rank for ${page.city} keywords?`, `Yes. We can create service pages, improve technical SEO, plan local content, optimize metadata and track Search Console performance for ${page.city} search terms.`]
+      ]
+    }
+  ])),
+  ...Object.fromEntries(trainingPages.map((page) => [
+    page.path,
+    {
+      eyebrow: page.keyword,
+      title: page.title,
+      text: `Kritech Solution provides ${page.course.toLowerCase()} for ${page.audience}. The focus is practical learning: clear fundamentals, guided practice, real examples and projects that help learners understand how skills are used in actual marketing, IT and software work.`,
+      bullets: page.skills,
+      highlights: ['Practical classes from a working IT and marketing team', 'Beginner-friendly roadmap with real examples', 'Project-based learning for portfolio and confidence'],
+      marketIntro: `${page.course} should not feel like only theory. Students need clear explanations, repeated practice, useful projects and guidance on how the skill connects to jobs, freelancing, business growth or future study.`,
+      areaLine: `Kritech offers ${page.course.toLowerCase()} support from Butwal for learners in Butwal, Bhairahawa, Tilottama and nearby areas. Online or hybrid learning options can also support students and professionals from other cities in Nepal.`,
+      faqs: [
+        [`Who can join ${page.course.toLowerCase()}?`, `This training is suitable for ${page.audience}. We keep the learning practical and beginner-friendly while giving motivated learners enough direction to continue into advanced topics.`],
+        [`Will I work on projects during ${page.course.toLowerCase()}?`, 'Yes. The goal is to build practical confidence through exercises, examples and small projects that can become part of your portfolio or business workflow.'],
+        ['Can Kritech help after the class is complete?', 'Yes. We can guide learners on portfolio improvement, project ideas, freelancing direction, internships, business use cases and next skills to learn.']
       ]
     }
   ])),
@@ -3323,6 +3441,14 @@ function Footer({ go }) {
     ['Birgunj', '/digital-marketing-agency-birgunj'],
     ['Janakpur', '/digital-marketing-agency-janakpur']
   ];
+  const trainingLinks = [
+    ['IT Training', '/it-training-institute-butwal'],
+    ['Digital Marketing Training', '/digital-marketing-training-butwal'],
+    ['SEO Training', '/seo-training-butwal'],
+    ['Web Development Training', '/web-development-training-butwal'],
+    ['AI/ML Training', '/ai-ml-training-butwal'],
+    ['Coding Classes', '/coding-classes-butwal']
+  ];
 
   return (
     <footer>
@@ -3337,6 +3463,10 @@ function Footer({ go }) {
       <div>
         <h4>Services Area</h4>
         {serviceAreas.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+      </div>
+      <div>
+        <h4>IT Classes</h4>
+        {trainingLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
       </div>
       <div>
         <h4>Contact</h4>
