@@ -2858,17 +2858,20 @@ function MailPanel({ mailStatus, mailState, adminEmail, sendTestMail }) {
       <div className="cms-toolbar">
         <div>
           <h2>Mail delivery</h2>
-          <p>Check Hostinger SMTP settings and send a single test email before running lead campaigns or password resets.</p>
+          <p>Check the active email provider and send a single test email before running lead campaigns or password resets.</p>
         </div>
         <div className={`mail-status-pill ${mailStatus?.configured ? 'ready' : ''}`}>
-          {mailStatus?.configured ? 'SMTP ready' : 'SMTP needs check'}
+          {mailStatus?.configured ? `${mailStatus?.provider || 'mail'} ready` : 'Mail needs check'}
         </div>
       </div>
       {mailState.message && <p className="admin-alert">{mailState.message}</p>}
       <div className="mail-layout">
         <article className="mail-card">
-          <h3>Current SMTP configuration</h3>
+          <h3>Current mail configuration</h3>
           <div className="mail-status-grid">
+            <span>Active Provider<strong>{mailStatus?.provider || 'Not set'}</strong></span>
+            <span>Resend API<strong>{mailStatus?.apiProviders?.resend ? 'Configured' : 'Not set'}</strong></span>
+            <span>Brevo API<strong>{mailStatus?.apiProviders?.brevo ? 'Configured' : 'Not set'}</strong></span>
             <span>Host<strong>{mailStatus?.host || 'Not set'}</strong></span>
             <span>Port<strong>{mailStatus?.port || 'Not set'}</strong></span>
             <span>Secure SSL<strong>{mailStatus?.secure ? 'true' : 'false'}</strong></span>
@@ -2876,12 +2879,12 @@ function MailPanel({ mailStatus, mailState, adminEmail, sendTestMail }) {
             <span>From<strong>{mailStatus?.from || 'Not set'}</strong></span>
             <span>Timeout<strong>{mailStatus?.timeouts?.connection || 15000}ms</strong></span>
           </div>
-          <p>For Hostinger, try port 587 with secure false if port 465 times out on Railway.</p>
+          <p>Use Resend or Brevo API for reliable Railway delivery. Keep Hostinger SMTP only as fallback.</p>
         </article>
         <form className="mail-card" onSubmit={submit}>
           <h3>Send test email</h3>
           <Field label="Send Test To" value={testEmail} onChange={setTestEmail} />
-          <button className="primary" disabled={mailState.busy}>{mailState.busy ? 'Testing SMTP...' : 'Send test email'} <Send size={16} /></button>
+          <button className="primary" disabled={mailState.busy}>{mailState.busy ? 'Testing mail...' : 'Send test email'} <Send size={16} /></button>
           <p>This uses the same sender as lead campaigns and password reset emails.</p>
         </form>
       </div>
