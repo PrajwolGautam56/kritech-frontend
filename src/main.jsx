@@ -283,6 +283,63 @@ const proofDescriptions = [
   'Monthly improvement based on real inquiries, traffic quality and the services your customers ask about most.'
 ];
 
+const cityAreaPages = [
+  {
+    key: 'digitalMarketingKathmandu',
+    path: '/digital-marketing-agency-kathmandu',
+    city: 'Kathmandu',
+    region: 'Kathmandu Valley',
+    qualifier: 'top',
+    audience: 'startups, consultancies, education brands, ecommerce businesses and service companies',
+    nearby: 'Lalitpur, Bhaktapur, New Baneshwor, Putalisadak, Thamel, Koteshwor and nearby business areas'
+  },
+  {
+    key: 'digitalMarketingPokhara',
+    path: '/digital-marketing-agency-pokhara',
+    city: 'Pokhara',
+    region: 'Gandaki',
+    qualifier: 'top',
+    audience: 'hotels, restaurants, travel brands, institutes, clinics and local service businesses',
+    nearby: 'Lakeside, Mahendrapul, Chipledhunga, New Road, Prithvi Chowk and nearby areas'
+  },
+  {
+    key: 'digitalMarketingChitwan',
+    path: '/digital-marketing-agency-chitwan',
+    city: 'Chitwan',
+    region: 'Bagmati',
+    qualifier: 'top',
+    audience: 'healthcare, education, retail, real estate, hospitality and service businesses',
+    nearby: 'Bharatpur, Narayangarh, Ratnanagar, Tandi and nearby markets'
+  },
+  {
+    key: 'digitalMarketingBiratnagar',
+    path: '/digital-marketing-agency-biratnagar',
+    city: 'Biratnagar',
+    region: 'Koshi',
+    qualifier: 'best',
+    audience: 'manufacturing, trading, education, retail and professional service companies',
+    nearby: 'Main Road, Traffic Chowk, Roadshesh, Bargachhi, Itahari and nearby business areas'
+  },
+  {
+    key: 'digitalMarketingBirgunj',
+    path: '/digital-marketing-agency-birgunj',
+    city: 'Birgunj',
+    region: 'Madhesh',
+    qualifier: 'best',
+    audience: 'trading companies, import-export businesses, logistics, retail and industrial brands',
+    nearby: 'Adarsh Nagar, Ghantaghar, Powerhouse, Parwanipur and nearby business zones'
+  },
+  {
+    key: 'digitalMarketingJanakpur',
+    path: '/digital-marketing-agency-janakpur',
+    city: 'Janakpur',
+    region: 'Madhesh',
+    qualifier: 'best',
+    audience: 'local service businesses, education brands, healthcare, retail and tourism-focused companies',
+    nearby: 'Janaki Mandir area, Mills Area, Ramanand Chowk, Zero Mile and nearby markets'
+  }
+];
+
 const defaultSeo = {
   home: {
     path: '/',
@@ -320,6 +377,14 @@ const defaultSeo = {
     description:
       'Looking for the best marketing agency in Butwal? Kritech Solution helps local businesses grow with SEO, social media, ads, websites and clear reporting.'
   },
+  ...Object.fromEntries(cityAreaPages.map((page) => [
+    page.key,
+    {
+      path: page.path,
+      title: `${page.qualifier === 'top' ? 'Top' : 'Best'} Digital Marketing Agency in ${page.city} | Kritech Solution`,
+      description: `Digital marketing agency in ${page.city} for SEO, social media marketing, Google Ads, Meta campaigns, websites and lead generation for ${page.region} businesses.`
+    }
+  ])),
   webButwal: {
     path: '/web-development-butwal',
     title: 'Web Development Company in Butwal, Nepal | Kritech Solution',
@@ -561,6 +626,23 @@ const localLandingPages = {
       ['Do you only work with large companies?', 'No. Kritech works with local shops, service businesses, institutes, startups and growing companies that need a professional digital presence in Butwal and across Nepal.']
     ]
   },
+  ...Object.fromEntries(cityAreaPages.map((page) => [
+    page.path,
+    {
+      eyebrow: `${page.qualifier === 'top' ? 'Top' : 'Best'} digital marketing agency in ${page.city}`,
+      title: `Digital marketing, SEO, ads and website support for ${page.city} businesses.`,
+      text: `Kritech Solution helps ${page.city} businesses build a stronger online presence through SEO, website improvements, social media content, Meta ads, Google Ads and lead-focused landing pages. We plan campaigns around buyer intent, local search behavior and the way customers compare companies before contacting them.`,
+      bullets: [`SEO and Google ranking for ${page.city} searches`, 'Facebook, Instagram and Google campaign support', 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'],
+      highlights: [`${page.city}-focused marketing strategy`, 'SEO, ads, content and website support together', 'Remote execution with clear reporting'],
+      marketIntro: `A ${page.city} marketing page should do more than say "we provide digital marketing." It should explain why customers should trust your business, make services easy to compare, and give Google clear local relevance for searches in ${page.city} and nearby areas.`,
+      areaLine: `Kritech supports ${page.audience} in ${page.city}, ${page.nearby}. Our team is based in Butwal and works remotely across Nepal with clear communication, practical execution and measurable reporting.`,
+      faqs: [
+        [`Do you provide digital marketing services in ${page.city}?`, `Yes. Kritech provides SEO, social media marketing, Google Ads, Meta Ads, website design, landing pages and content support for businesses in ${page.city} and nearby areas.`],
+        [`Why should a ${page.city} business work with Kritech?`, `You get a connected team for website quality, local SEO, paid campaigns, content and tracking. This helps your marketing focus on real inquiries instead of only likes, impressions or random posting.`],
+        [`Can you help my business rank for ${page.city} keywords?`, `Yes. We can create service pages, improve technical SEO, plan local content, optimize metadata and track Search Console performance for ${page.city} search terms.`]
+      ]
+    }
+  ])),
   '/web-development-butwal': {
     eyebrow: 'Web development company in Butwal',
     title: 'SEO-ready business websites built for speed, trust and lead generation.',
@@ -3232,6 +3314,16 @@ function slugify(value) {
 }
 
 function Footer({ go }) {
+  const serviceAreas = [
+    ['Butwal', '/best-marketing-agency-butwal'],
+    ['Kathmandu', '/digital-marketing-agency-kathmandu'],
+    ['Pokhara', '/digital-marketing-agency-pokhara'],
+    ['Chitwan', '/digital-marketing-agency-chitwan'],
+    ['Biratnagar', '/digital-marketing-agency-biratnagar'],
+    ['Birgunj', '/digital-marketing-agency-birgunj'],
+    ['Janakpur', '/digital-marketing-agency-janakpur']
+  ];
+
   return (
     <footer>
       <div>
@@ -3241,6 +3333,10 @@ function Footer({ go }) {
       <div>
         <h4>Company</h4>
         {['Services', 'About', 'Pricing', 'Blog', 'Contact'].map((item) => <button key={item} onClick={() => go(`/${item.toLowerCase()}`)}>{item}</button>)}
+      </div>
+      <div>
+        <h4>Services Area</h4>
+        {serviceAreas.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
       </div>
       <div>
         <h4>Contact</h4>

@@ -14,6 +14,12 @@ const corePages = [
 
 const localPages = [
   '/best-marketing-agency-butwal',
+  '/digital-marketing-agency-kathmandu',
+  '/digital-marketing-agency-pokhara',
+  '/digital-marketing-agency-chitwan',
+  '/digital-marketing-agency-biratnagar',
+  '/digital-marketing-agency-birgunj',
+  '/digital-marketing-agency-janakpur',
   '/digital-marketing-agency-butwal',
   '/seo-services-butwal',
   '/web-development-butwal',
