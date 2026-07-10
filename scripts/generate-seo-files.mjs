@@ -13,6 +13,7 @@ const corePages = [
 ];
 
 const localPages = [
+  '/best-marketing-agency-butwal',
   '/digital-marketing-agency-butwal',
   '/seo-services-butwal',
   '/web-development-butwal',

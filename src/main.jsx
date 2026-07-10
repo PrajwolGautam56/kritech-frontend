@@ -314,6 +314,12 @@ const defaultSeo = {
     description:
       'Digital marketing agency in Butwal for SEO, Google Ads, Meta ads, social media marketing, website strategy and lead generation campaigns.'
   },
+  bestMarketingAgencyButwal: {
+    path: '/best-marketing-agency-butwal',
+    title: 'Best Marketing Agency in Butwal | Kritech Solution',
+    description:
+      'Looking for the best marketing agency in Butwal? Kritech Solution helps local businesses grow with SEO, social media, ads, websites and clear reporting.'
+  },
   webButwal: {
     path: '/web-development-butwal',
     title: 'Web Development Company in Butwal, Nepal | Kritech Solution',
@@ -542,6 +548,19 @@ const localLandingPages = {
       ['Can you manage both ads and SEO?', 'Yes. We connect SEO, Google Ads, Meta Ads, landing pages and reporting so traffic turns into measurable leads.']
     ]
   },
+  '/best-marketing-agency-butwal': {
+    eyebrow: 'Best marketing agency in Butwal',
+    title: 'A practical marketing partner for Butwal businesses that want more inquiries, not just more posts.',
+    text: 'If you are comparing the best marketing agency in Butwal for your business, look for a team that can connect strategy, design, SEO, paid ads, website quality and reporting. Kritech Solution helps local brands build that complete growth system instead of running random campaigns without measurement.',
+    bullets: ['Local SEO and Google ranking strategy', 'Facebook, Instagram and Google Ads planning', 'Website and landing page improvements', 'Monthly reporting focused on calls, WhatsApp clicks and inquiries'],
+    highlights: ['Based in Butwal with Nepal-wide execution', 'Marketing, website and IT support in one team', 'Clear process from research to campaign improvement'],
+    areaLine: 'Kritech works with businesses in Butwal, Kalikanagar, Traffic Chowk, Yogikuti, Bhairahawa, Tilottama and across Rupandehi that need professional marketing support, better search visibility and a website that converts visitors into leads.',
+    faqs: [
+      ['Who is the best marketing agency in Butwal for local businesses?', 'The best agency depends on your goals, but a strong partner should understand Butwal customers, build search-friendly pages, manage campaigns carefully, improve your website and show clear reports. Kritech Solution offers these services for local businesses that want measurable growth.'],
+      ['Can Kritech manage my website, SEO and social media together?', 'Yes. We connect website improvements, SEO, content, social media, Meta ads, Google Ads and lead tracking so your marketing works as one system.'],
+      ['Do you only work with large companies?', 'No. Kritech works with local shops, service businesses, institutes, startups and growing companies that need a professional digital presence in Butwal and across Nepal.']
+    ]
+  },
   '/web-development-butwal': {
     eyebrow: 'Web development company in Butwal',
     title: 'SEO-ready business websites built for speed, trust and lead generation.',
@@ -691,6 +710,7 @@ const packages = [
 ];
 
 const faqs = [
+  ['How do I choose the best marketing agency in Butwal?', 'Choose a marketing agency in Butwal that can show a clear process for SEO, website quality, content, ads, tracking and reporting. Kritech Solution focuses on measurable outcomes such as calls, WhatsApp clicks, inquiries and better Google visibility, not only social media posting.'],
   ['What is included in SEO services in Butwal?', 'SEO services in Butwal usually include keyword research, technical SEO, on-page optimization, Google Business Profile improvement, local landing pages, blog planning, schema markup, sitemap setup and Search Console tracking. Kritech Solution connects these tasks so your website can rank for service and location searches.'],
   ['How can Kritech Solution help my business rank higher on Google?', 'We start with a website and keyword audit, fix technical issues, improve page speed, write clearer service content, optimize meta titles and descriptions, build local SEO pages, publish helpful blogs and track progress through Google Search Console. The goal is more qualified calls, WhatsApp messages and form inquiries.'],
   ['Do I need local SEO if my business is in Butwal?', 'Yes. Local SEO helps customers near Butwal, Bhairahawa, Tilottama and nearby areas find your business when they search on Google or Google Maps. It is especially useful for service businesses, shops, clinics, institutes, restaurants, real estate companies and professional services.'],
@@ -1172,7 +1192,7 @@ function NeuralScene() {
 }
 
 function NeoSignalStrip() {
-  const signals = ['SEO services in Butwal', 'Digital marketing agency Nepal', 'Web development Butwal', 'IT company in Butwal', 'Sitemap automation', 'Lead tracking', 'Google ranking Nepal', 'Social media marketing'];
+  const signals = ['Best marketing agency in Butwal', 'SEO services in Butwal', 'Digital marketing agency Nepal', 'Web development Butwal', 'IT company in Butwal', 'Lead tracking', 'Google ranking Nepal', 'Social media marketing'];
   return (
     <div className="neo-strip">
       <div>{[...signals, ...signals].map((signal, index) => <span key={`${signal}-${index}`}>{signal}</span>)}</div>
@@ -1233,6 +1253,7 @@ function HomeRankingEngine({ go }) {
         </p>
         <div className="ranking-actions">
           <button onClick={() => go('/seo-services-butwal')}>SEO services Butwal <ChevronRight size={16} /></button>
+          <button onClick={() => go('/best-marketing-agency-butwal')}>Best marketing agency Butwal <ChevronRight size={16} /></button>
           <button onClick={() => go('/web-development-butwal')}>Web development Butwal <ChevronRight size={16} /></button>
         </div>
       </div>
@@ -1287,6 +1308,7 @@ function NeoModules({ go }) {
 
 function LocalSeoMap({ go }) {
   const routes = [
+    ['/best-marketing-agency-butwal', 'Best agency in Butwal'],
     ['/digital-marketing-agency-butwal', 'Grow in Butwal'],
     ['/seo-services-butwal', 'Rank locally'],
     ['/website-development-company-butwal', 'Build your website'],
@@ -1884,6 +1906,7 @@ function LocalCoverage({ go }) {
       <div className="coverage-links">
         {[
           ['/digital-marketing-agency-butwal', 'Butwal marketing support'],
+          ['/best-marketing-agency-butwal', 'Best marketing agency Butwal'],
           ['/seo-services-butwal', 'Local ranking support'],
           ['/website-development-company-butwal', 'Website projects'],
           ['/it-company-butwal', 'IT and maintenance'],
