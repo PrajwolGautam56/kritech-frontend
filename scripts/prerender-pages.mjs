@@ -10,7 +10,7 @@ const wordpressPosts = JSON.parse(await readFile(new URL('../src/wordpress-posts
 const cityPages = [
   ['Kathmandu', '/digital-marketing-agency-kathmandu', 'Top Digital Marketing Agency in Kathmandu | Kritech Solution', 'Digital marketing agency in Kathmandu for SEO, social media, Google Ads, Meta campaigns, websites and lead generation for Kathmandu Valley businesses.'],
   ['Pokhara', '/digital-marketing-agency-pokhara', 'Top Digital Marketing Agency in Pokhara | Kritech Solution', 'Digital marketing agency in Pokhara for SEO, social media marketing, Google Ads, websites and lead generation for tourism, hospitality and local service businesses.'],
-  ['Chitwan', '/digital-marketing-agency-chitwan', 'Top Digital Marketing Agency in Chitwan | Kritech Solution', 'Digital marketing agency in Chitwan for SEO, social media, Google Ads, websites and lead generation for Bharatpur, Narayangarh and nearby businesses.'],
+  ['Chitwan', '/digital-marketing-agency-chitwan', 'Top Digital Marketing Agency in Chitwan | Kritech Solution', 'Digital marketing agency in Chitwan for healthcare, education, hospitality, real estate and retail businesses needing SEO, social media, Google Ads, websites and lead generation in Bharatpur and Narayangarh.'],
   ['Biratnagar', '/digital-marketing-agency-biratnagar', 'Best Digital Marketing Agency in Biratnagar | Kritech Solution', 'Digital marketing agency in Biratnagar for SEO, social media marketing, ads, websites and lead generation for Koshi Province businesses.'],
   ['Birgunj', '/digital-marketing-agency-birgunj', 'Best Digital Marketing Agency in Birgunj | Kritech Solution', 'Digital marketing agency in Birgunj for SEO, social media, Google Ads, websites and lead generation for trading, logistics and local businesses.'],
   ['Janakpur', '/digital-marketing-agency-janakpur', 'Best Digital Marketing Agency in Janakpur | Kritech Solution', 'Digital marketing agency in Janakpur for SEO, social media, websites, ads and lead generation for Madhesh businesses.']
@@ -25,7 +25,7 @@ const trainingPages = [
   ['/python-training-butwal', 'Python Training in Butwal | Kritech Solution', 'Python training in Butwal for coding fundamentals, problem solving, automation basics and beginner-friendly programming projects.', 'Python training in Butwal', ['Python syntax', 'Programming logic', 'Automation basics', 'Practice projects']],
   ['/javascript-training-butwal', 'JavaScript Training in Butwal | Kritech Solution', 'JavaScript training in Butwal for web development, frontend logic, browser interaction, APIs and React-ready coding practice.', 'JavaScript training in Butwal', ['JavaScript fundamentals', 'DOM interaction', 'APIs', 'Frontend projects']],
   ['/java-training-butwal', 'Java Training in Butwal | Kritech Solution', 'Java training in Butwal for OOP, programming logic, software fundamentals, college projects and career-focused coding practice.', 'Java training in Butwal', ['Java syntax', 'OOP', 'Problem solving', 'Application projects']],
-  ['/ai-ml-training-butwal', 'AI ML Training in Butwal | Kritech Solution', 'AI and machine learning training in Butwal for beginners who want practical AI concepts, Python foundations, AI tools and beginner projects.', 'AI ML training in Butwal', ['AI concepts', 'Python for AI', 'Prompting and AI tools', 'Beginner ML projects']],
+  ['/ai-ml-training-butwal', 'AI ML Training in Butwal | Kritech Solution', 'AI and machine learning training in Butwal for students and professionals who want Python foundations, AI tools, prompt engineering, data basics and beginner machine learning projects.', 'AI ML training in Butwal', ['Python basics for AI', 'Data handling and simple analysis', 'Machine learning concepts', 'Prompt engineering for daily work', 'Beginner portfolio projects']],
   ['/coding-classes-butwal', 'Coding Classes in Butwal | Kritech Solution', 'Coding classes in Butwal for school students, college students and beginners learning Python, JavaScript, Java, logic and web projects.', 'Coding classes in Butwal', ['Programming logic', 'Python basics', 'JavaScript basics', 'Project practice']]
 ];
 
@@ -54,17 +54,27 @@ addPage('/services-bhairahawa', 'Digital Marketing, SEO & Web Development Servic
 addPage('/services-tilottama', 'Digital Marketing, SEO & Web Development Services in Tilottama', 'SEO services, digital marketing, website development, ads, social media and IT support for businesses in Tilottama, Rupandehi and Nepal.', 'Digital marketing and website services in Tilottama.', ['SEO', 'Ads', 'Social media', 'Website development']);
 
 for (const [city, path, title, description] of cityPages) {
-  addPage(path, title, description, `Digital marketing agency in ${city} for SEO, ads, websites and lead generation.`, [`${city} SEO strategy`, 'Social media marketing', 'Google Ads and Meta Ads', 'Website and landing page support'], [
+  const isChitwan = path === '/digital-marketing-agency-chitwan';
+  addPage(path, title, description, `Digital marketing agency in ${city} for SEO, ads, websites and lead generation.`, isChitwan ? ['SEO for Bharatpur and Narayangarh searches', 'Campaigns for clinics, schools, hotels, real estate and retail', 'Meta Ads and Google Ads for inquiry generation', 'Landing pages with WhatsApp and form tracking', 'Monthly reporting tied to calls and leads'] : [`${city} SEO strategy`, 'Social media marketing', 'Google Ads and Meta Ads', 'Website and landing page support'], [
     [`Do you provide digital marketing services in ${city}?`, `Yes. Kritech provides SEO, social media marketing, Google Ads, Meta Ads, website design and lead generation support for businesses in ${city}.`],
-    [`Can Kritech help my business rank for ${city} keywords?`, `Yes. We can create local service pages, improve technical SEO, plan content and track Search Console performance for ${city} search terms.`]
-  ]);
+    [`Can Kritech help my business rank for ${city} keywords?`, `Yes. We can create local service pages, improve technical SEO, plan content and track Search Console performance for ${city} search terms.`],
+    ...(isChitwan ? [['Which Chitwan businesses can benefit most?', 'Healthcare clinics, colleges, hotels, restaurants, real estate companies, retail stores and local service providers can benefit from SEO pages, ads, landing pages and lead tracking.']] : [])
+  ], isChitwan ? [
+    'Chitwan has strong local demand across Bharatpur, Narayangarh, Ratnanagar and Tandi. Businesses often compete on Facebook visibility, Google search results, reviews and how quickly a visitor can contact them.',
+    'Kritech builds campaigns around actual buyer intent: people searching for services, comparing local providers, asking for prices, checking credibility and deciding whether to call or message.'
+  ] : []);
 }
 
 for (const [path, title, description, h1, bullets] of trainingPages) {
+  const isAiMl = path === '/ai-ml-training-butwal';
   addPage(path, title, description, h1, bullets, [
     [`Who can join ${h1.toLowerCase()}?`, 'Students, beginners, business owners and professionals can join depending on the course level and learning goal.'],
-    ['Will I work on real projects?', 'Yes. Kritech focuses on practical exercises, examples and projects so learners can build confidence and portfolio value.']
-  ]);
+    ['Will I work on real projects?', 'Yes. Kritech focuses on practical exercises, examples and projects so learners can build confidence and portfolio value.'],
+    ...(isAiMl ? [['Do I need advanced math before joining?', 'No. Beginners can start with practical AI concepts, Python basics, data handling and simple machine learning ideas before moving into advanced math-heavy topics.']] : [])
+  ], isAiMl ? [
+    'This page is for learners who want to understand AI practically, not only hear buzzwords. The training direction covers Python foundations, data basics, prompting, automation ideas and beginner machine learning concepts.',
+    'Students can use these skills for college projects, portfolio projects, marketing automation, research workflows and future advanced AI or data science study.'
+  ] : []);
 }
 
 const internationalPages = [
@@ -84,7 +94,15 @@ const internationalPages = [
 ];
 
 for (const [path, title, description] of internationalPages) {
-  addPage(path, title, description, title.replace(' | Kritech Solution', ''), ['Remote delivery', 'SEO and content', 'Landing pages', 'Clear reporting']);
+  const isDubaiSeo = path === '/seo-company-dubai';
+  addPage(path, title, description, title.replace(' | Kritech Solution', ''), isDubaiSeo ? ['Technical SEO audit for Dubai websites', 'Service pages for Dubai buyer intent', 'Content briefs for competitive industries', 'Schema, internal links and Search Console tracking', 'Remote monthly SEO execution from Nepal'] : ['Remote delivery', 'SEO and content', 'Landing pages', 'Clear reporting'], isDubaiSeo ? [
+    ['Can a remote SEO company work for Dubai businesses?', 'Yes. SEO tasks such as audits, technical fixes, content planning, service page writing, schema and reporting can be delivered remotely with clear communication.'],
+    ['Which Dubai industries can Kritech support?', 'Kritech can support consultants, clinics, real estate teams, ecommerce stores, service businesses and agencies that need consistent SEO execution.'],
+    ['Why hire SEO support from Nepal for Dubai?', 'A Nepal-based remote team can provide cost-effective SEO execution while Dubai businesses keep strategy, communication and reporting structured.']
+  ] : undefined, isDubaiSeo ? [
+    'Dubai SEO is competitive, so generic content is not enough. Businesses need technical health, fast pages, useful service content, local intent mapping and clear conversion paths.',
+    'Kritech supports Dubai businesses and agencies with remote SEO execution from Nepal: audits, service page improvements, blog briefs, schema-ready copy, internal linking and Search Console reporting.'
+  ] : []);
 }
 
 const seedPosts = [
@@ -116,8 +134,8 @@ for (const path of paths) {
 
 console.log(`Pre-rendered ${paths.length} crawlable HTML pages`);
 
-function addPage(path, title, description, h1, bullets = [], faqs = defaultFaqs(path)) {
-  pageData.set(path, { path, title, description, h1, bullets, faqs });
+function addPage(path, title, description, h1, bullets = [], faqs = defaultFaqs(path), extraParagraphs = []) {
+  pageData.set(path, { path, title, description, h1, bullets, faqs, extraParagraphs });
 }
 
 function defaultFaqs(path) {
@@ -165,6 +183,7 @@ function renderStaticContent(page) {
     <p>Kritech Solution</p>
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.description)}</p>
+    ${page.extraParagraphs?.length ? page.extraParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}
   </main>`;
@@ -190,6 +209,40 @@ function buildSchema(page, canonical) {
       }
     }
   ];
+
+  if (page.path.includes('training') || page.path.includes('classes')) {
+    graph.push({
+      '@type': 'Course',
+      name: page.h1,
+      description: page.description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Kritech Solution',
+        sameAs: siteUrl
+      },
+      educationalLevel: 'Beginner to practical',
+      inLanguage: 'en'
+    });
+  } else if (!page.path.startsWith('/blog/') && page.path !== '/' && page.path !== '/sitemap') {
+    graph.push({
+      '@type': 'Service',
+      name: page.h1,
+      description: page.description,
+      provider: {
+        '@type': 'LocalBusiness',
+        name: 'Kritech Solution',
+        url: siteUrl,
+        telephone: '+9779867756460',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Butwal-11, Kalikanagar',
+          addressLocality: 'Butwal',
+          addressCountry: 'NP'
+        }
+      },
+      areaServed: page.path.includes('dubai') ? 'Dubai' : page.path.includes('chitwan') ? 'Chitwan' : 'Nepal'
+    });
+  }
 
   if (page.faqs?.length) {
     graph.push({

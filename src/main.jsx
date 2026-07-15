@@ -309,7 +309,8 @@ const cityAreaPages = [
     region: 'Bagmati',
     qualifier: 'top',
     audience: 'healthcare, education, retail, real estate, hospitality and service businesses',
-    nearby: 'Bharatpur, Narayangarh, Ratnanagar, Tandi and nearby markets'
+    nearby: 'Bharatpur, Narayangarh, Ratnanagar, Tandi and nearby markets',
+    industries: ['hospitals and clinics', 'colleges and institutes', 'hotels and restaurants', 'real estate and construction', 'retail and local service brands']
   },
   {
     key: 'digitalMarketingBiratnagar',
@@ -419,8 +420,9 @@ const trainingPages = [
     keyword: 'AI ML training in Butwal',
     title: 'AI and machine learning classes for beginners who want practical foundations.',
     course: 'AI/ML Training',
-    skills: ['AI and ML concepts', 'Python for data and automation', 'Prompting and AI tools', 'Beginner-friendly machine learning projects'],
-    audience: 'students, tech learners, marketers and professionals curious about AI tools and machine learning'
+    skills: ['AI and ML concepts', 'Python for data and automation', 'Prompt engineering and AI tools', 'Data basics, model thinking and beginner-friendly projects'],
+    audience: 'students, tech learners, marketers and professionals curious about AI tools, automation and machine learning',
+    modules: ['Python basics for AI', 'Data handling and simple analysis', 'Machine learning concepts', 'Prompt engineering for daily work', 'Beginner projects for portfolio practice']
   },
   {
     key: 'codingClassesButwal',
@@ -738,11 +740,11 @@ const localLandingPages = {
     {
       eyebrow: `${page.qualifier === 'top' ? 'Top' : 'Best'} digital marketing agency in ${page.city}`,
       title: `Digital marketing, SEO, ads and website support for ${page.city} businesses.`,
-      text: `Kritech Solution helps ${page.city} businesses build a stronger online presence through SEO, website improvements, social media content, Meta ads, Google Ads and lead-focused landing pages. We plan campaigns around buyer intent, local search behavior and the way customers compare companies before contacting them.`,
-      bullets: [`SEO and Google ranking for ${page.city} searches`, 'Facebook, Instagram and Google campaign support', 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'],
+      text: `Kritech Solution helps ${page.city} businesses build a stronger online presence through SEO, website improvements, social media content, Meta ads, Google Ads and lead-focused landing pages. We plan campaigns around buyer intent, local search behavior and how customers in ${page.nearby} compare companies before contacting them.`,
+      bullets: page.industries ? [`SEO pages for ${page.city} and nearby searches`, `Campaigns for ${page.industries.slice(0, 3).join(', ')}`, 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'] : [`SEO and Google ranking for ${page.city} searches`, 'Facebook, Instagram and Google campaign support', 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'],
       highlights: [`${page.city}-focused marketing strategy`, 'SEO, ads, content and website support together', 'Remote execution with clear reporting'],
       marketIntro: `A ${page.city} marketing page should do more than say "we provide digital marketing." It should explain why customers should trust your business, make services easy to compare, and give Google clear local relevance for searches in ${page.city} and nearby areas.`,
-      areaLine: `Kritech supports ${page.audience} in ${page.city}, ${page.nearby}. Our team is based in Butwal and works remotely across Nepal with clear communication, practical execution and measurable reporting.`,
+      areaLine: `Kritech supports ${page.audience} in ${page.city}, ${page.nearby}. ${page.industries ? `This includes ${page.industries.join(', ')}. ` : ''}Our team is based in Butwal and works remotely across Nepal with clear communication, practical execution and measurable reporting.`,
       faqs: [
         [`Do you provide digital marketing services in ${page.city}?`, `Yes. Kritech provides SEO, social media marketing, Google Ads, Meta Ads, website design, landing pages and content support for businesses in ${page.city} and nearby areas.`],
         [`Why should a ${page.city} business work with Kritech?`, `You get a connected team for website quality, local SEO, paid campaigns, content and tracking. This helps your marketing focus on real inquiries instead of only likes, impressions or random posting.`],
@@ -755,8 +757,8 @@ const localLandingPages = {
     {
       eyebrow: page.keyword,
       title: page.title,
-      text: `Kritech Solution provides ${page.course.toLowerCase()} for ${page.audience}. The focus is practical learning: clear fundamentals, guided practice, real examples and projects that help learners understand how skills are used in actual marketing, IT and software work.`,
-      bullets: page.skills,
+      text: `Kritech Solution provides ${page.course.toLowerCase()} for ${page.audience}. The focus is practical learning: clear fundamentals, guided practice, real examples and projects that help learners understand how skills are used in actual marketing, IT, automation and software work.`,
+      bullets: page.modules || page.skills,
       highlights: ['Practical classes from a working IT and marketing team', 'Beginner-friendly roadmap with real examples', 'Project-based learning for portfolio and confidence'],
       marketIntro: `${page.course} should not feel like only theory. Students need clear explanations, repeated practice, useful projects and guidance on how the skill connects to jobs, freelancing, business growth or future study.`,
       areaLine: `Kritech offers ${page.course.toLowerCase()} support from Butwal for learners in Butwal, Bhairahawa, Tilottama and nearby areas. Online or hybrid learning options can also support students and professionals from other cities in Nepal.`,
