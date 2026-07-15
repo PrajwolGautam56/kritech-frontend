@@ -95,6 +95,7 @@ ${urls.map((url) => `  <url>
 const robots = `User-agent: *
 Allow: /
 Disallow: /admin-login
+Disallow: /admin-reset
 
 Sitemap: ${siteUrl}/sitemap.xml
 `;
