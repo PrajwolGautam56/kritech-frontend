@@ -6,6 +6,7 @@
     { "source": "/blog", "destination": "/" },
     { "source": "/blog/:slug", "destination": "/" },
     { "source": "/contact", "destination": "/" },
+    { "source": "/sitemap", "destination": "/" },
     { "source": "/admin-login", "destination": "/" },
     { "source": "/admin-reset", "destination": "/" },
     { "source": "/it-training-institute-butwal", "destination": "/" },

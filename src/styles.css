@@ -1966,6 +1966,51 @@ label textarea.tall {
   color: #33443a;
 }
 
+.sitemap-public {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.sitemap-public article {
+  padding: 24px;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 60px rgba(4, 32, 18, 0.08);
+}
+
+.sitemap-public h2 {
+  margin: 0 0 14px;
+  color: #07120d;
+}
+
+.sitemap-public article > div {
+  display: grid;
+  gap: 8px;
+}
+
+.sitemap-public button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  color: #123323;
+  border: 1px solid rgba(5, 138, 73, 0.16);
+  border-radius: 12px;
+  background: #f8faf8;
+  font-weight: 850;
+  text-align: left;
+}
+
+.sitemap-public button:hover {
+  color: #035f36;
+  border-color: rgba(5, 138, 73, 0.34);
+  background: #e5faee;
+}
+
 .local-process-panel {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -2042,6 +2087,7 @@ label textarea.tall {
 @media (max-width: 900px) {
   .local-seo-map,
   .local-landing,
+  .sitemap-public,
   .local-process-panel {
     grid-template-columns: 1fr;
   }

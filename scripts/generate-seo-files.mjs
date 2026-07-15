@@ -9,7 +9,8 @@ const corePages = [
   '/about',
   '/pricing',
   '/blog',
-  '/contact'
+  '/contact',
+  '/sitemap'
 ];
 
 const localPages = [

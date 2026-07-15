@@ -571,6 +571,12 @@ const defaultSeo = {
     title: 'Contact Kritech Solution | Digital Agency in Butwal, Nepal',
     description:
       'Contact Kritech Solution in Butwal for SEO, digital marketing, web development, and IT service consultation.'
+  },
+  htmlSitemap: {
+    path: '/sitemap',
+    title: 'HTML Sitemap | Kritech Solution',
+    description:
+      'Browse important Kritech Solution pages for SEO services, digital marketing, web development, IT training, city service areas, blogs and contact information.'
   }
 };
 
@@ -1176,6 +1182,7 @@ function App() {
         {route === '/blog' && <BlogPage posts={posts} go={go} />}
         {route.startsWith('/blog/') && <BlogDetail posts={posts} route={route} go={go} />}
         {route === '/contact' && <ContactPage go={go} />}
+        {route === '/sitemap' && <PublicSitemapPage posts={posts} go={go} />}
       </main>
       <Footer go={go} />
       <FloatingContact />
@@ -3414,6 +3421,58 @@ function generateSitemap(posts, seo) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((path) => `  <url>\n    <loc>${SITE_URL}${path === '/' ? '' : path}</loc>\n    <lastmod>${new Date().toISOString().slice(0, 10)}</lastmod>\n    <changefreq>${path.includes('/blog/') ? 'monthly' : 'weekly'}</changefreq>\n    <priority>${path === '/' ? '1.0' : '0.8'}</priority>\n  </url>`).join('\n')}\n</urlset>`;
 }
 
+function PublicSitemapPage({ posts, go }) {
+  const pageGroups = [
+    ['Main Pages', [
+      ['Home', '/'],
+      ['Services', '/services'],
+      ['About', '/about'],
+      ['Pricing', '/pricing'],
+      ['Blog', '/blog'],
+      ['Contact', '/contact']
+    ]],
+    ['Butwal Services', [
+      ['Best Marketing Agency in Butwal', '/best-marketing-agency-butwal'],
+      ['Digital Marketing Agency in Butwal', '/digital-marketing-agency-butwal'],
+      ['SEO Services in Butwal', '/seo-services-butwal'],
+      ['Web Development in Butwal', '/web-development-butwal'],
+      ['Website Development Company in Butwal', '/website-development-company-butwal'],
+      ['IT Company in Butwal', '/it-company-butwal']
+    ]],
+    ['Nepal City Service Areas', cityAreaPages.map((page) => [`Digital Marketing Agency in ${page.city}`, page.path])],
+    ['IT and Marketing Classes', trainingPages.map((page) => [page.course, page.path])],
+    ['Nepal and Remote Services', [
+      ['Digital Marketing Agency in Nepal', '/digital-marketing-agency-nepal'],
+      ['SEO Company in Nepal', '/seo-company-nepal'],
+      ['Web Development Company in Nepal', '/web-development-company-nepal'],
+      ['IT Company in Nepal', '/it-company-nepal'],
+      ['Services in Bhairahawa', '/services-bhairahawa'],
+      ['Services in Tilottama', '/services-tilottama'],
+      ['Remote Digital Marketing Agency', '/remote-digital-marketing-agency'],
+      ['Digital Marketing Agency USA', '/digital-marketing-agency-usa'],
+      ['Digital Marketing Agency UAE', '/digital-marketing-agency-uae']
+    ]],
+    ['Blog Articles', posts.filter((post) => post.status === 'Published' && post.slug).slice(0, 30).map((post) => [post.title, `/blog/${post.slug}`])]
+  ];
+
+  return (
+    <PageShell eyebrow="HTML Sitemap" title="Find every important Kritech Solution page." text="Use this page to browse our services, city pages, IT classes, SEO pages, blogs and contact pages. It also helps search engines discover important URLs through internal links.">
+      <section className="section sitemap-public">
+        {pageGroups.map(([group, links]) => (
+          <article key={group}>
+            <h2>{group}</h2>
+            <div>
+              {links.map(([label, path]) => (
+                <button key={path} onClick={() => go(path)}>{label} <ChevronRight size={15} /></button>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+    </PageShell>
+  );
+}
+
 function Field({ label, value, onChange, textarea, tall }) {
   return (
     <label>
@@ -3458,7 +3517,7 @@ function Footer({ go }) {
       </div>
       <div>
         <h4>Company</h4>
-        {['Services', 'About', 'Pricing', 'Blog', 'Contact'].map((item) => <button key={item} onClick={() => go(`/${item.toLowerCase()}`)}>{item}</button>)}
+        {['Services', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => <button key={item} onClick={() => go(`/${item.toLowerCase()}`)}>{item}</button>)}
       </div>
       <div>
         <h4>Services Area</h4>
