@@ -29,15 +29,33 @@ const trainingPages = [
   ['/coding-classes-butwal', 'Coding Classes in Butwal | Kritech Solution', 'Coding classes in Butwal for school students, college students and beginners learning Python, JavaScript, Java, logic and web projects.', 'Coding classes in Butwal', ['Programming logic', 'Python basics', 'JavaScript basics', 'Project practice']]
 ];
 
+const softwarePages = [
+  ['/software-company-butwal', 'Software Company in Butwal | ERP, Apps & Custom Software', 'Software company in Butwal for ERP systems, accounting software, custom web apps, mobile apps, dashboards, CRM, POS, inventory and business automation.', 'Software company in Butwal for ERP, custom apps and business automation.', ['ERP and accounting workflows', 'CRM, inventory and POS systems', 'Custom dashboards and admin panels', 'Web and mobile app development']],
+  ['/software-company-nepal', 'Software Company in Nepal | Custom ERP, Apps & Automation', 'Software company in Nepal building custom ERP, accounting software, CRM, inventory systems, POS, web apps, mobile apps, dashboards and automation.', 'Software company in Nepal for custom ERP, apps and automation.', ['Custom ERP and business software', 'Accounting and billing workflows', 'CRM, inventory, POS and dashboards', 'Secure web and mobile applications']],
+  ['/software-development-company-nepal', 'Software Development Company in Nepal | Kritech Solution', 'Software development company in Nepal for custom web applications, ERP, CRM, mobile apps, dashboards, portals, automation and secure business software.', 'Software development company in Nepal for practical business systems.', ['Web application development', 'ERP, CRM and dashboard systems', 'Mobile app backend and admin panels', 'Secure deployment and maintenance']],
+  ['/custom-software-development-nepal', 'Custom Software Development in Nepal | Kritech Solution', 'Custom software development in Nepal for business web apps, ERP modules, CRM, dashboards, portals, automation, reporting and workflow management.', 'Custom software development in Nepal built around your workflow.', ['Requirement mapping and planning', 'Admin dashboards and portals', 'Workflow automation and reports', 'Secure deployment and maintenance']],
+  ['/custom-software-development-butwal', 'Custom Software Development in Butwal | Kritech Solution', 'Custom software development in Butwal for ERP modules, CRM, accounting, inventory, dashboards, admin panels, mobile apps and workflow automation.', 'Custom software development in Butwal for workflow control.', ['Business workflow software', 'Admin dashboards and portals', 'CRM, inventory and accounting modules', 'User roles, reports and automation']],
+  ['/erp-software-nepal', 'ERP Software in Nepal | Business Management System', 'ERP software in Nepal for sales, purchase, inventory, accounts, billing, HR, reporting, CRM and business workflow management by Kritech Solution.', 'ERP software in Nepal for connected business operations.', ['Sales, purchase and inventory modules', 'Billing, account and payment tracking', 'Staff roles, approvals and reports', 'CRM and customer history']],
+  ['/erp-software-butwal', 'ERP Software in Butwal | Custom Business Management System', 'ERP software in Butwal for sales, inventory, accounts, billing, CRM, staff roles, reports and business workflow management by Kritech Solution.', 'ERP software in Butwal for connected operations.', ['Sales, purchase and stock modules', 'Billing and account tracking', 'CRM and customer records', 'Owner dashboards and reports']],
+  ['/accounting-software-nepal', 'Accounting Software in Nepal | Billing, Reports & ERP', 'Accounting software in Nepal for billing, payments, customer records, invoices, expense tracking, reports and ERP-connected business workflows.', 'Accounting software in Nepal for billing, payments and reports.', ['Invoice and billing workflows', 'Payment and expense tracking', 'Customer and vendor records', 'Management reports and exports']],
+  ['/inventory-management-software-nepal', 'Inventory Management Software in Nepal | Stock & POS System', 'Inventory management software in Nepal for stock tracking, purchase, sales, barcode-ready workflows, POS, reports and multi-user business control.', 'Inventory management software in Nepal for accurate stock and reports.', ['Stock in/out tracking', 'Purchase and sales records', 'Low-stock and report views', 'POS or billing integration']],
+  ['/pos-software-nepal', 'POS Software in Nepal | Billing, Inventory & Reports', 'POS software in Nepal for billing, inventory, sales reports, customer records, staff access and retail business management by Kritech Solution.', 'POS software in Nepal for billing, inventory and retail reports.', ['Billing and sales records', 'Inventory and product management', 'Customer and staff access', 'Daily, weekly and monthly reports']],
+  ['/crm-software-nepal', 'CRM Software in Nepal | Leads, Sales & Customer Management', 'CRM software in Nepal for lead management, follow-ups, customer records, sales pipeline, tasks, reminders, reports and team workflow.', 'CRM software in Nepal for leads, sales and customer follow-up.', ['Lead capture and customer records', 'Follow-up status and reminders', 'Sales pipeline and tasks', 'Reports for managers and owners']],
+  ['/mobile-app-development-nepal', 'Mobile App Development in Nepal | Android, iOS & Hybrid Apps', 'Mobile app development in Nepal for Android, iOS, hybrid apps, customer portals, booking apps, ecommerce apps and business workflow apps.', 'Mobile app development in Nepal for business workflows and customer portals.', ['Android, iOS and hybrid app planning', 'Customer portals and booking apps', 'Business workflow apps', 'Backend dashboards and reports']],
+  ['/custom-app-development-nepal', 'Custom App Development in Nepal | Web & Mobile Apps', 'Custom app development in Nepal for web apps, mobile apps, booking systems, customer portals, dashboards, ecommerce workflows and business automation.', 'Custom app development in Nepal for web and mobile products.', ['Custom web apps and portals', 'Mobile app workflows', 'Booking and customer systems', 'Admin dashboards and reports']],
+  ['/cyber-security-services-nepal', 'Cyber Security Services in Nepal | Website & Business Security', 'Cyber security services in Nepal for website security checks, SSL, backups, malware cleanup, access control, hardening, monitoring and security guidance.', 'Cyber security services in Nepal for websites, systems and business data.', ['Website security checks and hardening', 'SSL, backups and access control', 'Malware cleanup support', 'Hosting and admin security review']],
+  ['/cyber-security-company-butwal', 'Cyber Security Company in Butwal | Website Security Support', 'Cyber security company in Butwal for website security checks, SSL, backups, malware cleanup support, access control, hosting review and maintenance.', 'Cyber security company in Butwal for practical website protection.', ['Website security checks', 'SSL, backup and hosting review', 'Admin access control', 'Maintenance and malware cleanup support']]
+];
+
 const pageData = new Map();
 
-addPage('/', 'Kritech Solution | Digital Marketing Agency in Butwal, Nepal', 'Kritech Solution is a digital marketing, SEO, web development and IT solutions company in Butwal, Nepal helping businesses rank higher and generate leads.', 'SEO, web development and IT systems built to rank in Nepal.', ['SEO services in Butwal', 'Website development', 'Social media marketing', 'IT support']);
-addPage('/services', 'SEO, Web Development & Digital Marketing Services in Butwal', 'Explore SEO services, website development, social media marketing, Google Ads, software, hosting and IT support from Kritech Solution in Butwal, Nepal.', 'Digital marketing, SEO, web development and IT services for Nepali businesses.', ['SEO', 'Web development', 'Social media marketing', 'Google Ads', 'IT support']);
-addPage('/about', 'About Kritech Solution | Digital Marketing & IT Company in Butwal', 'Learn about Kritech Solution, a Butwal-based digital marketing, SEO, web development and IT solutions company helping Nepali businesses grow online.', 'A Butwal-based digital marketing and IT company built for serious growth.', ['Based in Butwal', 'Serving Nepal', 'Remote support for UAE and USA clients']);
+addPage('/', 'Kritech Solution | Software, ERP & Digital Marketing Company Nepal', 'Kritech Solution is a software, ERP, cybersecurity, SEO, web development and digital marketing company in Butwal, Nepal helping businesses build systems and grow.', 'Software, ERP, SEO, web development and digital systems built for Nepal.', ['Software company in Nepal', 'ERP and accounting software', 'Cybersecurity services', 'SEO and digital marketing']);
+addPage('/services', 'Software, ERP, SEO & Digital Marketing Services in Nepal', 'Explore software development, ERP, accounting software, cybersecurity, SEO, websites, social media, Google Ads, hosting and IT support from Kritech Solution.', 'Software, ERP, SEO, web development and digital marketing services for Nepali businesses.', ['Software development', 'ERP and accounting software', 'Cybersecurity', 'SEO and websites', 'Digital marketing']);
+addPage('/about', 'About Kritech Solution | Software, Marketing & IT Company', 'Learn about Kritech Solution, a Butwal-based software, ERP, cybersecurity, SEO, web development and digital marketing company helping businesses grow.', 'A Butwal-based software, marketing and IT company built for serious growth.', ['Based in Butwal', 'Serving Nepal', 'Software and ERP systems', 'Marketing and SEO execution']);
 addPage('/pricing', 'Digital Marketing & Website Packages | Kritech Solution', 'Flexible SEO, website, social media, and IT solution packages for startups, small businesses, and growing companies in Nepal.', 'Digital marketing, website and campaign packages for growing businesses.', ['Social Media Starter', 'Full Digital Campaign', 'Custom Campaign']);
 addPage('/blog', 'Digital Growth Blog for Nepal Businesses | Kritech Solution', 'Read practical guides on SEO, digital marketing, websites, Google rankings, and business technology for Nepal.', 'Digital growth blog for Nepal businesses.', ['SEO guides', 'Digital marketing advice', 'Website and IT tips']);
 addPage('/contact', 'Contact Kritech Solution | Digital Agency in Butwal, Nepal', 'Contact Kritech Solution in Butwal for SEO, digital marketing, web development, and IT service consultation.', 'Contact Kritech Solution for SEO, websites, marketing and IT support.', ['Butwal-11, Kalikanagar', '+977-9867756460', 'info@kritechsolution.com']);
-addPage('/sitemap', 'HTML Sitemap | Kritech Solution', 'Browse important Kritech Solution pages for SEO services, digital marketing, web development, IT training, city service areas, blogs and contact information.', 'HTML sitemap for Kritech Solution pages.', ['Main pages', 'Service pages', 'Training pages', 'Blog articles']);
+addPage('/sitemap', 'HTML Sitemap | Kritech Solution', 'Browse important Kritech Solution pages for software, ERP, cybersecurity, SEO services, digital marketing, web development, IT training, city service areas, blogs and contact information.', 'HTML sitemap for Kritech Solution pages.', ['Main pages', 'Software pages', 'Service pages', 'Training pages', 'Blog articles']);
 
 addPage('/seo-services-butwal', 'SEO Services in Butwal, Nepal | Kritech Solution', 'Local SEO, technical SEO, Google Business Profile optimization, content strategy and Search Console setup for businesses in Butwal and across Nepal.', 'SEO services in Butwal for better Google visibility and more local inquiries.', ['Local SEO', 'Technical SEO', 'Google Business Profile', 'Search Console']);
 addPage('/digital-marketing-agency-butwal', 'Digital Marketing Agency in Butwal | Kritech Solution', 'Digital marketing agency in Butwal for SEO, Google Ads, Meta ads, social media marketing, website strategy and lead generation campaigns.', 'Digital marketing agency in Butwal for SEO, ads, social media and landing pages.', ['SEO strategy', 'Meta Ads', 'Google Ads', 'Lead generation']);
@@ -75,6 +93,26 @@ for (const [path, title, description, h1, bullets] of trainingPages) {
     'This page is for learners who want to understand AI practically, not only hear buzzwords. The training direction covers Python foundations, data basics, prompting, automation ideas and beginner machine learning concepts.',
     'Students can use these skills for college projects, portfolio projects, marketing automation, research workflows and future advanced AI or data science study.'
   ] : []);
+}
+
+for (const [path, title, description, h1, bullets] of softwarePages) {
+  const isCyber = path.includes('cyber');
+  const topic = softwareTopicFor(path);
+  addPage(path, title, description, h1, bullets, isCyber ? [
+    ['Do you provide cybersecurity support?', 'Yes. Kritech provides practical website security checks, SSL, backups, access control, hosting review, malware cleanup support and maintenance guidance.'],
+    ['Can you secure an existing business website?', 'Yes. We can review common risks, improve access control, check backups, update technical settings and plan ongoing maintenance.'],
+    ['Is cybersecurity only for large companies?', 'No. Small businesses also need strong basics such as backups, SSL, secure hosting, updated websites and careful admin access.']
+  ] : [
+    [`Can Kritech build ${topic}?`, `Yes. Kritech can plan, design and develop ${topic} with practical modules, user roles, reports and support.`],
+    ['Can the software be customized?', 'Yes. We map your workflow first, then build modules, dashboards, reports and access levels around your actual business process.'],
+    ['Do you provide support after launch?', 'Yes. We can support deployment, training, maintenance, backups, security checks and future improvements.']
+  ], isCyber ? [
+    'Security work starts with practical fundamentals: backups, SSL, hosting review, admin access control, updated software and monitoring of common website risks.',
+    'Kritech supports businesses that need realistic protection for websites, systems and data without overcomplicating the first step.'
+  ] : [
+    'Kritech plans software around real business workflow: users, data entry, approvals, reports, security, backups and the first version that will actually be used.',
+    'The goal is not only to launch a product, but to reduce manual work, improve visibility and give owners cleaner control over daily operations.'
+  ]);
 }
 
 const internationalPages = [
@@ -240,7 +278,22 @@ function buildSchema(page, canonical) {
           addressCountry: 'NP'
         }
       },
-      areaServed: page.path.includes('dubai') ? 'Dubai' : page.path.includes('chitwan') ? 'Chitwan' : 'Nepal'
+      areaServed: areaServedFor(page.path)
+    });
+  }
+
+  if (isSoftwareProductPage(page.path)) {
+    graph.push({
+      '@type': 'SoftwareApplication',
+      name: page.h1,
+      applicationCategory: page.path.includes('mobile-app') || page.path.includes('custom-app') ? 'BusinessApplication' : 'BusinessApplication',
+      operatingSystem: 'Web, Android, iOS',
+      description: page.description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Kritech Solution',
+        url: siteUrl
+      }
     });
   }
 
@@ -262,6 +315,40 @@ function buildSchema(page, canonical) {
     '@context': 'https://schema.org',
     '@graph': graph
   };
+}
+
+function areaServedFor(path) {
+  if (path.includes('dubai')) return 'Dubai';
+  if (path.includes('uae')) return 'UAE';
+  if (path.includes('usa') || path.includes('new-york')) return 'USA';
+  if (path.includes('chitwan')) return 'Chitwan';
+  if (path.includes('butwal')) return 'Butwal';
+  return 'Nepal';
+}
+
+function isSoftwareProductPage(path) {
+  return [
+    'software',
+    'erp',
+    'accounting',
+    'inventory',
+    'pos',
+    'crm',
+    'mobile-app',
+    'custom-app'
+  ].some((part) => path.includes(part)) && !path.includes('cyber');
+}
+
+function softwareTopicFor(path) {
+  if (path.includes('erp')) return 'ERP software';
+  if (path.includes('accounting')) return 'accounting software';
+  if (path.includes('inventory')) return 'inventory management software';
+  if (path.includes('pos')) return 'POS software';
+  if (path.includes('crm')) return 'CRM software';
+  if (path.includes('mobile-app')) return 'mobile apps';
+  if (path.includes('custom-app')) return 'custom web and mobile apps';
+  if (path.includes('custom-software')) return 'custom software';
+  return 'business software';
 }
 
 function twitterTags(page, canonical) {

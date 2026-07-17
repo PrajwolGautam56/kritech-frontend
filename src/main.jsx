@@ -35,7 +35,7 @@ import './styles.css';
 import wordpressPosts from './wordpress-posts.json';
 
 const SITE_URL = 'https://kritechsolution.com';
-const SEO_VERSION = '2026-07-09-local-seo-pages-v2';
+const SEO_VERSION = '2026-07-17-software-authority-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const ACCESS_MODULES = [
   ['posts', 'Blog CMS'],
@@ -435,24 +435,312 @@ const trainingPages = [
   }
 ];
 
+const softwarePages = [
+  {
+    key: 'softwareCompanyButwal',
+    path: '/software-company-butwal',
+    keyword: 'software company in Butwal',
+    metaTitle: 'Software Company in Butwal | ERP, Apps & Custom Software',
+    metaDescription: 'Software company in Butwal for ERP systems, accounting software, custom web apps, mobile apps, dashboards, CRM, POS, inventory and business automation.',
+    eyebrow: 'Software company in Butwal',
+    title: 'Custom software, ERP and business systems for Butwal companies.',
+    text: 'Kritech Solution builds practical software for businesses that need better control over sales, accounts, inventory, staff, customers, reporting and daily operations. We design systems around your actual workflow instead of forcing your team into a generic template.',
+    bullets: ['ERP and accounting workflows', 'Custom dashboards and admin panels', 'CRM, inventory and POS systems', 'Web and mobile app development'],
+    highlights: ['Software planned around your business process', 'Clean admin dashboards and reports', 'Support after launch for improvements'],
+    marketIntro: 'A serious software partner should understand your business process first: who enters data, who approves work, what reports matter, where mistakes happen and what needs automation.',
+    areaLine: 'Kritech supports shops, institutes, service companies, distributors, clinics, agencies and growing teams in Butwal, Bhairahawa, Tilottama and across Nepal.',
+    faqs: [
+      ['Do you build custom software in Butwal?', 'Yes. Kritech builds custom software, dashboards, CRM tools, ERP modules, inventory systems, POS workflows and business automation for Butwal and Nepal-based companies.'],
+      ['Can you customize software for my business process?', 'Yes. We map your workflow first, then plan modules, user roles, reports, approvals and automation based on how your team actually works.'],
+      ['Do you provide support after software launch?', 'Yes. We can provide maintenance, backups, hosting support, bug fixes, feature improvements and user training after launch.']
+    ]
+  },
+  {
+    key: 'softwareCompanyNepal',
+    path: '/software-company-nepal',
+    keyword: 'software company in Nepal',
+    metaTitle: 'Software Company in Nepal | Custom ERP, Apps & Automation',
+    metaDescription: 'Software company in Nepal building custom ERP, accounting software, CRM, inventory systems, POS, web apps, mobile apps, dashboards and automation.',
+    eyebrow: 'Software company in Nepal',
+    title: 'Business software that helps Nepali teams work with more control.',
+    text: 'Kritech Solution develops custom software for Nepal businesses that need reliable systems for operations, sales, finance, inventory, customers, reporting and online workflows.',
+    bullets: ['Custom ERP and business software', 'Accounting and billing workflows', 'CRM, inventory, POS and dashboards', 'Secure web and mobile applications'],
+    highlights: ['Built for Nepali business workflows', 'Role-based access and useful reports', 'Software plus hosting and support'],
+    marketIntro: 'Many companies outgrow spreadsheets, manual registers and disconnected tools. A custom software system can reduce repeated work, improve reporting and make daily operations easier to manage.',
+    areaLine: 'Kritech works from Butwal and supports clients across Nepal including Kathmandu, Pokhara, Chitwan, Bhairahawa, Tilottama, Biratnagar and Birgunj.',
+    faqs: [
+      ['What kind of software do you build in Nepal?', 'We build ERP systems, accounting workflows, CRM tools, inventory software, POS systems, booking systems, dashboards, portals, web apps and mobile apps.'],
+      ['Is custom software better than ready-made software?', 'Ready-made software is useful when your process is simple. Custom software is better when you need your own workflow, reports, user roles, integrations or Nepal-specific operation style.'],
+      ['Can you build software in phases?', 'Yes. We can start with the most important modules first, then add more features after real users begin using the system.']
+    ]
+  },
+  {
+    key: 'customSoftwareDevelopmentNepal',
+    path: '/custom-software-development-nepal',
+    keyword: 'custom software development in Nepal',
+    metaTitle: 'Custom Software Development in Nepal | Kritech Solution',
+    metaDescription: 'Custom software development in Nepal for business web apps, ERP modules, CRM, dashboards, portals, automation, reporting and workflow management.',
+    eyebrow: 'Custom software development Nepal',
+    title: 'Custom software built around your workflow, not someone else’s template.',
+    text: 'Kritech helps businesses turn manual processes into structured software: forms, approvals, dashboards, reports, customer records, billing, inventory, staff tasks and management views.',
+    bullets: ['Requirement mapping and software planning', 'Admin dashboards and portals', 'Workflow automation and reports', 'Secure deployment and maintenance'],
+    highlights: ['From process audit to launch', 'Built in practical phases', 'Designed for real users and managers'],
+    marketIntro: 'Custom software works best when the first version solves a clear operational problem. We focus on the features that save time, reduce mistakes and make management decisions easier.',
+    areaLine: 'Kritech provides custom software development for Nepal businesses and remote clients who need a practical, maintainable system.',
+    faqs: [
+      ['How do you start a custom software project?', 'We start by understanding your workflow, users, problems, reports and priorities. Then we create a phased scope so the first version is useful and realistic.'],
+      ['Can you build admin dashboards?', 'Yes. We build dashboards for sales, leads, inventory, accounts, tasks, reports, users and performance tracking.'],
+      ['Can the software include user roles?', 'Yes. We can create role-based access for owners, managers, staff, accountants, sales teams and other user types.']
+    ]
+  },
+  {
+    key: 'softwareDevelopmentCompanyNepal',
+    path: '/software-development-company-nepal',
+    keyword: 'software development company in Nepal',
+    metaTitle: 'Software Development Company in Nepal | Kritech Solution',
+    metaDescription: 'Software development company in Nepal for custom web applications, ERP, CRM, mobile apps, dashboards, portals, automation and secure business software.',
+    eyebrow: 'Software development company Nepal',
+    title: 'Software development for companies that need practical business systems.',
+    text: 'Kritech Solution develops web applications, dashboards, portals, ERP modules, CRM systems, mobile app backends and automation tools for businesses that need reliable digital operations.',
+    bullets: ['Web application development', 'ERP, CRM and dashboard systems', 'Mobile app backend and admin panels', 'Secure deployment and maintenance'],
+    highlights: ['Business-first software planning', 'Frontend, backend and admin workflows', 'Support for launch and future versions'],
+    marketIntro: 'A good software development company should help you choose the right first version, avoid unnecessary complexity and build a system your team can actually use.',
+    areaLine: 'Kritech provides software development from Nepal for local businesses, startups, service teams and remote clients.',
+    faqs: [
+      ['What does a software development company build?', 'A software development company can build web apps, ERP systems, CRM tools, mobile apps, dashboards, portals, integrations and automation workflows.'],
+      ['Can Kritech build both frontend and backend?', 'Yes. We can build user interfaces, admin dashboards, backend APIs, databases, role-based access and deployment setup.'],
+      ['Can you maintain software after launch?', 'Yes. We can support maintenance, bug fixes, backups, hosting, security updates and new features.']
+    ]
+  },
+  {
+    key: 'customSoftwareDevelopmentButwal',
+    path: '/custom-software-development-butwal',
+    keyword: 'custom software development in Butwal',
+    metaTitle: 'Custom Software Development in Butwal | Kritech Solution',
+    metaDescription: 'Custom software development in Butwal for ERP modules, CRM, accounting, inventory, dashboards, admin panels, mobile apps and workflow automation.',
+    eyebrow: 'Custom software development Butwal',
+    title: 'Custom software for Butwal businesses that need better workflow control.',
+    text: 'Kritech builds custom software for Butwal companies that want to replace repeated manual work, scattered spreadsheets and disconnected tools with a structured web or app-based system.',
+    bullets: ['Business workflow software', 'Admin dashboards and portals', 'CRM, inventory and accounting modules', 'User roles, reports and automation'],
+    highlights: ['Local team in Butwal', 'Requirement mapping before development', 'Launch support and maintenance'],
+    marketIntro: 'Custom software should solve a clear business problem first: lost leads, slow reporting, manual billing, stock confusion, repeated entry or missing follow-up.',
+    areaLine: 'Kritech supports businesses in Butwal, Kalikanagar, Yogikuti, Traffic Chowk, Bhairahawa and Tilottama with custom software planning and development.',
+    faqs: [
+      ['Do you provide custom software development in Butwal?', 'Yes. Kritech develops custom business software, dashboards, CRM tools, ERP modules and automation workflows for Butwal businesses.'],
+      ['Can you visit or discuss requirements locally?', 'Yes. Because Kritech is based in Butwal, we can understand local business workflows closely and plan the software around practical needs.'],
+      ['Can the software grow later?', 'Yes. We can build the first version with core modules and add more features as your team starts using the system.']
+    ]
+  },
+  {
+    key: 'customAppDevelopmentNepal',
+    path: '/custom-app-development-nepal',
+    keyword: 'custom app development in Nepal',
+    metaTitle: 'Custom App Development in Nepal | Web & Mobile Apps',
+    metaDescription: 'Custom app development in Nepal for web apps, mobile apps, booking systems, customer portals, dashboards, ecommerce workflows and business automation.',
+    eyebrow: 'Custom app development Nepal',
+    title: 'Custom web and mobile apps for businesses with specific workflows.',
+    text: 'Kritech builds custom apps for businesses that need more than a normal website: booking systems, customer portals, ecommerce workflows, dashboards, staff tools, reporting and connected backend systems.',
+    bullets: ['Custom web apps and portals', 'Mobile app workflows', 'Booking and customer systems', 'Admin dashboards and reports'],
+    highlights: ['App idea shaped into practical scope', 'Backend and admin control included', 'Built for users, data and reporting'],
+    marketIntro: 'Custom app development should begin with the user journey: what customers or staff need to do, what data must be saved and what the owner needs to see.',
+    areaLine: 'Kritech supports custom app development for Nepal businesses and remote clients who need practical software products.',
+    faqs: [
+      ['Can you build a custom app from my idea?', 'Yes. We can help turn an app idea into features, user flows, screens, backend structure and a practical development roadmap.'],
+      ['Can an app include payment, booking or dashboard features?', 'Yes. Apps can include booking, customer login, dashboards, records, notifications, ecommerce flows and reports depending on scope.'],
+      ['Do you build business apps or only marketing websites?', 'We build both. Kritech can create marketing websites as well as functional web apps, mobile apps and business software systems.']
+    ]
+  },
+  {
+    key: 'erpSoftwareNepal',
+    path: '/erp-software-nepal',
+    keyword: 'ERP software in Nepal',
+    metaTitle: 'ERP Software in Nepal | Business Management System',
+    metaDescription: 'ERP software in Nepal for sales, purchase, inventory, accounts, billing, HR, reporting, CRM and business workflow management by Kritech Solution.',
+    eyebrow: 'ERP software in Nepal',
+    title: 'ERP software for companies that need one system for daily operations.',
+    text: 'Kritech builds ERP-style software modules for businesses that need connected records for sales, purchases, inventory, accounts, customers, staff, approvals and reports.',
+    bullets: ['Sales, purchase and inventory modules', 'Billing, account and payment tracking', 'Staff roles, approvals and reports', 'CRM and customer history'],
+    highlights: ['One connected operating system', 'Reports for owners and managers', 'Modules that can grow over time'],
+    marketIntro: 'ERP is not only for large companies. Even growing Nepali businesses can benefit when sales, stock, accounts and customer records are connected in one clear system.',
+    areaLine: 'Kritech can plan ERP modules for distributors, retailers, institutes, service companies, agencies, clinics and multi-branch teams in Nepal.',
+    faqs: [
+      ['What is included in ERP software?', 'ERP software can include sales, purchase, inventory, accounts, billing, CRM, staff roles, approvals, reports and dashboards depending on your business.'],
+      ['Can ERP be customized for my company?', 'Yes. Kritech can customize modules, user roles, reports and workflows based on your company process.'],
+      ['Can ERP software be built step by step?', 'Yes. A phased ERP approach is often better: start with core modules, train users, then add advanced reports and automation.']
+    ]
+  },
+  {
+    key: 'erpSoftwareButwal',
+    path: '/erp-software-butwal',
+    keyword: 'ERP software in Butwal',
+    metaTitle: 'ERP Software in Butwal | Custom Business Management System',
+    metaDescription: 'ERP software in Butwal for sales, inventory, accounts, billing, CRM, staff roles, reports and business workflow management by Kritech Solution.',
+    eyebrow: 'ERP software in Butwal',
+    title: 'ERP software for Butwal businesses that need connected operations.',
+    text: 'Kritech builds ERP-style systems for Butwal companies that need one place to manage sales, purchases, stock, accounts, customers, staff roles, approvals and reports.',
+    bullets: ['Sales, purchase and stock modules', 'Billing and account tracking', 'CRM and customer records', 'Owner dashboards and reports'],
+    highlights: ['Designed for local business operations', 'Modular ERP development', 'Training and support after launch'],
+    marketIntro: 'Growing businesses in Butwal often reach a point where spreadsheets, notebooks and separate tools become difficult to manage. ERP brings the main workflow into one system.',
+    areaLine: 'Kritech can plan ERP systems for distributors, shops, institutes, service companies, clinics, agencies and multi-user teams in Butwal and Rupandehi.',
+    faqs: [
+      ['Do you build ERP software in Butwal?', 'Yes. Kritech builds ERP software modules for sales, purchase, inventory, accounts, billing, CRM and reports for Butwal businesses.'],
+      ['Can ERP be customized for my business?', 'Yes. We can customize modules, reports, permissions and workflow based on your business process.'],
+      ['Can ERP include accounting and inventory?', 'Yes. ERP can include accounting, inventory, POS, CRM and management reporting depending on your requirements.']
+    ]
+  },
+  {
+    key: 'accountingSoftwareNepal',
+    path: '/accounting-software-nepal',
+    keyword: 'accounting software in Nepal',
+    metaTitle: 'Accounting Software in Nepal | Billing, Reports & ERP',
+    metaDescription: 'Accounting software in Nepal for billing, payments, customer records, invoices, expense tracking, reports and ERP-connected business workflows.',
+    eyebrow: 'Accounting software in Nepal',
+    title: 'Accounting and billing software connected to your business workflow.',
+    text: 'Kritech builds accounting and billing workflows that help businesses track invoices, payments, expenses, customers, vendors and reports with cleaner records and less manual confusion.',
+    bullets: ['Invoice and billing workflows', 'Payment and expense tracking', 'Customer and vendor records', 'Management reports and exports'],
+    highlights: ['Cleaner financial visibility', 'Connected with inventory or CRM when needed', 'Role-based access for staff and managers'],
+    marketIntro: 'Accounting software becomes more useful when it connects with real operations such as sales, inventory, customer records and management reports.',
+    areaLine: 'Kritech supports Nepali businesses that need custom accounting, billing or ERP-connected finance workflows.',
+    faqs: [
+      ['Do you build accounting software?', 'Yes. Kritech can build accounting and billing workflows, invoice systems, payment tracking, expense records and reports.'],
+      ['Can accounting connect with inventory?', 'Yes. Accounting workflows can connect with inventory, sales, purchase, POS or ERP modules when the business needs it.'],
+      ['Can reports be customized?', 'Yes. We can create management reports around sales, dues, collections, expenses, profit views and export needs.']
+    ]
+  },
+  {
+    key: 'inventorySoftwareNepal',
+    path: '/inventory-management-software-nepal',
+    keyword: 'inventory management software in Nepal',
+    metaTitle: 'Inventory Management Software in Nepal | Stock & POS System',
+    metaDescription: 'Inventory management software in Nepal for stock tracking, purchase, sales, barcode-ready workflows, POS, reports and multi-user business control.',
+    eyebrow: 'Inventory management software Nepal',
+    title: 'Inventory software for businesses that need accurate stock and reports.',
+    text: 'Kritech builds inventory systems for shops, distributors, service teams and multi-location businesses that need better stock tracking, purchase records, sales flow and reporting.',
+    bullets: ['Stock in/out tracking', 'Purchase and sales records', 'Low-stock and report views', 'POS or billing integration'],
+    highlights: ['Less manual stock confusion', 'Useful reports for owners', 'Can connect with ERP and accounting'],
+    marketIntro: 'Inventory problems usually create hidden losses: wrong stock, missing records, slow reports, duplicate entries and unclear purchase planning. Software can make the process visible.',
+    areaLine: 'Kritech builds inventory and stock management systems for Nepal businesses that want cleaner operations.',
+    faqs: [
+      ['Can you build inventory software for my shop or business?', 'Yes. We can build stock management software with purchase, sales, stock in/out, reports and user roles.'],
+      ['Can inventory connect with POS or billing?', 'Yes. Inventory can connect with POS, billing, accounting or ERP modules depending on your workflow.'],
+      ['Can I manage multiple users?', 'Yes. The system can include owner, manager, cashier, warehouse and staff roles.']
+    ]
+  },
+  {
+    key: 'posSoftwareNepal',
+    path: '/pos-software-nepal',
+    keyword: 'POS software in Nepal',
+    metaTitle: 'POS Software in Nepal | Billing, Inventory & Reports',
+    metaDescription: 'POS software in Nepal for billing, inventory, sales reports, customer records, staff access and retail business management by Kritech Solution.',
+    eyebrow: 'POS software in Nepal',
+    title: 'POS and billing software for shops, retail teams and service counters.',
+    text: 'Kritech develops POS-style systems for businesses that need quick billing, customer records, sales reports, stock tracking and staff access in one practical workflow.',
+    bullets: ['Billing and sales records', 'Inventory and product management', 'Customer and staff access', 'Daily, weekly and monthly reports'],
+    highlights: ['Fast counter workflow', 'Sales and stock visibility', 'Expandable into ERP modules'],
+    marketIntro: 'A POS system should make billing faster while giving owners clear sales, stock and staff reports.',
+    areaLine: 'Kritech can build POS software for retail shops, service counters, distributors, restaurants and local businesses in Nepal.',
+    faqs: [
+      ['Can POS software include inventory?', 'Yes. POS can include product records, stock updates, sales history and low-stock reports.'],
+      ['Can staff have separate logins?', 'Yes. We can create role-based access for cashiers, managers and owners.'],
+      ['Can reports be exported?', 'Yes. Reports can be designed for daily sales, products, staff, customers and management review.']
+    ]
+  },
+  {
+    key: 'crmSoftwareNepal',
+    path: '/crm-software-nepal',
+    keyword: 'CRM software in Nepal',
+    metaTitle: 'CRM Software in Nepal | Leads, Sales & Customer Management',
+    metaDescription: 'CRM software in Nepal for lead management, follow-ups, customer records, sales pipeline, tasks, reminders, reports and team workflow.',
+    eyebrow: 'CRM software in Nepal',
+    title: 'CRM software for teams that need better lead follow-up and customer control.',
+    text: 'Kritech builds CRM workflows for businesses that receive inquiries from website forms, WhatsApp, calls, ads, referrals or walk-ins and need a cleaner way to track follow-up.',
+    bullets: ['Lead capture and customer records', 'Follow-up status and reminders', 'Sales pipeline and tasks', 'Reports for managers and owners'],
+    highlights: ['No more lost inquiries', 'Team follow-up visibility', 'Can connect with website forms and campaigns'],
+    marketIntro: 'Leads are often lost because there is no clear system for assigning, following, remarking and reporting. CRM software makes follow-up visible.',
+    areaLine: 'Kritech can build CRM systems for institutes, agencies, real estate teams, service businesses, clinics, consultants and sales teams in Nepal.',
+    faqs: [
+      ['Can CRM collect website inquiries?', 'Yes. CRM can connect with inquiry forms, landing pages and lead capture workflows.'],
+      ['Can I assign leads to team members?', 'Yes. We can add lead assignment, status updates, remarks, reminders and manager reports.'],
+      ['Can CRM connect with marketing campaigns?', 'Yes. CRM can help track leads from SEO, ads, social media and manual entry sources.']
+    ]
+  },
+  {
+    key: 'mobileAppDevelopmentNepal',
+    path: '/mobile-app-development-nepal',
+    keyword: 'mobile app development in Nepal',
+    metaTitle: 'Mobile App Development in Nepal | Android, iOS & Hybrid Apps',
+    metaDescription: 'Mobile app development in Nepal for Android, iOS, hybrid apps, customer portals, booking apps, ecommerce apps and business workflow apps.',
+    eyebrow: 'Mobile app development Nepal',
+    title: 'Mobile apps for businesses that need customers or teams connected anywhere.',
+    text: 'Kritech develops mobile app concepts and connected backend systems for businesses that need booking, ecommerce, customer portals, staff tools, reporting or service workflows.',
+    bullets: ['Android, iOS and hybrid app planning', 'Customer portals and booking apps', 'Business workflow apps', 'Backend dashboards and reports'],
+    highlights: ['App plus admin dashboard', 'Built around real business use', 'Launch support and improvement roadmap'],
+    marketIntro: 'A good app is not just screens. It needs a useful workflow, backend, admin control, notifications, data structure and a reason for people to keep using it.',
+    areaLine: 'Kritech supports mobile app development projects for Nepal businesses and remote clients that need practical app-based systems.',
+    faqs: [
+      ['Do you build mobile apps in Nepal?', 'Yes. Kritech can plan and build mobile app solutions with backend dashboards, user roles and business workflows.'],
+      ['Can an app include admin dashboard?', 'Yes. Most business apps need an admin dashboard for users, content, orders, bookings, reports or settings.'],
+      ['Can you build hybrid apps?', 'Yes. Hybrid apps can be a practical option when businesses need Android and iOS coverage with efficient development.']
+    ]
+  },
+  {
+    key: 'cyberSecurityServicesNepal',
+    path: '/cyber-security-services-nepal',
+    keyword: 'cyber security services in Nepal',
+    metaTitle: 'Cyber Security Services in Nepal | Website & Business Security',
+    metaDescription: 'Cyber security services in Nepal for website security checks, SSL, backups, malware cleanup, access control, hardening, monitoring and security guidance.',
+    eyebrow: 'Cyber security services Nepal',
+    title: 'Security checks and hardening for websites, systems and business data.',
+    text: 'Kritech helps businesses improve digital security through website hardening, SSL setup, backup planning, access control, malware cleanup support, hosting review and practical security guidance.',
+    bullets: ['Website security checks and hardening', 'SSL, backups and access control', 'Malware cleanup support', 'Hosting and admin security review'],
+    highlights: ['Reduce avoidable security risk', 'Protect website and business data', 'Ongoing maintenance and monitoring options'],
+    marketIntro: 'Cybersecurity for small businesses starts with strong basics: secure hosting, updated systems, backups, SSL, limited admin access, clean forms and careful account management.',
+    areaLine: 'Kritech supports businesses in Butwal and across Nepal that need practical website security, backup and system protection support.',
+    faqs: [
+      ['Do you provide cybersecurity services in Nepal?', 'Yes. Kritech provides practical cybersecurity support such as website security checks, SSL, backups, access control, malware cleanup guidance and hardening.'],
+      ['Can you secure my WordPress or business website?', 'Yes. We can review plugins, updates, hosting, SSL, admin access, backups, forms and common security risks.'],
+      ['Do you offer ongoing security maintenance?', 'Yes. We can provide website maintenance, backup checks, updates, monitoring and security improvement support.']
+    ]
+  },
+  {
+    key: 'cyberSecurityCompanyButwal',
+    path: '/cyber-security-company-butwal',
+    keyword: 'cyber security company in Butwal',
+    metaTitle: 'Cyber Security Company in Butwal | Website Security Support',
+    metaDescription: 'Cyber security company in Butwal for website security checks, SSL, backups, malware cleanup support, access control, hosting review and maintenance.',
+    eyebrow: 'Cyber security company Butwal',
+    title: 'Practical cybersecurity and website protection support in Butwal.',
+    text: 'Kritech helps Butwal businesses reduce avoidable security risk through website checks, SSL setup, backup planning, access control, malware cleanup support, hosting review and maintenance.',
+    bullets: ['Website security checks', 'SSL, backup and hosting review', 'Admin access control', 'Maintenance and malware cleanup support'],
+    highlights: ['Local security support in Butwal', 'Practical protection for business websites', 'Maintenance-focused risk reduction'],
+    marketIntro: 'Small business security starts with strong fundamentals: updated websites, secure hosting, SSL, backups, limited admin access and careful handling of forms and accounts.',
+    areaLine: 'Kritech supports businesses in Butwal, Bhairahawa, Tilottama and nearby areas with website security and maintenance.',
+    faqs: [
+      ['Do you provide cybersecurity services in Butwal?', 'Yes. Kritech provides practical cybersecurity support for websites, hosting, backups, SSL, access control and maintenance in Butwal.'],
+      ['Can you fix a hacked website?', 'We can review the issue, support malware cleanup steps, improve access control and set up better maintenance and backup practices.'],
+      ['Can you secure my business website before problems happen?', 'Yes. Preventive maintenance, backups, updates, SSL, admin review and security hardening are better than waiting for a site to break.']
+    ]
+  }
+];
+
 const defaultSeo = {
   home: {
     path: '/',
-    title: 'Kritech Solution | Digital Marketing Agency in Butwal, Nepal',
+    title: 'Kritech Solution | Software, ERP & Digital Marketing Company Nepal',
     description:
-      'Kritech Solution is a digital marketing, SEO, web development and IT solutions company in Butwal, Nepal helping businesses rank higher and generate leads.'
+      'Kritech Solution is a software, ERP, cybersecurity, SEO, web development and digital marketing company in Butwal, Nepal helping businesses build systems and grow.'
   },
   services: {
     path: '/services',
-    title: 'SEO, Web Development & Digital Marketing Services in Butwal',
+    title: 'Software, ERP, SEO & Digital Marketing Services in Nepal',
     description:
-      'Explore SEO services, website development, social media marketing, Google Ads, software, hosting and IT support from Kritech Solution in Butwal, Nepal.'
+      'Explore software development, ERP, accounting software, cybersecurity, SEO, websites, social media, Google Ads, hosting and IT support from Kritech Solution.'
   },
   about: {
     path: '/about',
-    title: 'About Kritech Solution | Digital Marketing & IT Company in Butwal',
+    title: 'About Kritech Solution | Software, Marketing & IT Company',
     description:
-      'Learn about Kritech Solution, a Butwal-based digital marketing, SEO, web development and IT solutions company helping Nepali businesses grow online.'
+      'Learn about Kritech Solution, a Butwal-based software, ERP, cybersecurity, SEO, web development and digital marketing company helping businesses grow.'
   },
   seoButwal: {
     path: '/seo-services-butwal',
@@ -486,6 +774,14 @@ const defaultSeo = {
       path: page.path,
       title: `${page.keyword} | Kritech Solution`,
       description: `${page.course} by Kritech Solution for ${page.audience} in Butwal. Learn practical skills through guided classes, real projects and career-focused support.`
+    }
+  ])),
+  ...Object.fromEntries(softwarePages.map((page) => [
+    page.key,
+    {
+      path: page.path,
+      title: page.metaTitle,
+      description: page.metaDescription
     }
   ])),
   webButwal: {
@@ -673,13 +969,13 @@ const services = [
   },
   {
     icon: ServerCog,
-    title: 'IT Company in Butwal',
-    text: 'Domain, hosting, email, maintenance, backups, security hardening and ongoing technical support for growing companies.'
+    title: 'ERP & Business Software',
+    text: 'Custom ERP modules, CRM, inventory, POS, accounting workflows, dashboards and automation for daily business operations.'
   },
   {
     icon: Layers3,
-    title: 'Software Solutions Nepal',
-    text: 'Custom dashboards, CRM workflows, booking systems, reporting tools and automations that reduce manual work.'
+    title: 'Cybersecurity & IT Support',
+    text: 'Website security checks, SSL, backups, access control, hosting review, maintenance and ongoing technical support.'
   }
 ];
 
@@ -766,6 +1062,30 @@ const localLandingPages = {
         [`Who can join ${page.course.toLowerCase()}?`, `This training is suitable for ${page.audience}. We keep the learning practical and beginner-friendly while giving motivated learners enough direction to continue into advanced topics.`],
         [`Will I work on projects during ${page.course.toLowerCase()}?`, 'Yes. The goal is to build practical confidence through exercises, examples and small projects that can become part of your portfolio or business workflow.'],
         ['Can Kritech help after the class is complete?', 'Yes. We can guide learners on portfolio improvement, project ideas, freelancing direction, internships, business use cases and next skills to learn.']
+      ]
+    }
+  ])),
+  ...Object.fromEntries(softwarePages.map((page) => [
+    page.path,
+    {
+      eyebrow: page.eyebrow,
+      title: page.title,
+      text: page.text,
+      bullets: page.bullets,
+      highlights: page.highlights,
+      marketIntro: page.marketIntro,
+      areaLine: page.areaLine,
+      faqs: page.faqs,
+      ctaLabel: 'Request software consultation',
+      proofTitle: 'A practical software system for operations, control and growth.',
+      proofText: 'Each software project is planned around real users, daily workflows, reports, security and long-term maintainability.',
+      processTitle: 'A clear software process from workflow audit to supported launch.',
+      processText: 'Kritech plans software around your operation first, then builds the system in practical phases with testing, training, deployment and ongoing support.',
+      process: [
+        ['01', 'Map the workflow', 'We understand your users, forms, approvals, reports, pain points and the work your team repeats every day.'],
+        ['02', 'Plan the modules', 'We define user roles, dashboards, data structure, integrations, reports and the first useful version of the system.'],
+        ['03', 'Build and test', 'We develop the software in practical phases, test important flows and improve the experience before launch.'],
+        ['04', 'Support and improve', 'We help with deployment, training, maintenance, backups, security checks and future feature improvements.']
       ]
     }
   ])),
@@ -885,7 +1205,7 @@ const localLandingPages = {
 const clientGoalClusters = [
   ['Local Growth', ['More calls from nearby customers', 'Better visibility in Butwal and Rupandehi', 'A website that builds trust quickly', 'Clear monthly reporting']],
   ['Marketing Systems', ['SEO, ads and content working together', 'Landing pages built for inquiries', 'Social content with a clear plan', 'Campaigns tied to real leads']],
-  ['Website & IT', ['Fast business websites', 'Blog and CMS setup', 'Hosting, email and maintenance', 'Dashboards and workflow support']],
+  ['Software & ERP', ['Custom software for daily operations', 'ERP, CRM, POS and inventory workflows', 'Accounting and reporting dashboards', 'Secure access and maintenance']],
   ['Remote Clients', ['Affordable execution for UAE and USA teams', 'White-label support for agencies', 'Web and SEO production from Nepal', 'Clear async communication']]
 ];
 
@@ -925,6 +1245,8 @@ const faqs = [
   ['How long does SEO take to show results in Nepal?', 'Most Nepal businesses need 3 to 6 months to see meaningful SEO movement, depending on competition, website quality, content depth, backlinks, page speed and local signals. Some technical fixes can improve indexing faster, but stable rankings usually need consistent work.'],
   ['What is the difference between SEO and Google Ads?', 'SEO improves organic visibility over time, while Google Ads can bring paid traffic quickly. A strong digital marketing plan often uses both: SEO for long-term ranking and trust, Google Ads for immediate lead generation and testing high-intent keywords.'],
   ['Can you create SEO-ready websites for Nepali businesses?', 'Yes. Kritech Solution builds fast, mobile-first websites with clean page structure, service pages, blog CMS, schema, metadata, sitemap, analytics and conversion flows such as phone, WhatsApp and contact forms.'],
+  ['Do you build custom software, ERP and accounting systems?', 'Yes. Kritech Solution builds custom software, ERP modules, accounting and billing workflows, CRM, inventory, POS, dashboards, mobile apps and business automation for companies that need more than a normal website.'],
+  ['Do you provide cybersecurity services in Nepal?', 'Yes. We provide practical cybersecurity support such as website security checks, SSL, backups, access control, malware cleanup support, hosting review and maintenance guidance.'],
   ['Do you provide digital marketing services outside Butwal?', 'Yes. Kritech Solution is based in Butwal, but we serve businesses in Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and across Nepal with SEO, website development, social media marketing, Google Ads, Meta Ads and IT support.'],
   ['Can you manage blogs for SEO growth?', 'Yes. We can plan and publish SEO blogs around buyer questions, local keywords, service topics and industry searches. Blog content helps Google understand your expertise and gives customers useful answers before they contact you.']
 ];
@@ -951,9 +1273,14 @@ const serviceDetails = [
     items: ['Google Search Ads for high-intent keywords', 'Facebook and Instagram lead campaigns', 'Audience research and Nepal-wide targeting', 'Remarketing and funnel planning', 'Conversion tracking and monthly reporting']
   },
   {
-    title: 'IT Support, Hosting and Software Solutions',
-    intro: 'Kritech also supports the technical layer behind your growth: hosting, email, maintenance, backups and custom tools.',
-    items: ['Domain, hosting and business email setup', 'Website maintenance, backups and security checks', 'Admin dashboards and CRM workflows', 'Custom software for operations and reporting', 'Ongoing support for growing teams']
+    title: 'Software, ERP and Business Applications',
+    intro: 'Kritech builds practical business software for teams that need better control over daily work, customers, accounts, inventory and reports.',
+    items: ['Custom software development for business workflows', 'ERP modules for sales, purchase, inventory and accounts', 'Accounting, billing, POS and CRM systems', 'Mobile apps, portals and admin dashboards', 'User roles, reports, backups and maintenance']
+  },
+  {
+    title: 'Cybersecurity, Hosting and IT Support',
+    intro: 'Security and reliability matter after launch. We support websites, hosting, email, backups, access control and practical security hardening.',
+    items: ['Website security checks and hardening', 'SSL, backups and admin access review', 'Hosting, domain and business email support', 'Malware cleanup support and maintenance', 'Ongoing technical support for growing teams']
   }
 ];
 
@@ -1463,7 +1790,7 @@ function HomeRankingEngine({ go }) {
         <div className="ranking-actions">
           <button onClick={() => go('/seo-services-butwal')}>SEO services Butwal <ChevronRight size={16} /></button>
           <button onClick={() => go('/best-marketing-agency-butwal')}>Best marketing agency Butwal <ChevronRight size={16} /></button>
-          <button onClick={() => go('/web-development-butwal')}>Web development Butwal <ChevronRight size={16} /></button>
+          <button onClick={() => go('/software-company-nepal')}>Software company Nepal <ChevronRight size={16} /></button>
         </div>
       </div>
       <div className="ranking-console">
@@ -1490,7 +1817,7 @@ function NeoModules({ go }) {
   const modules = [
     [Search, 'SEO Services in Butwal', 'Improve how customers find your business on Google and turn local searches into real inquiries.'],
     [Code2, 'Web Development Company', 'Fast, responsive websites with premium design, useful service pages and easy contact flows.'],
-    [ServerCog, 'IT Company in Butwal', 'Hosting, email, backups, maintenance, security and uptime-focused support for local businesses.'],
+    [ServerCog, 'Software Company in Nepal', 'ERP, accounting, CRM, inventory, POS, dashboards and custom workflow software for growing teams.'],
     [Megaphone, 'Digital Marketing Nepal', 'Google Ads, Meta campaigns and social media support connected to pages that can convert visitors.']
   ];
   return (
@@ -1666,7 +1993,7 @@ function NeoCTA({ go }) {
 }
 
 function LocalLandingPage({ page, go }) {
-  const process = [
+  const process = page.process || [
     ['01', 'Understand your market', `We review your services, audience, location and competition before recommending what to build or improve.`],
     ['02', 'Improve the website', 'We create clear service sections, strong calls-to-action, fast pages and contact paths that make it easier for visitors to become leads.'],
     ['03', 'Create useful content', 'We answer the questions your customers ask before they call, message or request a proposal.'],
@@ -1687,16 +2014,16 @@ function LocalLandingPage({ page, go }) {
           <p>
             {page.areaLine || 'Kritech Solution serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara and businesses across Nepal with SEO, digital marketing, web development, software and IT support.'}
           </p>
-          <button className="primary" onClick={() => go('/contact')}>Request SEO consultation <ArrowRight size={18} /></button>
+          <button className="primary" onClick={() => go('/contact')}>{page.ctaLabel || 'Request SEO consultation'} <ArrowRight size={18} /></button>
         </div>
       </section>
       <section className="section local-proof-section">
         <div className="section-head">
           <div>
             <span className="eyebrow">What you get</span>
-            <h2>A practical service system for visibility, trust and leads.</h2>
+            <h2>{page.proofTitle || 'A practical service system for visibility, trust and leads.'}</h2>
           </div>
-          <p>Each service plan is built to help visitors understand your value quickly, compare you with confidence and contact you without confusion.</p>
+          <p>{page.proofText || 'Each service plan is built to help visitors understand your value quickly, compare you with confidence and contact you without confusion.'}</p>
         </div>
         <div className="local-proof-grid">
           {(page.highlights || []).map((item, index) => (
@@ -1711,9 +2038,9 @@ function LocalLandingPage({ page, go }) {
       <section className="section local-process-panel">
         <div>
           <span className="eyebrow">Execution plan</span>
-          <h2>A clear process from first audit to better inquiries.</h2>
+          <h2>{page.processTitle || 'A clear process from first audit to better inquiries.'}</h2>
           <p>
-            Kritech connects your website, SEO, content, ads, analytics and follow-up so your digital presence works as one business growth system.
+            {page.processText || 'Kritech connects your website, SEO, content, ads, analytics and follow-up so your digital presence works as one business growth system.'}
           </p>
           <button className="secondary-light" onClick={() => go('/services')}>See all services <ChevronRight size={17} /></button>
         </div>
@@ -1995,20 +2322,20 @@ function AboutPage({ go }) {
   return (
     <PageShell
       eyebrow="About Kritech Solution"
-      title="A Butwal-based digital marketing and IT company built for serious growth."
-      text="We started Kritech Solution to make quality SEO, web development, digital marketing and IT services reachable for Nepali businesses that want to compete online."
+      title="A Butwal-based software, marketing and IT company built for serious growth."
+      text="We started Kritech Solution to make quality software development, ERP, cybersecurity, SEO, web development, digital marketing and IT services reachable for Nepali businesses."
     >
       <section className="section about-story">
         <div>
           <span className="eyebrow">Our story</span>
-          <h2>We help local businesses look credible, get found and turn attention into inquiries.</h2>
+          <h2>We help local businesses build useful systems, get found and turn attention into inquiries.</h2>
         </div>
         <div className="story-copy">
           <p>
-            We started Kritech Solution with one goal in mind: to bring quality digital marketing and IT services within reach of every Nepali business. Whether you run a local shop in Butwal or a growing startup in Kathmandu, we are here to help you compete and grow.
+            We started Kritech Solution with one goal in mind: to bring quality software, digital marketing and IT services within reach of every Nepali business. Whether you run a local shop in Butwal or a growing startup in Kathmandu, we are here to help you build better systems, compete and grow.
           </p>
           <p>
-            Many businesses in Nepal post on social media but do not have a clear website, SEO structure, tracking system or follow-up process. We solve that gap by combining content, design, development, campaigns and technical support into one practical growth system.
+            Many businesses in Nepal still depend on manual records, disconnected spreadsheets, weak websites, unclear SEO structure and poor follow-up systems. We solve that gap by combining software development, ERP thinking, design, SEO, campaigns, cybersecurity and technical support into one practical growth system.
           </p>
         </div>
       </section>
@@ -2021,6 +2348,7 @@ function AboutPage({ go }) {
           {[
             ['Search before design', 'We research how customers search before deciding page structure, headings and content.'],
             ['Speed builds trust', 'Fast pages, clean layouts and mobile-first flows help users act with confidence.'],
+            ['Software should fit the workflow', 'ERP, CRM, accounting and dashboards should match how the business actually works.'],
             ['Content should answer real questions', 'Blogs and service pages should solve buyer confusion, not just fill space.'],
             ['Reports must guide decisions', 'Traffic, rankings, calls, WhatsApp clicks and form leads should shape the next move.']
           ].map(([title, text]) => (
@@ -2041,15 +2369,48 @@ function AboutPage({ go }) {
 
 function ServicesPage({ go }) {
   return (
-    <PageShell eyebrow="Services" title="Digital marketing, websites, software, and IT support for Nepal." text="Choose one focused service or build a full growth system with Kritech as your digital partner.">
+    <PageShell eyebrow="Services" title="Software, ERP, cybersecurity, websites and digital marketing for Nepal." text="Choose one focused service or build a complete technology and growth system with Kritech as your digital partner.">
       <ServicesPreview go={go} />
       <ServiceDeepDive />
+      <SoftwareSolutionsSection go={go} />
       <IndustrySection />
       <LocalCoverage go={go} />
       <Process />
       <FAQSection />
       <CTA go={go} />
     </PageShell>
+  );
+}
+
+function SoftwareSolutionsSection({ go }) {
+  const featured = [
+    ['ERP Software', '/erp-software-nepal', 'Sales, purchase, inventory, accounts, approvals, CRM and reports in one connected business system.'],
+    ['Accounting Software', '/accounting-software-nepal', 'Billing, invoices, payments, customer records, expenses and management reports.'],
+    ['Custom Software', '/custom-software-development-nepal', 'Dashboards, portals, workflow automation and role-based business applications.'],
+    ['CRM Software', '/crm-software-nepal', 'Lead capture, follow-up reminders, sales pipeline, remarks, tasks and team reporting.'],
+    ['POS & Inventory', '/pos-software-nepal', 'Retail billing, stock tracking, product records, sales reports and staff access.'],
+    ['Cybersecurity', '/cyber-security-services-nepal', 'Website hardening, SSL, backups, access control, malware cleanup support and maintenance.']
+  ];
+
+  return (
+    <section className="section industry-section">
+      <div className="section-head">
+        <div>
+          <span className="eyebrow">Software solutions</span>
+          <h2>ERP, accounting, custom apps and cybersecurity for serious operations.</h2>
+        </div>
+        <p>Kritech is not only a marketing agency. We also build software systems that help teams manage data, customers, accounts, inventory, reports and security.</p>
+      </div>
+      <div className="industry-grid">
+        {featured.map(([title, path, text]) => (
+          <article key={path}>
+            <h3>{title}</h3>
+            <p>{text}</p>
+            <button className="text-link" onClick={() => go(path)}>View service <ChevronRight size={15} /></button>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -2109,7 +2470,7 @@ function LocalCoverage({ go }) {
         <span className="eyebrow">Service areas</span>
         <h2>Based in Butwal, serving Nepal and remote clients abroad.</h2>
         <p>
-          Kritech Solution works with businesses in Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and across Nepal. We also support UAE and USA businesses that want reliable remote marketing, SEO, website and technical execution from a Nepal-based team.
+          Kritech Solution works with businesses in Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and across Nepal for software, ERP, cybersecurity, SEO, websites and marketing. We also support UAE and USA businesses that want reliable remote technical execution from a Nepal-based team.
         </p>
       </div>
       <div className="coverage-links">
@@ -2118,12 +2479,17 @@ function LocalCoverage({ go }) {
           ['/best-marketing-agency-butwal', 'Best marketing agency Butwal'],
           ['/seo-services-butwal', 'Local ranking support'],
           ['/website-development-company-butwal', 'Website projects'],
+          ['/software-company-butwal', 'Software company Butwal'],
+          ['/erp-software-butwal', 'ERP software Butwal'],
           ['/it-company-butwal', 'IT and maintenance'],
           ['/services-bhairahawa', 'Bhairahawa businesses'],
           ['/services-tilottama', 'Tilottama businesses'],
           ['/digital-marketing-agency-nepal', 'Nepal-wide campaigns'],
           ['/seo-company-nepal', 'Organic growth support'],
           ['/web-development-company-nepal', 'Web development'],
+          ['/software-company-nepal', 'Software company Nepal'],
+          ['/custom-software-development-nepal', 'Custom software'],
+          ['/cyber-security-services-nepal', 'Cybersecurity services'],
           ['/remote-digital-marketing-agency', 'Remote delivery team'],
           ['/digital-marketing-agency-uae', 'UAE client support'],
           ['/seo-company-dubai', 'Dubai SEO support'],
@@ -2144,7 +2510,7 @@ function FAQSection({ compact = false }) {
       <div className="section-head">
         <div>
           <span className="eyebrow">FAQ</span>
-          <h2>Questions businesses ask before starting SEO, websites or campaigns.</h2>
+          <h2>Questions businesses ask before starting software, SEO, websites or campaigns.</h2>
         </div>
       </div>
       <div className="faq-grid">
@@ -3439,8 +3805,12 @@ function PublicSitemapPage({ posts, go }) {
       ['SEO Services in Butwal', '/seo-services-butwal'],
       ['Web Development in Butwal', '/web-development-butwal'],
       ['Website Development Company in Butwal', '/website-development-company-butwal'],
+      ['Software Company in Butwal', '/software-company-butwal'],
+      ['Custom Software Development in Butwal', '/custom-software-development-butwal'],
+      ['ERP Software in Butwal', '/erp-software-butwal'],
       ['IT Company in Butwal', '/it-company-butwal']
     ]],
+    ['Software and Cybersecurity', softwarePages.map((page) => [page.eyebrow, page.path])],
     ['Nepal City Service Areas', cityAreaPages.map((page) => [`Digital Marketing Agency in ${page.city}`, page.path])],
     ['IT and Marketing Classes', trainingPages.map((page) => [page.course, page.path])],
     ['Nepal and Remote Services', [
@@ -3458,7 +3828,7 @@ function PublicSitemapPage({ posts, go }) {
   ];
 
   return (
-    <PageShell eyebrow="HTML Sitemap" title="Find every important Kritech Solution page." text="Use this page to browse our services, city pages, IT classes, SEO pages, blogs and contact pages. It also helps search engines discover important URLs through internal links.">
+    <PageShell eyebrow="HTML Sitemap" title="Find every important Kritech Solution page." text="Use this page to browse our software, ERP, cybersecurity, services, city pages, IT classes, SEO pages, blogs and contact pages. It also helps search engines discover important URLs through internal links.">
       <section className="section sitemap-public">
         {pageGroups.map(([group, links]) => (
           <article key={group}>
@@ -3510,12 +3880,20 @@ function Footer({ go }) {
     ['AI/ML Training', '/ai-ml-training-butwal'],
     ['Coding Classes', '/coding-classes-butwal']
   ];
+  const softwareLinks = [
+    ['Software Company Nepal', '/software-company-nepal'],
+    ['ERP Software', '/erp-software-nepal'],
+    ['Accounting Software', '/accounting-software-nepal'],
+    ['Custom Software', '/custom-software-development-nepal'],
+    ['Mobile App Development', '/mobile-app-development-nepal'],
+    ['Cybersecurity', '/cyber-security-services-nepal']
+  ];
 
   return (
     <footer>
       <div>
         <img src="/kritech-logo.webp" alt="Kritech Solution logo" />
-        <p>Quality digital marketing and IT services within reach of every Nepali business.</p>
+        <p>Quality software, ERP, cybersecurity, digital marketing and IT services within reach of every Nepali business.</p>
       </div>
       <div>
         <h4>Company</h4>
@@ -3528,6 +3906,10 @@ function Footer({ go }) {
       <div>
         <h4>IT Classes</h4>
         {trainingLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+      </div>
+      <div>
+        <h4>Software</h4>
+        {softwareLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
       </div>
       <div>
         <h4>Contact</h4>

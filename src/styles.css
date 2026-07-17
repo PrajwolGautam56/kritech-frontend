@@ -739,7 +739,7 @@ select:focus {
 
 footer {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 1fr;
+  grid-template-columns: minmax(220px, 1.4fr) repeat(5, minmax(140px, 1fr));
   gap: 30px;
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
