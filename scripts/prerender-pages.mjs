@@ -151,7 +151,7 @@ const seedPosts = [
 
 for (const post of wordpressPosts) {
   if (post.status !== 'Published' || !post.slug) continue;
-  addPage(`/blog/${post.slug}`, post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`, post.metaDescription || post.seoDescription || post.excerpt || `Read ${post.title} from Kritech Solution.`, post.title, [post.category || 'Kritech Blog', post.author || 'Kritech Team']);
+  addBlogPage(post);
 }
 
 for (const [slug, title, description, h1] of seedPosts) {
@@ -176,7 +176,31 @@ function addPage(path, title, description, h1, bullets = [], faqs = defaultFaqs(
   pageData.set(path, { path, title, description, h1, bullets, faqs, extraParagraphs });
 }
 
+function addBlogPage(post) {
+  const path = `/blog/${post.slug}`;
+  pageData.set(path, {
+    path,
+    type: 'BlogPosting',
+    title: post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`,
+    description: post.metaDescription || post.seoDescription || post.excerpt || `Read ${post.title} from Kritech Solution.`,
+    h1: post.title,
+    bullets: [],
+    faqs: [],
+    bodyHtml: cleanWordPressContent(post.content || ''),
+    author: post.author || 'Kritech Team',
+    date: post.date,
+    category: post.category || 'Kritech Blog',
+    image: post.featuredImage || ''
+  });
+}
+
 function defaultFaqs(path) {
+  if (path === '/') {
+    return [
+      ['What services does Kritech Solution provide?', 'Kritech Solution provides software development, ERP, accounting software, cybersecurity, SEO, web development, digital marketing and IT support for businesses in Nepal.'],
+      ['Where is Kritech Solution based?', 'Kritech Solution is based in Butwal-11, Kalikanagar and supports clients across Nepal as well as remote clients abroad.']
+    ];
+  }
   const topic = humanizePath(path);
   return [
     [`Can Kritech help with ${topic}?`, `Yes. Kritech Solution can help with ${topic}, planning, execution, tracking and practical improvement for businesses and learners in Nepal.`],
@@ -219,10 +243,12 @@ function renderPage(template, page, path) {
 function renderStaticContent(page) {
   return `<main class="seo-prerender">
     <p>Kritech Solution</p>
+    ${page.category ? `<p>${escapeHtml(page.category)}${page.author ? ` · ${escapeHtml(page.author)}` : ''}${page.date ? ` · ${escapeHtml(page.date)}` : ''}</p>` : ''}
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.description)}</p>
     ${page.extraParagraphs?.length ? page.extraParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
+    ${page.bodyHtml ? `<article class="imported-wordpress-content">${page.bodyHtml}</article>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}
   </main>`;
 }
@@ -297,6 +323,31 @@ function buildSchema(page, canonical) {
     });
   }
 
+  if (page.type === 'BlogPosting') {
+    graph.push({
+      '@type': 'BlogPosting',
+      headline: page.h1,
+      description: page.description,
+      url: canonical,
+      datePublished: normalizeSchemaDate(page.date),
+      dateModified: normalizeSchemaDate(page.date),
+      author: {
+        '@type': 'Person',
+        name: page.author || 'Kritech Team'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Kritech Solution',
+        logo: {
+          '@type': 'ImageObject',
+          url: `${siteUrl}/kritech-logo.webp`
+        }
+      },
+      ...(page.image ? { image: page.image.startsWith('http') ? page.image : `${siteUrl}${page.image}` } : {}),
+      wordCount: wordCount(stripHtml(page.bodyHtml || ''))
+    });
+  }
+
   if (page.faqs?.length) {
     graph.push({
       '@type': 'FAQPage',
@@ -356,6 +407,31 @@ function twitterTags(page, canonical) {
     <meta name="twitter:title" content="${escapeAttr(page.title)}" />
     <meta name="twitter:description" content="${escapeAttr(page.description)}" />
     <meta name="twitter:url" content="${escapeAttr(canonical)}" />`;
+}
+
+function cleanWordPressContent(value = '') {
+  return String(value)
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/\son[a-z]+=\"[^\"]*\"/gi, '')
+    .replace(/\son[a-z]+='[^']*'/gi, '')
+    .replace(/\sstyle=\"[^\"]*\"/gi, '')
+    .replace(/\sstyle='[^']*'/gi, '');
+}
+
+function stripHtml(value = '') {
+  return String(value).replace(/<[^>]*>/g, ' ');
+}
+
+function wordCount(value = '') {
+  const words = String(value).trim().match(/\b[\w'-]+\b/g);
+  return words ? words.length : 0;
+}
+
+function normalizeSchemaDate(value) {
+  const parsed = value ? new Date(value) : new Date();
+  if (Number.isNaN(parsed.getTime())) return new Date().toISOString().slice(0, 10);
+  return parsed.toISOString().slice(0, 10);
 }
 
 function humanizePath(path) {

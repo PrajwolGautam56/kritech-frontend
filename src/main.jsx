@@ -37,6 +37,7 @@ import wordpressPosts from './wordpress-posts.json';
 const SITE_URL = 'https://kritechsolution.com';
 const SEO_VERSION = '2026-07-17-software-authority-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
 const ACCESS_MODULES = [
   ['posts', 'Blog CMS'],
   ['inquiries', 'Inquiries'],
@@ -1327,9 +1328,7 @@ function loadSeoState() {
 
 function loadPostsState() {
   const saved = loadState('kritech.posts', defaultPosts);
-  const savedSlugs = new Set(saved.map((post) => post.slug));
-  const missingDefaults = defaultPosts.filter((post) => !savedSlugs.has(post.slug));
-  return [...missingDefaults, ...saved];
+  return mergePostsWithStaticContent(saved);
 }
 
 function loadAdminSession() {
@@ -1393,6 +1392,52 @@ async function uploadBlogImage(file) {
   };
 }
 
+function mergePostsWithStaticContent(posts = []) {
+  const staticBySlug = new Map(defaultPosts.filter((post) => post.slug).map((post) => [post.slug, post]));
+  const merged = posts.map((post) => {
+    const fallback = staticBySlug.get(post.slug);
+    if (!fallback) return post;
+    const content = hasMeaningfulBody(post.content) ? post.content : fallback.content;
+    return {
+      ...fallback,
+      ...post,
+      content,
+      featuredImage: post.featuredImage || fallback.featuredImage,
+      tags: Array.isArray(post.tags) && post.tags.length ? post.tags : fallback.tags,
+      focusKeyword: post.focusKeyword || fallback.focusKeyword,
+      metaTitle: post.metaTitle || fallback.metaTitle,
+      metaDescription: post.metaDescription || fallback.metaDescription,
+      seoTitle: post.seoTitle || fallback.seoTitle,
+      seoDescription: post.seoDescription || fallback.seoDescription
+    };
+  });
+  const mergedSlugs = new Set(merged.map((post) => post.slug));
+  const missingDefaults = defaultPosts.filter((post) => post.slug && !mergedSlugs.has(post.slug));
+  return [...missingDefaults, ...merged];
+}
+
+function hasMeaningfulBody(content = '') {
+  return wordCount(stripHtml(content)) >= 120;
+}
+
+function stripHtml(value = '') {
+  return String(value).replace(/<[^>]*>/g, ' ');
+}
+
+function installAnalytics() {
+  if (!GA_MEASUREMENT_ID || typeof window === 'undefined' || window.gtag) return;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_MEASUREMENT_ID);
+}
+
 function App() {
   const [route, setRoute] = useState(currentRoute);
   const [posts, setPosts] = useState(loadPostsState);
@@ -1406,6 +1451,19 @@ function App() {
   });
 
   useMouseGlow();
+
+  useEffect(() => {
+    installAnalytics();
+  }, []);
+
+  useEffect(() => {
+    if (GA_MEASUREMENT_ID && window.gtag) {
+      window.gtag('config', GA_MEASUREMENT_ID, {
+        page_path: route,
+        page_location: `${SITE_URL}${route === '/' ? '' : route}`
+      });
+    }
+  }, [route]);
 
   useEffect(() => {
     const onHash = () => setRoute(currentRoute());
@@ -1434,7 +1492,7 @@ function App() {
       .then((data) => {
         if (!alive) return;
         if (Array.isArray(data.posts) && data.posts.length) {
-          setPosts(data.posts);
+          setPosts(mergePostsWithStaticContent(data.posts));
         }
         if (data.seo && typeof data.seo === 'object') {
           setSeo({ ...defaultSeo, ...data.seo });

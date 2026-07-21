@@ -116,10 +116,44 @@ Disallow: /admin-reset
 Sitemap: ${siteUrl}/sitemap.xml
 `;
 
+const llms = `# Kritech Solution
+
+Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web development, digital marketing and IT solutions company.
+
+## Important pages
+
+- Home: ${siteUrl}
+- Services: ${siteUrl}/services
+- Software company Nepal: ${siteUrl}/software-company-nepal
+- Software company Butwal: ${siteUrl}/software-company-butwal
+- ERP software Nepal: ${siteUrl}/erp-software-nepal
+- Accounting software Nepal: ${siteUrl}/accounting-software-nepal
+- Custom software development Nepal: ${siteUrl}/custom-software-development-nepal
+- Cyber security services Nepal: ${siteUrl}/cyber-security-services-nepal
+- SEO company Nepal: ${siteUrl}/seo-company-nepal
+- Digital marketing agency Butwal: ${siteUrl}/digital-marketing-agency-butwal
+- Blog: ${siteUrl}/blog
+- Contact: ${siteUrl}/contact
+
+## Service focus
+
+Kritech provides custom software development, ERP modules, accounting and billing workflows, CRM software, POS systems, inventory management software, mobile app development, cybersecurity support, SEO, web development, social media marketing, Google Ads, Meta Ads, hosting, email, maintenance and technical support.
+
+## Location focus
+
+Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Kritech also supports remote clients in UAE and USA.
+
+## Crawl notes
+
+Primary sitemap: ${siteUrl}/sitemap.xml
+Public HTML sitemap: ${siteUrl}/sitemap
+`;
+
 await writeFile(new URL('../public/sitemap.xml', import.meta.url), sitemap);
 await writeFile(new URL('../public/robots.txt', import.meta.url), robots);
+await writeFile(new URL('../public/llms.txt', import.meta.url), llms);
 
-console.log(`Generated sitemap.xml with ${urls.length} URLs and robots.txt`);
+console.log(`Generated sitemap.xml with ${urls.length} URLs, robots.txt and llms.txt`);
 
 function normalizeDate(value) {
   if (!value) return today;

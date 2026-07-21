@@ -1,0 +1,31 @@
+# Kritech Solution
+
+Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web development, digital marketing and IT solutions company.
+
+## Important pages
+
+- Home: https://kritechsolution.com
+- Services: https://kritechsolution.com/services
+- Software company Nepal: https://kritechsolution.com/software-company-nepal
+- Software company Butwal: https://kritechsolution.com/software-company-butwal
+- ERP software Nepal: https://kritechsolution.com/erp-software-nepal
+- Accounting software Nepal: https://kritechsolution.com/accounting-software-nepal
+- Custom software development Nepal: https://kritechsolution.com/custom-software-development-nepal
+- Cyber security services Nepal: https://kritechsolution.com/cyber-security-services-nepal
+- SEO company Nepal: https://kritechsolution.com/seo-company-nepal
+- Digital marketing agency Butwal: https://kritechsolution.com/digital-marketing-agency-butwal
+- Blog: https://kritechsolution.com/blog
+- Contact: https://kritechsolution.com/contact
+
+## Service focus
+
+Kritech provides custom software development, ERP modules, accounting and billing workflows, CRM software, POS systems, inventory management software, mobile app development, cybersecurity support, SEO, web development, social media marketing, Google Ads, Meta Ads, hosting, email, maintenance and technical support.
+
+## Location focus
+
+Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Kritech also supports remote clients in UAE and USA.
+
+## Crawl notes
+
+Primary sitemap: https://kritechsolution.com/sitemap.xml
+Public HTML sitemap: https://kritechsolution.com/sitemap
