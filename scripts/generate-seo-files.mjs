@@ -58,6 +58,19 @@ const localPages = [
   '/it-company-nepal',
   '/services-bhairahawa',
   '/services-tilottama',
+  '/global-it-outsourcing-company',
+  '/software-development-outsourcing-nepal',
+  '/offshore-software-development-company',
+  '/hire-remote-developers-nepal',
+  '/dedicated-development-team-nepal',
+  '/outsource-web-development-to-nepal',
+  '/white-label-seo-outsourcing',
+  '/digital-marketing-outsourcing-company',
+  '/graphic-design-outsourcing-nepal',
+  '/erp-development-outsourcing',
+  '/software-development-outsourcing-usa',
+  '/software-development-outsourcing-uk',
+  '/software-development-outsourcing-uae',
   '/remote-digital-marketing-agency',
   '/digital-marketing-agency-uae',
   '/seo-company-uae',
@@ -130,6 +143,11 @@ Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web
 - Accounting software Nepal: ${siteUrl}/accounting-software-nepal
 - Custom software development Nepal: ${siteUrl}/custom-software-development-nepal
 - Cyber security services Nepal: ${siteUrl}/cyber-security-services-nepal
+- Global IT outsourcing company: ${siteUrl}/global-it-outsourcing-company
+- Software development outsourcing Nepal: ${siteUrl}/software-development-outsourcing-nepal
+- Hire remote developers Nepal: ${siteUrl}/hire-remote-developers-nepal
+- White-label SEO outsourcing: ${siteUrl}/white-label-seo-outsourcing
+- ERP development outsourcing: ${siteUrl}/erp-development-outsourcing
 - SEO company Nepal: ${siteUrl}/seo-company-nepal
 - Digital marketing agency Butwal: ${siteUrl}/digital-marketing-agency-butwal
 - Blog: ${siteUrl}/blog
@@ -137,11 +155,11 @@ Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web
 
 ## Service focus
 
-Kritech provides custom software development, ERP modules, accounting and billing workflows, CRM software, POS systems, inventory management software, mobile app development, cybersecurity support, SEO, web development, social media marketing, Google Ads, Meta Ads, hosting, email, maintenance and technical support.
+Kritech provides custom software development, ERP modules, accounting and billing workflows, CRM software, POS systems, inventory management software, mobile app development, cybersecurity support, SEO, web development, social media marketing, Google Ads, Meta Ads, hosting, email, maintenance and technical support. Kritech also supports global IT outsourcing, software development outsourcing, dedicated remote developers, white-label SEO, website outsourcing, digital marketing outsourcing and graphic design production for USA, UK, UAE and remote clients.
 
 ## Location focus
 
-Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Kritech also supports remote clients in UAE and USA.
+Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Kritech also supports remote clients in UAE, USA, UK, Australia, Canada and other global markets.
 
 ## Crawl notes
 

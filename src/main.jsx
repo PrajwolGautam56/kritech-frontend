@@ -35,7 +35,7 @@ import './styles.css';
 import wordpressPosts from './wordpress-posts.json';
 
 const SITE_URL = 'https://kritechsolution.com';
-const SEO_VERSION = '2026-07-17-software-authority-v1';
+const SEO_VERSION = '2026-07-23-global-outsourcing-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
 const ACCESS_MODULES = [
@@ -274,6 +274,269 @@ const internationalSeoTargets = [
     faqs: [
       ['Can you build landing pages for New York ads?', 'Yes. We can build service and campaign landing pages with clear copy, forms, WhatsApp or phone flows, and tracking.'],
       ['Can you work with an existing design?', 'Yes. We can implement an existing design or improve an existing website with better structure, performance and SEO basics.']
+    ]
+  }
+];
+
+const globalOutsourcingPages = [
+  {
+    key: 'globalItOutsourcingCompany',
+    path: '/global-it-outsourcing-company',
+    metaTitle: 'Global IT Outsourcing Company in Nepal | Kritech Solution',
+    metaDescription: 'Hire Kritech Solution as a Nepal-based IT outsourcing company for software development, ERP, websites, SEO, design, marketing and remote technical support.',
+    eyebrow: 'Global IT outsourcing company',
+    title: 'Hire a Nepal-based IT team for software, websites, SEO and creative production.',
+    text: 'Kritech Solution helps founders, agencies and small businesses in the USA, UK, UAE and other markets outsource practical technology and marketing work to a focused Nepal-based team.',
+    bullets: ['Software, ERP and web app development', 'SEO, websites and landing pages', 'Graphic design and campaign production', 'Remote support with clear weekly delivery'],
+    highlights: ['One remote team for code, content, design and marketing', 'Useful for agencies, startups and small businesses', 'Cost-effective execution without losing structure'],
+    marketIntro: 'When overseas companies look for outsourcing partners, they usually want reliable delivery, clear communication and lower execution cost. Kritech is positioned for that exact need: a compact team that can build, improve and maintain digital work without the overhead of a large local agency.',
+    areaLine: 'Kritech works from Butwal, Nepal and supports remote clients in the USA, UK, UAE, Australia, Canada and other English-speaking markets.',
+    processAreas: 'USA, UK, UAE, Australia, Canada and global outsourcing searches',
+    ctaLabel: 'Discuss remote outsourcing',
+    faqs: [
+      ['What IT work can I outsource to Kritech?', 'You can outsource website development, software modules, ERP workflows, landing pages, SEO tasks, content updates, graphic design, campaign assets and ongoing technical support.'],
+      ['Why hire an outsourcing team from Nepal?', 'Nepal can offer skilled remote execution at a lower operating cost than many USA, UK or UAE providers, while still using modern tools, documentation and English communication.'],
+      ['Can Kritech work with agencies as a white-label partner?', 'Yes. Kritech can support agencies with development, SEO, website updates, content, landing pages, reports and creative production under a structured delivery workflow.']
+    ]
+  },
+  {
+    key: 'softwareDevelopmentOutsourcingNepal',
+    path: '/software-development-outsourcing-nepal',
+    metaTitle: 'Software Development Outsourcing Nepal | Remote Dev Team',
+    metaDescription: 'Outsource software development to Nepal with Kritech Solution for ERP modules, web apps, dashboards, admin panels, CRM, automation and maintenance.',
+    eyebrow: 'Software development outsourcing Nepal',
+    title: 'Outsource software development to a practical Nepal-based engineering team.',
+    text: 'Kritech plans and builds business software for companies that need ERP modules, dashboards, portals, CRM, inventory workflows, automation and maintained web applications without hiring a full internal team.',
+    bullets: ['Custom web applications and dashboards', 'ERP, CRM and workflow modules', 'Admin panels, roles and reports', 'Maintenance, testing and improvement cycles'],
+    highlights: ['Workflow-first planning before development', 'Remote engineering with milestones and demos', 'Business software, not only brochure websites'],
+    marketIntro: 'Software outsourcing works best when the team understands your business process first. Kritech maps users, data, reports and daily pain points before building the first useful version.',
+    areaLine: 'Kritech supports businesses and agencies in Nepal, USA, UK and UAE that need dependable software development from a remote team.',
+    processAreas: 'software outsourcing, dedicated developers, ERP outsourcing and remote development searches',
+    ctaLabel: 'Plan a software project',
+    faqs: [
+      ['Can I outsource ERP or custom software to Kritech?', 'Yes. Kritech can build ERP modules, CRM, inventory, POS, accounting workflows, dashboards, portals and custom web applications.'],
+      ['How do you manage remote software projects?', 'We define scope, user roles, modules, milestones, demos, testing and support before launch, then improve based on real use.'],
+      ['Can you maintain existing software?', 'Yes. Kritech can review existing code, fix bugs, improve UI, add features, connect APIs and support ongoing maintenance.']
+    ]
+  },
+  {
+    key: 'offshoreSoftwareDevelopmentCompany',
+    path: '/offshore-software-development-company',
+    metaTitle: 'Offshore Software Development Company | Kritech Nepal',
+    metaDescription: 'Offshore software development company in Nepal for web apps, ERP modules, dashboards, websites, APIs, maintenance and remote product support.',
+    eyebrow: 'Offshore software development company',
+    title: 'An offshore software team for companies that need reliable product and web execution.',
+    text: 'Kritech supports overseas businesses with offshore development for web applications, ERP modules, dashboards, admin panels, websites, APIs, bug fixes and monthly maintenance.',
+    bullets: ['Offshore web app and dashboard development', 'ERP, CRM and automation features', 'Website and landing page implementation', 'Maintenance, fixes and technical support'],
+    highlights: ['Lower execution cost with structured delivery', 'Useful for USA, UK and UAE small teams', 'Software and SEO-aware web development together'],
+    marketIntro: 'Offshore software development is not only about lower cost. It works when the team understands the business goal, communicates clearly and ships usable work in controlled phases.',
+    areaLine: 'Kritech works from Nepal for remote clients in USA, UK, UAE and global markets that need dependable offshore delivery.',
+    processAreas: 'offshore software development, remote product team and software outsourcing searches',
+    ctaLabel: 'Discuss offshore development',
+    faqs: [
+      ['What can an offshore software team build?', 'An offshore team can build web apps, dashboards, ERP modules, APIs, admin panels, landing pages, CMS workflows and technical improvements.'],
+      ['How do you keep quality under control?', 'Kritech uses clear scope, milestones, demos, testing, revision notes and support planning before launch.'],
+      ['Can you work with an existing product?', 'Yes. Kritech can review an existing system and help with fixes, new features, UI improvements, integrations and maintenance.']
+    ]
+  },
+  {
+    key: 'hireRemoteDevelopersNepal',
+    path: '/hire-remote-developers-nepal',
+    metaTitle: 'Hire Remote Developers in Nepal | Kritech Solution',
+    metaDescription: 'Hire remote developers in Nepal for React, Node, MERN, dashboards, website updates, bug fixes, APIs, admin panels and business software support.',
+    eyebrow: 'Hire remote developers Nepal',
+    title: 'Hire remote developers for code fixes, features, dashboards and website improvements.',
+    text: 'Kritech gives overseas teams a flexible way to get development help without adding full-time headcount. Use us for website changes, React interfaces, Node APIs, admin dashboards, CMS work, bug fixing and practical business features.',
+    bullets: ['React, Node and MERN development support', 'Bug fixes, feature updates and APIs', 'Admin dashboards and CMS workflows', 'Website maintenance and performance improvements'],
+    highlights: ['Good fit for founders and busy agencies', 'Async updates with clear task tracking', 'Development connected to SEO and conversion goals'],
+    marketIntro: 'Many small businesses do not need a large engineering department. They need a reliable remote developer who can understand the task, update the code, test the change and keep the project moving.',
+    areaLine: 'Kritech supports remote development work for clients in the USA, UK, UAE and Nepal.',
+    processAreas: 'hire remote developers, dedicated developer Nepal and MERN developer outsourcing searches',
+    ctaLabel: 'Ask for developer support',
+    faqs: [
+      ['Can I hire Kritech for small code changes?', 'Yes. Kritech can support small fixes, UI updates, bug fixes, API changes, CMS improvements, landing pages and ongoing development tasks.'],
+      ['Do you offer dedicated developer support?', 'Yes. Depending on workload, Kritech can support project-based work or recurring remote development assistance.'],
+      ['Which technologies do you work with?', 'Kritech commonly works with modern web stacks such as React, Node, APIs, CMS workflows, databases, dashboards and deployment platforms.']
+    ]
+  },
+  {
+    key: 'dedicatedDevelopmentTeamNepal',
+    path: '/dedicated-development-team-nepal',
+    metaTitle: 'Dedicated Development Team Nepal | Remote Software Support',
+    metaDescription: 'Build a dedicated development team in Nepal with Kritech for software features, web apps, ERP modules, dashboards, SEO pages and maintenance.',
+    eyebrow: 'Dedicated development team Nepal',
+    title: 'A dedicated remote team for businesses that need steady technical execution.',
+    text: 'For companies with ongoing work, Kritech can act as a dedicated delivery team across software features, websites, SEO pages, dashboards, creative assets and monthly improvements.',
+    bullets: ['Recurring development and maintenance', 'Design, SEO and content production support', 'Software modules and web application updates', 'Weekly planning, delivery and reporting rhythm'],
+    highlights: ['Useful when work is too much for freelancers', 'More flexible than hiring full-time staff', 'One team that understands your brand and systems'],
+    marketIntro: 'A dedicated remote team is useful when your business needs continuous output: new pages, bug fixes, campaign assets, reports, software improvements and technical maintenance.',
+    areaLine: 'Kritech can support dedicated delivery for agencies, service businesses, ecommerce teams, startups and founders in Nepal and abroad.',
+    processAreas: 'dedicated development team, remote IT team and offshore development team searches',
+    ctaLabel: 'Build my remote team',
+    faqs: [
+      ['How is a dedicated team different from one project?', 'A project has a fixed scope. A dedicated team supports continuous tasks, improvements, maintenance and production needs over time.'],
+      ['Can Kritech support both marketing and development?', 'Yes. Kritech combines software development, website updates, SEO, content, design and campaign production.'],
+      ['Do you provide weekly reporting?', 'Yes. Work can be organized through tasks, weekly priorities, progress notes and delivery summaries.']
+    ]
+  },
+  {
+    key: 'outsourceWebDevelopmentToNepal',
+    path: '/outsource-web-development-to-nepal',
+    metaTitle: 'Outsource Web Development to Nepal | Kritech Solution',
+    metaDescription: 'Outsource web development to Nepal for SEO-ready business websites, landing pages, CMS blogs, website maintenance, UI improvements and conversion pages.',
+    eyebrow: 'Outsource web development to Nepal',
+    title: 'Outsource websites and landing pages to a Nepal team that understands SEO.',
+    text: 'Kritech builds modern business websites, landing pages, blogs and page systems for companies that need professional design, fast performance, clean SEO structure and reliable launch support.',
+    bullets: ['SEO-ready websites and service pages', 'Landing pages for ads and lead generation', 'Blog CMS and content publishing flows', 'Website maintenance and conversion improvements'],
+    highlights: ['Design quality with technical SEO foundations', 'Built for calls, forms and booked consultations', 'Good fit for agencies needing production support'],
+    marketIntro: 'Web development outsourcing should not produce only pretty pages. A good outsourced website should load fast, explain the offer clearly, rank better, and convert visitors into leads.',
+    areaLine: 'Kritech supports web development outsourcing for clients in the USA, UK, UAE, Nepal and remote-first businesses.',
+    processAreas: 'outsource web development, website outsourcing Nepal and remote website development searches',
+    ctaLabel: 'Outsource a website',
+    faqs: [
+      ['Can you build websites for overseas companies?', 'Yes. Kritech can plan, design, develop and launch websites remotely with clear content, revisions and approval stages.'],
+      ['Can you improve an existing website?', 'Yes. We can improve UI, content, page structure, performance, SEO metadata, blog setup and lead forms.'],
+      ['Do you build WordPress or custom websites?', 'Kritech can support CMS-backed websites, custom React/Vite builds, landing pages, dashboards and blog workflows depending on the project goal.']
+    ]
+  },
+  {
+    key: 'whiteLabelSeoOutsourcing',
+    path: '/white-label-seo-outsourcing',
+    metaTitle: 'White Label SEO Outsourcing from Nepal | Kritech Solution',
+    metaDescription: 'White label SEO outsourcing for agencies needing technical SEO, keyword research, content briefs, on-page SEO, local pages, reports and website updates.',
+    eyebrow: 'White label SEO outsourcing',
+    title: 'White-label SEO support for agencies that need dependable production capacity.',
+    text: 'Kritech helps agencies and consultants deliver SEO work quietly behind the scenes: audits, page updates, content briefs, metadata, internal links, local pages, blog support and monthly reports.',
+    bullets: ['Technical SEO and on-page updates', 'Keyword research and content briefs', 'Local and service page production', 'Reports, Search Console checks and improvement notes'],
+    highlights: ['Designed for agency overflow work', 'SEO tasks connected to website implementation', 'Confidential remote execution from Nepal'],
+    marketIntro: 'Agencies often sell strategy but need reliable hands for research, writing briefs, improving pages, updating websites and preparing reports. Kritech can become that execution layer.',
+    areaLine: 'Kritech supports white-label SEO for agencies and consultants serving clients in the USA, UK, UAE, Nepal and other markets.',
+    processAreas: 'white-label SEO, SEO outsourcing and outsourced SEO execution searches',
+    ctaLabel: 'Discuss white-label SEO',
+    faqs: [
+      ['Do you work under an agency brand?', 'Yes. Kritech can support white-label SEO tasks with confidentiality and structured communication.'],
+      ['What SEO tasks can be outsourced?', 'Audits, keyword research, metadata, content briefs, service pages, local pages, blog updates, internal linking, schema guidance and reports can be outsourced.'],
+      ['Can you implement SEO changes on the website?', 'Yes. Since Kritech also handles web development, we can often implement technical and content changes directly.']
+    ]
+  },
+  {
+    key: 'digitalMarketingOutsourcingCompany',
+    path: '/digital-marketing-outsourcing-company',
+    metaTitle: 'Digital Marketing Outsourcing Company | Kritech Solution Nepal',
+    metaDescription: 'Digital marketing outsourcing company in Nepal for SEO, social media creatives, Google Ads support, Meta campaigns, landing pages, reports and content production.',
+    eyebrow: 'Digital marketing outsourcing company',
+    title: 'Outsource marketing execution without losing control of strategy.',
+    text: 'Kritech helps businesses and agencies outsource the busy production work behind growth: SEO updates, landing pages, social creatives, campaign assets, content, reports and website improvements.',
+    bullets: ['SEO, content and landing page support', 'Social media graphics and campaign assets', 'Meta Ads and Google Ads production help', 'Monthly reporting and improvement tasks'],
+    highlights: ['A practical team for lean marketing budgets', 'Marketing output connected to website performance', 'Remote execution for USA, UK, UAE and Nepal clients'],
+    marketIntro: 'Marketing outsourcing is most useful when the business keeps strategic clarity and lets a reliable team handle repeatable production, updates, tracking and campaign assets.',
+    areaLine: 'Kritech works with local Nepal businesses and remote clients abroad that need steady marketing execution.',
+    processAreas: 'digital marketing outsourcing, remote marketing team and affordable agency outsourcing searches',
+    ctaLabel: 'Outsource marketing work',
+    faqs: [
+      ['What marketing work can Kritech handle remotely?', 'SEO updates, blogs, landing pages, social creatives, Meta and Google campaign support, reports, website changes and content production.'],
+      ['Can you support a company outside Nepal?', 'Yes. Kritech can support remote clients through online planning, shared task lists, scheduled meetings and delivery reports.'],
+      ['Is outsourcing marketing cheaper than hiring locally?', 'Often yes, especially for production-heavy work. Final cost depends on scope, quality requirements and monthly workload.']
+    ]
+  },
+  {
+    key: 'graphicDesignOutsourcingNepal',
+    path: '/graphic-design-outsourcing-nepal',
+    metaTitle: 'Graphic Design Outsourcing Nepal | Social & Brand Creatives',
+    metaDescription: 'Outsource graphic design to Nepal for social media posts, ads, brand graphics, brochures, thumbnails, presentation visuals and campaign creatives.',
+    eyebrow: 'Graphic design outsourcing Nepal',
+    title: 'Outsource social media, ad and brand creatives to a practical design team.',
+    text: 'Kritech supports businesses and agencies with design production for social posts, ads, brochures, brand graphics, thumbnails, presentations and campaign visuals connected to marketing goals.',
+    bullets: ['Social media creatives and ad designs', 'Brochures, brand graphics and pitch visuals', 'Campaign assets for Meta, Google and TikTok', 'Design support connected to content calendars'],
+    highlights: ['Creative output for busy marketing teams', 'Designs planned around campaigns and offers', 'Cost-effective production from Nepal'],
+    marketIntro: 'Design outsourcing works best when creative assets are tied to a real campaign plan. Kritech can support both the visuals and the marketing context behind them.',
+    areaLine: 'Kritech supports graphic design outsourcing for Nepal businesses and remote clients in USA, UK and UAE markets.',
+    processAreas: 'graphic design outsourcing, social media design outsourcing and ad creative production searches',
+    ctaLabel: 'Start design support',
+    faqs: [
+      ['What graphic design work can I outsource?', 'You can outsource social media posts, ad creatives, thumbnails, brochures, brand graphics, presentations and campaign visuals.'],
+      ['Can you follow my brand style?', 'Yes. Kritech can use your existing brand colors, logo, typography and design references.'],
+      ['Can you combine design with social media management?', 'Yes. Kritech can plan content calendars, captions, campaign ideas and graphics together.']
+    ]
+  },
+  {
+    key: 'erpDevelopmentOutsourcing',
+    path: '/erp-development-outsourcing',
+    metaTitle: 'ERP Development Outsourcing | Custom ERP Team Nepal',
+    metaDescription: 'Outsource ERP development to Kritech Solution for sales, inventory, accounting, CRM, HR, reports, approvals, dashboards and business automation.',
+    eyebrow: 'ERP development outsourcing',
+    title: 'Outsource ERP development for business workflows that need control and clarity.',
+    text: 'Kritech builds custom ERP modules for companies that need better control over sales, inventory, accounts, customers, staff roles, reports, approvals and daily operations.',
+    bullets: ['Sales, purchase and inventory modules', 'Accounting, billing and payment workflows', 'CRM, staff roles and approval flows', 'Dashboards, reports and exports'],
+    highlights: ['ERP planned around real operations', 'Custom modules instead of unnecessary complexity', 'Remote development with training and support'],
+    marketIntro: 'ERP outsourcing is valuable when ready-made tools do not fit how your team works. Kritech can build practical modules around your real process instead of forcing your team into a generic system.',
+    areaLine: 'Kritech supports ERP development for businesses in Nepal and remote companies that need custom workflow software.',
+    processAreas: 'ERP outsourcing, custom ERP development and business software outsourcing searches',
+    ctaLabel: 'Plan ERP development',
+    faqs: [
+      ['Can Kritech build a custom ERP?', 'Yes. Kritech can plan and build ERP modules for sales, purchase, inventory, accounts, CRM, approvals, dashboards and reports.'],
+      ['Can ERP be built in phases?', 'Yes. We usually recommend starting with the most useful modules first, then expanding as the team starts using the system.'],
+      ['Do you provide training after launch?', 'Yes. Kritech can help with onboarding, documentation, user training, maintenance and future improvements.']
+    ]
+  },
+  {
+    key: 'softwareDevelopmentOutsourcingUsa',
+    path: '/software-development-outsourcing-usa',
+    metaTitle: 'Software Development Outsourcing for USA Businesses',
+    metaDescription: 'USA businesses can outsource software development to Kritech Solution in Nepal for web apps, ERP modules, dashboards, APIs, maintenance and support.',
+    eyebrow: 'Software outsourcing for USA',
+    title: 'Software development outsourcing for USA businesses that need lean execution.',
+    text: 'Kritech helps USA founders, consultants, agencies and small businesses build web applications, dashboards, ERP modules, websites, API features and maintenance tasks through a cost-effective remote team.',
+    bullets: ['Web apps, dashboards and admin panels', 'ERP, CRM and automation modules', 'Website improvements and technical SEO', 'Remote maintenance and support'],
+    highlights: ['Lower execution cost for USA companies', 'Useful for startups and agency overflow', 'Clear milestones and async communication'],
+    marketIntro: 'USA companies often outsource when local execution is expensive or hiring is slow. Kritech can help with focused software and web work from Nepal while keeping communication structured.',
+    areaLine: 'Kritech supports USA clients remotely from Nepal with software, websites, SEO and digital production.',
+    processAreas: 'USA software outsourcing, offshore development team and remote developers searches',
+    ctaLabel: 'Discuss USA outsourcing',
+    faqs: [
+      ['Can USA businesses outsource software work to Kritech?', 'Yes. Kritech can work remotely with USA businesses on software, web apps, dashboards, websites, SEO and maintenance.'],
+      ['How do time zones work?', 'Work can be handled through async updates, shared task lists, scheduled calls and weekly delivery summaries.'],
+      ['Can you help agencies with overflow development?', 'Yes. Kritech can support agencies with website builds, bug fixes, features, landing pages and SEO implementation.']
+    ]
+  },
+  {
+    key: 'softwareDevelopmentOutsourcingUk',
+    path: '/software-development-outsourcing-uk',
+    metaTitle: 'Software Development Outsourcing for UK Businesses',
+    metaDescription: 'UK businesses can outsource software development to Kritech Solution in Nepal for websites, web apps, ERP workflows, dashboards, APIs and SEO support.',
+    eyebrow: 'Software outsourcing for UK',
+    title: 'Remote software and web development support for UK businesses.',
+    text: 'Kritech supports UK businesses, agencies and founders that need reliable software development, website production, technical SEO, dashboard work, maintenance and creative execution from a remote Nepal-based team.',
+    bullets: ['Web apps, dashboards and website builds', 'ERP and workflow automation modules', 'Technical SEO and content implementation', 'Design and campaign production support'],
+    highlights: ['Remote execution for lean UK teams', 'One team for development and marketing tasks', 'Clear delivery rhythm without heavy overhead'],
+    marketIntro: 'UK small businesses and agencies often need flexible production capacity. Kritech can help with practical development, website and SEO work without requiring a full-time hire.',
+    areaLine: 'Kritech supports UK clients remotely from Nepal for software, websites, SEO and marketing production.',
+    processAreas: 'UK software outsourcing, outsource web development UK and remote IT team searches',
+    ctaLabel: 'Discuss UK outsourcing',
+    faqs: [
+      ['Can Kritech work with UK clients?', 'Yes. Kritech can support UK clients remotely through online communication, shared tasks and planned delivery milestones.'],
+      ['What can a UK business outsource?', 'Web development, software features, dashboards, landing pages, SEO implementation, content updates, design assets and maintenance tasks.'],
+      ['Can you work with existing systems?', 'Yes. Kritech can review existing websites or codebases and support fixes, improvements and new features.']
+    ]
+  },
+  {
+    key: 'softwareDevelopmentOutsourcingUae',
+    path: '/software-development-outsourcing-uae',
+    metaTitle: 'Software Development Outsourcing for UAE Businesses',
+    metaDescription: 'UAE businesses can outsource software development to Kritech Solution in Nepal for ERP, dashboards, web apps, websites, automation and maintenance.',
+    eyebrow: 'Software outsourcing for UAE',
+    title: 'Software, ERP and web development outsourcing for UAE businesses.',
+    text: 'Kritech helps UAE businesses and agencies build software modules, ERP workflows, dashboards, websites, landing pages and marketing systems through a cost-effective remote Nepal-based team.',
+    bullets: ['ERP, CRM and dashboard development', 'Business websites and landing pages', 'Automation, APIs and admin panels', 'SEO and technical maintenance support'],
+    highlights: ['Useful for Dubai, Abu Dhabi and Sharjah teams', 'Remote development without high local overhead', 'Software and marketing support together'],
+    marketIntro: 'UAE businesses can outsource execution-heavy software and web work while keeping strategy and approvals internal. Kritech provides the remote build capacity behind that model.',
+    areaLine: 'Kritech supports UAE clients remotely from Nepal for software development, ERP, websites, SEO and marketing production.',
+    processAreas: 'UAE software outsourcing, Dubai software development outsourcing and remote ERP team searches',
+    ctaLabel: 'Discuss UAE outsourcing',
+    faqs: [
+      ['Can Kritech build software for UAE businesses?', 'Yes. Kritech can support UAE businesses with ERP modules, dashboards, websites, automation, admin panels and technical maintenance.'],
+      ['Do you support Dubai companies?', 'Yes. Kritech can work remotely with Dubai, Abu Dhabi, Sharjah and UAE-wide businesses.'],
+      ['Can you combine ERP and website support?', 'Yes. Kritech can support both operational software and public-facing websites or landing pages.']
     ]
   }
 ];
@@ -727,15 +990,15 @@ const softwarePages = [
 const defaultSeo = {
   home: {
     path: '/',
-    title: 'Kritech Solution | Software, ERP & Digital Marketing Company Nepal',
+    title: 'Kritech Solution | Software, SEO & IT Outsourcing Company Nepal',
     description:
-      'Kritech Solution is a software, ERP, cybersecurity, SEO, web development and digital marketing company in Butwal, Nepal helping businesses build systems and grow.'
+      'Kritech Solution is a Nepal-based software, ERP, SEO, web development, digital marketing and IT outsourcing company serving Nepal, USA, UK and UAE clients.'
   },
   services: {
     path: '/services',
-    title: 'Software, ERP, SEO & Digital Marketing Services in Nepal',
+    title: 'Software, ERP, SEO & IT Outsourcing Services | Kritech',
     description:
-      'Explore software development, ERP, accounting software, cybersecurity, SEO, websites, social media, Google Ads, hosting and IT support from Kritech Solution.'
+      'Explore software development, ERP, cybersecurity, SEO, websites, digital marketing, white-label support and IT outsourcing services from Kritech Solution.'
   },
   about: {
     path: '/about',
@@ -851,6 +1114,14 @@ const defaultSeo = {
       path: target.path,
       title: target.metaTitle,
       description: target.metaDescription
+    }
+  ])),
+  ...Object.fromEntries(globalOutsourcingPages.map((page) => [
+    page.key,
+    {
+      path: page.path,
+      title: page.metaTitle,
+      description: page.metaDescription
     }
   ])),
   pricing: {
@@ -993,6 +1264,31 @@ const internationalLandingPages = Object.fromEntries(internationalSeoTargets.map
     areaLine: target.areaLine,
     marketIntro:
       `If you need ${target.eyebrow.toLowerCase()}, Kritech gives you a remote team that can plan the work, build the pages, improve campaigns and report progress without the cost of a large local agency.`
+  }
+]));
+
+const globalOutsourcingLandingPages = Object.fromEntries(globalOutsourcingPages.map((page) => [
+  page.path,
+  {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    text: page.text,
+    bullets: page.bullets,
+    highlights: page.highlights,
+    marketIntro: page.marketIntro,
+    areaLine: page.areaLine,
+    faqs: page.faqs,
+    ctaLabel: page.ctaLabel,
+    proofTitle: 'A remote delivery system built for serious work, not random outsourcing.',
+    proofText: 'Kritech keeps the offer clear, the workflow visible and the output connected to business results: better software, better pages, better campaigns and better follow-up.',
+    processTitle: 'A clear global delivery process from scope to measurable output.',
+    processText: 'Kritech turns remote work into a managed delivery rhythm: understand the goal, plan the sprint, ship visible work, test it and improve based on feedback.',
+    process: [
+      ['01', 'Clarify the outcome', 'We define the work, audience, platform, success metric and the first useful deliverable before production starts.'],
+      ['02', 'Plan the delivery sprint', 'We break the work into pages, features, assets, fixes or SEO tasks with priorities and review points.'],
+      ['03', 'Build, test and publish', 'We deliver the work with practical QA across layout, content, mobile experience, forms and tracking where needed.'],
+      ['04', 'Report and improve', 'We share progress, measure what matters and plan the next improvement instead of disappearing after delivery.']
+    ]
   }
 ]));
 
@@ -1200,7 +1496,8 @@ const localLandingPages = {
       ['Can you help a local business get more inquiries?', 'Yes. We connect search-friendly pages, ads, WhatsApp/contact flows and reporting so inquiries are easier to measure.']
     ]
   },
-  ...internationalLandingPages
+  ...internationalLandingPages,
+  ...globalOutsourcingLandingPages
 };
 
 const clientGoalClusters = [
@@ -1658,6 +1955,7 @@ function Home({ go, posts }) {
     <div className="neo-page">
       <NeoHero go={go} />
       <NeoSignalStrip />
+      <GlobalDeliveryOS go={go} />
       <HomeServiceSnapshot go={go} />
       <HomeRankingEngine go={go} />
       <NeoModules go={go} />
@@ -1680,10 +1978,10 @@ function NeoHero({ go }) {
       <div className="neo-noise" />
       <motion.div className="neo-hero-inner" variants={stagger} initial="hidden" animate="show">
         <motion.div className="neo-copy" variants={fadeUp}>
-          <span className="neo-pill"><Sparkles size={15} /> Digital marketing agency in Butwal, Nepal</span>
-          <h1>SEO, web development and IT systems built to rank in Nepal.</h1>
+          <span className="neo-pill"><Sparkles size={15} /> IT outsourcing, software and marketing agency in Nepal</span>
+          <h1>Software, SEO and remote IT execution from Nepal for ambitious companies.</h1>
           <p>
-            Kritech Solution helps businesses in Butwal, Bhairahawa, Kathmandu, Pokhara and across Nepal rank higher on Google, generate leads and manage a stronger digital presence.
+            Kritech Solution helps businesses in Nepal, USA, UK and UAE build software, rank on Google, launch better websites and outsource reliable digital production to a focused Nepal-based team.
           </p>
           <div className="neo-actions">
             <button className="neo-primary" onClick={() => go('/contact')}>Plan my system <ArrowRight size={18} /></button>
@@ -1693,15 +1991,15 @@ function NeoHero({ go }) {
         <motion.div className="neo-command" variants={fadeUp} whileHover={{ y: -8, rotateX: 2, rotateY: -2 }}>
           <div className="neo-window-top"><span /><span /><span /><b>growth-console.ts</b></div>
           <div className="neo-terminal-lines">
-            <code><em>01</em> research.keywords("Butwal + Nepal")</code>
-            <code><em>02</em> build.localPages({`{ seo: true, speed: "fast" }`})</code>
-            <code><em>03</em> publish.blogs().submitSitemap()</code>
-            <code><em>04</em> track.calls().optimize.rankings()</code>
+            <code><em>01</em> map.intent("Nepal + USA + UAE + UK")</code>
+            <code><em>02</em> build.software({`{ seo: true, scalable: true }`})</code>
+            <code><em>03</em> ship.pages().track.leads()</code>
+            <code><em>04</em> improve.systems().report.weekly()</code>
           </div>
           <div className="neo-metrics">
             <span><strong>98</strong> performance</span>
-            <span><strong>Butwal</strong> local SEO focus</span>
-            <span><strong>24/7</strong> uptime focus</span>
+            <span><strong>Nepal</strong> delivery base</span>
+            <span><strong>Global</strong> remote support</span>
           </div>
         </motion.div>
       </motion.div>
@@ -1786,11 +2084,63 @@ function NeuralScene() {
 }
 
 function NeoSignalStrip() {
-  const signals = ['Best marketing agency in Butwal', 'SEO services in Butwal', 'Digital marketing agency Nepal', 'Web development Butwal', 'IT company in Butwal', 'Lead tracking', 'Google ranking Nepal', 'Social media marketing'];
+  const signals = ['IT outsourcing from Nepal', 'Hire remote developers', 'Software development outsourcing', 'White-label SEO support', 'ERP development team', 'Web development outsourcing', 'Graphic design production', 'Digital marketing outsourcing'];
   return (
     <div className="neo-strip">
       <div>{[...signals, ...signals].map((signal, index) => <span key={`${signal}-${index}`}>{signal}</span>)}</div>
     </div>
+  );
+}
+
+function GlobalDeliveryOS({ go }) {
+  const deliveryCards = [
+    ['Software', 'ERP, dashboards, APIs, admin panels and business workflow systems.'],
+    ['Marketing', 'SEO pages, content, landing pages, reports and campaign assets.'],
+    ['Creative', 'Brand graphics, social creatives, ad visuals, pitch decks and web UI.'],
+    ['Support', 'Website updates, bug fixes, tracking, maintenance and monthly improvements.']
+  ];
+  const markets = ['USA', 'UK', 'UAE', 'Dubai', 'Australia', 'Canada', 'Nepal'];
+
+  return (
+    <section className="global-os-section">
+      <motion.div className="global-os-copy" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        <span className="neo-pill"><Globe2 size={15} /> Global delivery from Nepal</span>
+        <h2>Outsource software, SEO, websites and creative work to one sharp remote team.</h2>
+        <p>
+          Kritech is built for companies that want the cost advantage of Nepal without the chaos of random freelancing. We plan the work, ship visible output, test the experience and keep the next step clear.
+        </p>
+        <div className="global-os-actions">
+          <button className="neo-primary" onClick={() => go('/global-it-outsourcing-company')}>Hire Kritech globally <ArrowRight size={18} /></button>
+          <button className="neo-secondary" onClick={() => go('/software-development-outsourcing-nepal')}>Software outsourcing <ChevronRight size={18} /></button>
+        </div>
+        <div className="global-market-chips">
+          {markets.map((market) => <button key={market} onClick={() => go(market === 'UAE' ? '/software-development-outsourcing-uae' : market === 'UK' ? '/software-development-outsourcing-uk' : market === 'USA' ? '/software-development-outsourcing-usa' : '/global-it-outsourcing-company')}>{market}</button>)}
+        </div>
+      </motion.div>
+      <motion.div className="global-os-board" initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
+        <div className="global-board-top">
+          <span>kritech.delivery</span>
+          <strong>remote work engine</strong>
+        </div>
+        <div className="global-board-grid">
+          {deliveryCards.map(([title, text], index) => (
+            <motion.article key={title} whileHover={{ y: -10 }}>
+              <b>{String(index + 1).padStart(2, '0')}</b>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </motion.article>
+          ))}
+        </div>
+        <div className="global-stack-line">
+          <span>React</span>
+          <span>Node</span>
+          <span>SEO</span>
+          <span>ERP</span>
+          <span>Cloud</span>
+          <span>Design</span>
+        </div>
+      </motion.div>
+    </section>
   );
 }
 
@@ -1873,10 +2223,10 @@ function HomeRankingEngine({ go }) {
 
 function NeoModules({ go }) {
   const modules = [
-    [Search, 'SEO Services in Butwal', 'Improve how customers find your business on Google and turn local searches into real inquiries.'],
-    [Code2, 'Web Development Company', 'Fast, responsive websites with premium design, useful service pages and easy contact flows.'],
-    [ServerCog, 'Software Company in Nepal', 'ERP, accounting, CRM, inventory, POS, dashboards and custom workflow software for growing teams.'],
-    [Megaphone, 'Digital Marketing Nepal', 'Google Ads, Meta campaigns and social media support connected to pages that can convert visitors.']
+    [Globe2, 'Global IT Outsourcing', 'Remote software, SEO, design and marketing production for USA, UK, UAE and Nepal clients.'],
+    [Code2, 'Software Development', 'ERP, dashboards, APIs, admin panels, web apps and custom workflow software for growing teams.'],
+    [Search, 'SEO and Web Systems', 'Technical SEO, service pages, blogs, fast websites and lead tracking built around buyer intent.'],
+    [Megaphone, 'Creative Marketing Team', 'Google Ads, Meta campaigns, social media creatives and content connected to conversion pages.']
   ];
   return (
     <motion.section className="neo-section neo-modules" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}>
@@ -1902,6 +2252,10 @@ function NeoModules({ go }) {
 
 function LocalSeoMap({ go }) {
   const routes = [
+    ['/global-it-outsourcing-company', 'Global outsourcing'],
+    ['/software-development-outsourcing-nepal', 'Software outsourcing'],
+    ['/hire-remote-developers-nepal', 'Hire remote developers'],
+    ['/white-label-seo-outsourcing', 'White-label SEO'],
     ['/best-marketing-agency-butwal', 'Best agency in Butwal'],
     ['/digital-marketing-agency-butwal', 'Grow in Butwal'],
     ['/seo-services-butwal', 'Rank locally'],
@@ -2427,8 +2781,9 @@ function AboutPage({ go }) {
 
 function ServicesPage({ go }) {
   return (
-    <PageShell eyebrow="Services" title="Software, ERP, cybersecurity, websites and digital marketing for Nepal." text="Choose one focused service or build a complete technology and growth system with Kritech as your digital partner.">
+    <PageShell eyebrow="Services" title="Software, ERP, websites, SEO and outsourcing support from Nepal." text="Choose one focused service or build a complete remote technology and growth team with Kritech as your digital partner.">
       <ServicesPreview go={go} />
+      <GlobalOutsourcingSection go={go} />
       <ServiceDeepDive />
       <SoftwareSolutionsSection go={go} />
       <IndustrySection />
@@ -2437,6 +2792,38 @@ function ServicesPage({ go }) {
       <FAQSection />
       <CTA go={go} />
     </PageShell>
+  );
+}
+
+function GlobalOutsourcingSection({ go }) {
+  const links = [
+    ['Global IT Outsourcing', '/global-it-outsourcing-company', 'Software, websites, SEO, design and campaign production from one Nepal-based team.'],
+    ['Software Outsourcing', '/software-development-outsourcing-nepal', 'ERP modules, dashboards, web apps, APIs and maintained business software.'],
+    ['Hire Remote Developers', '/hire-remote-developers-nepal', 'Flexible developer support for features, fixes, websites, APIs and admin panels.'],
+    ['White-label SEO', '/white-label-seo-outsourcing', 'SEO audits, page updates, briefs, reports and implementation for agencies.'],
+    ['Digital Marketing Outsourcing', '/digital-marketing-outsourcing-company', 'Content, landing pages, social creatives, reports and campaign support.'],
+    ['ERP Development Outsourcing', '/erp-development-outsourcing', 'Custom ERP workflows for inventory, accounts, CRM, reports and approvals.']
+  ];
+
+  return (
+    <section className="section global-service-section">
+      <div className="section-head">
+        <div>
+          <span className="eyebrow">Global outsourcing</span>
+          <h2>Remote delivery for companies that want skilled execution without heavy overhead.</h2>
+        </div>
+        <p>Kritech helps overseas founders, agencies and small teams outsource the work that keeps growth moving: software, websites, SEO, design, content and technical maintenance.</p>
+      </div>
+      <div className="global-service-grid">
+        {links.map(([title, path, text]) => (
+          <article key={path}>
+            <h3>{title}</h3>
+            <p>{text}</p>
+            <button className="text-link" onClick={() => go(path)}>View page <ChevronRight size={15} /></button>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -2533,6 +2920,11 @@ function LocalCoverage({ go }) {
       </div>
       <div className="coverage-links">
         {[
+          ['/global-it-outsourcing-company', 'Global IT outsourcing'],
+          ['/software-development-outsourcing-nepal', 'Software outsourcing'],
+          ['/hire-remote-developers-nepal', 'Hire remote developers'],
+          ['/white-label-seo-outsourcing', 'White-label SEO'],
+          ['/digital-marketing-outsourcing-company', 'Marketing outsourcing'],
           ['/digital-marketing-agency-butwal', 'Butwal marketing support'],
           ['/best-marketing-agency-butwal', 'Best marketing agency Butwal'],
           ['/seo-services-butwal', 'Local ranking support'],
@@ -2549,6 +2941,9 @@ function LocalCoverage({ go }) {
           ['/custom-software-development-nepal', 'Custom software'],
           ['/cyber-security-services-nepal', 'Cybersecurity services'],
           ['/remote-digital-marketing-agency', 'Remote delivery team'],
+          ['/software-development-outsourcing-usa', 'USA software outsourcing'],
+          ['/software-development-outsourcing-uk', 'UK software outsourcing'],
+          ['/software-development-outsourcing-uae', 'UAE software outsourcing'],
           ['/digital-marketing-agency-uae', 'UAE client support'],
           ['/seo-company-dubai', 'Dubai SEO support'],
           ['/digital-marketing-agency-usa', 'USA client support'],
@@ -3869,6 +4264,7 @@ function PublicSitemapPage({ posts, go }) {
       ['IT Company in Butwal', '/it-company-butwal']
     ]],
     ['Software and Cybersecurity', softwarePages.map((page) => [page.eyebrow, page.path])],
+    ['Global Outsourcing', globalOutsourcingPages.map((page) => [page.eyebrow, page.path])],
     ['Nepal City Service Areas', cityAreaPages.map((page) => [`Digital Marketing Agency in ${page.city}`, page.path])],
     ['IT and Marketing Classes', trainingPages.map((page) => [page.course, page.path])],
     ['Nepal and Remote Services', [
@@ -3946,12 +4342,20 @@ function Footer({ go }) {
     ['Mobile App Development', '/mobile-app-development-nepal'],
     ['Cybersecurity', '/cyber-security-services-nepal']
   ];
+  const globalLinks = [
+    ['Global IT Outsourcing', '/global-it-outsourcing-company'],
+    ['Software Outsourcing', '/software-development-outsourcing-nepal'],
+    ['Hire Remote Developers', '/hire-remote-developers-nepal'],
+    ['White-label SEO', '/white-label-seo-outsourcing'],
+    ['USA Outsourcing', '/software-development-outsourcing-usa'],
+    ['UAE Outsourcing', '/software-development-outsourcing-uae']
+  ];
 
   return (
     <footer>
       <div>
         <img src="/kritech-logo.webp" alt="Kritech Solution logo" />
-        <p>Quality software, ERP, cybersecurity, digital marketing and IT services within reach of every Nepali business.</p>
+        <p>Software, ERP, SEO, websites, creative production and remote IT outsourcing from Butwal, Nepal.</p>
       </div>
       <div>
         <h4>Company</h4>
@@ -3968,6 +4372,10 @@ function Footer({ go }) {
       <div>
         <h4>Software</h4>
         {softwareLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+      </div>
+      <div>
+        <h4>Global</h4>
+        {globalLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
       </div>
       <div>
         <h4>Contact</h4>
