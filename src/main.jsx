@@ -50,8 +50,14 @@ const ACCESS_MODULES = [
 
 function currentRoute() {
   const hashRoute = window.location.hash.replace('#', '');
-  if (hashRoute) return hashRoute;
-  return window.location.pathname || '/';
+  if (hashRoute) return normalizeRoute(hashRoute);
+  return normalizeRoute(window.location.pathname || '/');
+}
+
+function normalizeRoute(value = '/') {
+  const path = String(value).split('?')[0].split('#')[0] || '/';
+  if (path === '/') return '/';
+  return path.replace(/\/+$/, '') || '/';
 }
 
 const internationalSeoTargets = [
@@ -1824,21 +1830,28 @@ function App() {
   useEffect(() => {
     const meta = getRouteMeta(route, seo, posts);
     const canonicalUrl = `${SITE_URL}${route === '/' ? '' : route}`;
+    const isAdminRoute = route.startsWith('/admin-login') || route.startsWith('/admin-reset') || route.startsWith('/admin');
+    const isBlogRoute = route.startsWith('/blog/');
+    const shareImage = `${SITE_URL}/agency-hero.png`;
     document.title = meta.title;
     setMeta('description', meta.description);
-    setMeta('robots', route.startsWith('/admin-login') || route.startsWith('/admin-reset') ? 'noindex, nofollow' : 'index, follow');
+    setMeta('robots', isAdminRoute ? 'noindex, nofollow' : 'index, follow');
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', meta.title);
     setMeta('twitter:description', meta.description);
+    setMeta('twitter:image', shareImage);
     setPropertyMeta('og:title', meta.title);
     setPropertyMeta('og:description', meta.description);
     setPropertyMeta('og:url', canonicalUrl);
+    setPropertyMeta('og:type', isBlogRoute ? 'article' : 'website');
+    setPropertyMeta('og:image', shareImage);
     setCanonical(canonicalUrl);
   }, [route, seo, posts]);
 
   const go = (path) => {
-    window.history.pushState({}, '', path);
-    setRoute(path);
+    const normalizedPath = normalizeRoute(path);
+    window.history.pushState({}, '', normalizedPath);
+    setRoute(normalizedPath);
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -1910,15 +1923,31 @@ function getRouteMeta(route, seo, posts) {
     const slug = route.replace('/blog/', '');
     const post = posts.find((item) => item.slug === slug);
     if (post) {
-      return {
+      return normalizeRouteMeta({
         title: post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`,
         description: post.metaDescription || post.seoDescription || post.excerpt || seo.blog.description
-      };
+      });
     }
-    return seo.blog;
+    return normalizeRouteMeta(seo.blog);
   }
 
-  return Object.values(seo).find((item) => item.path === route) || seo.home;
+  return normalizeRouteMeta(Object.values(seo).find((item) => item.path === route) || seo.home);
+}
+
+function normalizeRouteMeta(meta) {
+  return {
+    ...meta,
+    title: clampSeoText(meta.title, 70),
+    description: clampSeoText(meta.description, 160)
+  };
+}
+
+function clampSeoText(value = '', maxLength = 160) {
+  const text = String(value).replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  const sliced = text.slice(0, maxLength - 1);
+  const clean = sliced.slice(0, Math.max(sliced.lastIndexOf(' '), Math.floor(maxLength * 0.72))).replace(/[,.:-]+$/, '');
+  return `${clean}…`;
 }
 
 function setCanonical(href) {

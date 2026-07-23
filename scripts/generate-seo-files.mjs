@@ -125,6 +125,7 @@ const robots = `User-agent: *
 Allow: /
 Disallow: /admin-login
 Disallow: /admin-reset
+Disallow: /admin
 
 Sitemap: ${siteUrl}/sitemap.xml
 `;

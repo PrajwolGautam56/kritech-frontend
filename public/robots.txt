@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin-login
 Disallow: /admin-reset
+Disallow: /admin
 
 Sitemap: https://kritechsolution.com/sitemap.xml

@@ -232,7 +232,7 @@ for (const path of paths) {
 console.log(`Pre-rendered ${paths.length} crawlable HTML pages`);
 
 function addPage(path, title, description, h1, bullets = [], faqs = defaultFaqs(path), extraParagraphs = []) {
-  pageData.set(path, { path, title, description, h1, bullets, faqs, extraParagraphs });
+  pageData.set(path, { path, title: clampSeoText(title, 70), description: clampSeoText(description, 160), h1, bullets, faqs, extraParagraphs });
 }
 
 function addBlogPage(post) {
@@ -240,8 +240,8 @@ function addBlogPage(post) {
   pageData.set(path, {
     path,
     type: 'BlogPosting',
-    title: post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`,
-    description: post.metaDescription || post.seoDescription || post.excerpt || `Read ${post.title} from Kritech Solution.`,
+    title: clampSeoText(post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`, 70),
+    description: clampSeoText(post.metaDescription || post.seoDescription || post.excerpt || `Read ${post.title} from Kritech Solution.`, 160),
     h1: post.title,
     bullets: [],
     faqs: [],
@@ -283,15 +283,21 @@ function renderPage(template, page, path) {
   const canonical = `${siteUrl}${path === '/' ? '' : path}`;
   const schema = buildSchema(page, canonical);
   const staticContent = renderStaticContent(page);
+  const shareImage = page.image && page.image.startsWith('http') ? page.image : `${siteUrl}/agency-hero.png`;
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(page.title)}</title>`)
     .replace(/<meta name="description" content="[^"]*"\s*\/?>/, `<meta name="description" content="${escapeAttr(page.description)}" />`)
     .replace(/<meta property="og:title" content="[^"]*"\s*\/?>/, `<meta property="og:title" content="${escapeAttr(page.title)}" />`)
     .replace(/<meta property="og:description" content="[^"]*"\s*\/?>/, `<meta property="og:description" content="${escapeAttr(page.description)}" />`)
+    .replace(/<meta property="og:type" content="[^"]*"\s*\/?>/, `<meta property="og:type" content="${page.type === 'BlogPosting' ? 'article' : 'website'}" />`)
     .replace(/<meta property="og:url" content="[^"]*"\s*\/?>/, `<meta property="og:url" content="${escapeAttr(canonical)}" />`)
+    .replace(/<meta property="og:image" content="[^"]*"\s*\/?>/, `<meta property="og:image" content="${escapeAttr(shareImage)}" />`)
+    .replace(/<meta name="twitter:title" content="[^"]*"\s*\/?>/, `<meta name="twitter:title" content="${escapeAttr(page.title)}" />`)
+    .replace(/<meta name="twitter:description" content="[^"]*"\s*\/?>/, `<meta name="twitter:description" content="${escapeAttr(page.description)}" />`)
+    .replace(/<meta name="twitter:image" content="[^"]*"\s*\/?>/, `<meta name="twitter:image" content="${escapeAttr(shareImage)}" />`)
     .replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${escapeAttr(canonical)}" />`);
 
-  html = html.replace('</head>', `${twitterTags(page, canonical)}
+  html = html.replace('</head>', `    <meta name="twitter:url" content="${escapeAttr(canonical)}" />
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
     <style id="seo-prerender-style">.seo-prerender{font-family:Inter,system-ui,sans-serif;max-width:1120px;margin:0 auto;padding:48px 24px;color:#07120d;background:#fff}.seo-prerender h1{font-size:clamp(2rem,5vw,4.5rem);line-height:1.02;margin:0 0 18px}.seo-prerender p{max-width:760px;font-size:1.05rem;line-height:1.7;color:#33443a}.seo-prerender ul{display:grid;gap:10px;padding-left:20px}.seo-prerender li{font-weight:700}.seo-prerender h2{margin-top:34px}</style>
   </head>`);
@@ -320,6 +326,10 @@ function buildSchema(page, canonical) {
       url: canonical,
       name: page.title,
       description: page.description,
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/agency-hero.png`
+      },
       isPartOf: {
         '@type': 'WebSite',
         name: 'Kritech Solution',
@@ -332,6 +342,16 @@ function buildSchema(page, canonical) {
       }
     }
   ];
+
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItemsFor(page).map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${siteUrl}${item.path === '/' ? '' : item.path}`
+    }))
+  });
 
   if (page.path.includes('training') || page.path.includes('classes')) {
     graph.push({
@@ -463,11 +483,19 @@ function softwareTopicFor(path) {
   return 'business software';
 }
 
-function twitterTags(page, canonical) {
-  return `    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${escapeAttr(page.title)}" />
-    <meta name="twitter:description" content="${escapeAttr(page.description)}" />
-    <meta name="twitter:url" content="${escapeAttr(canonical)}" />`;
+function breadcrumbItemsFor(page) {
+  if (page.path === '/') return [{ name: 'Home', path: '/' }];
+  if (page.path.startsWith('/blog/')) {
+    return [
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+      { name: page.h1, path: page.path }
+    ];
+  }
+  return [
+    { name: 'Home', path: '/' },
+    { name: page.h1, path: page.path }
+  ];
 }
 
 function cleanWordPressContent(value = '') {
@@ -487,6 +515,14 @@ function stripHtml(value = '') {
 function wordCount(value = '') {
   const words = String(value).trim().match(/\b[\w'-]+\b/g);
   return words ? words.length : 0;
+}
+
+function clampSeoText(value = '', maxLength = 160) {
+  const text = String(value).replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  const sliced = text.slice(0, maxLength - 1);
+  const clean = sliced.slice(0, Math.max(sliced.lastIndexOf(' '), Math.floor(maxLength * 0.72))).replace(/[,.:-]+$/, '');
+  return `${clean}…`;
 }
 
 function normalizeSchemaDate(value) {

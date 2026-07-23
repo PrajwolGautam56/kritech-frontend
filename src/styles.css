@@ -5223,4 +5223,16 @@ body {
   .article-page {
     padding-top: 66px;
   }
+
+  .page-hero h1,
+  .article-page h1 {
+    font-size: clamp(2.25rem, 10vw, 3.25rem);
+    line-height: 1.06;
+  }
+
+  .page-hero p,
+  .article-excerpt {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
 }
