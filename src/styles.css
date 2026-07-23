@@ -5185,43 +5185,43 @@ body {
   color: #a9ffd6;
 }
 
-/* Navigation should not cover hero content while scrolling. */
+/* Navigation floats over the hero without staying fixed during scroll. */
 .site-header {
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: none;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 20;
-  margin: 14px auto 0;
+  margin: 0;
 }
 
 .neo-hero {
-  min-height: 700px;
-  padding-top: 72px;
+  min-height: 760px;
+  padding-top: 158px;
   padding-bottom: 70px;
 }
 
 .page-hero {
-  padding-top: 72px;
+  padding-top: 150px;
 }
 
 .article-page {
-  padding-top: 56px;
+  padding-top: 132px;
 }
 
 @media (max-width: 720px) {
   .site-header {
-    top: auto;
-    margin-top: 10px;
+    top: 12px;
+    margin: 0;
   }
 
   .neo-hero {
-    padding-top: 58px;
+    padding-top: 118px;
   }
 
   .page-hero,
   .article-page {
-    padding-top: 66px;
+    padding-top: 118px;
   }
 
   .page-hero h1,
