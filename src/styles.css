@@ -5184,3 +5184,43 @@ body {
 .section.local-process-panel .process-rail strong {
   color: #a9ffd6;
 }
+
+/* Navigation should not cover hero content while scrolling. */
+.site-header {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  z-index: 20;
+  margin: 14px auto 0;
+}
+
+.neo-hero {
+  min-height: 700px;
+  padding-top: 72px;
+  padding-bottom: 70px;
+}
+
+.page-hero {
+  padding-top: 72px;
+}
+
+.article-page {
+  padding-top: 56px;
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    top: auto;
+    margin-top: 10px;
+  }
+
+  .neo-hero {
+    padding-top: 58px;
+  }
+
+  .page-hero,
+  .article-page {
+    padding-top: 66px;
+  }
+}
