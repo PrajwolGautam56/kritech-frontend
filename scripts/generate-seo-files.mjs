@@ -110,16 +110,27 @@ const urls = [
   ...seedBlogPages.map((page) => ({ ...page, priority: '0.7' }))
 ];
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url>
-    <loc>${siteUrl}${url.path === '/' ? '' : url.path}</loc>
-    <lastmod>${url.lastmod || today}</lastmod>
-    <changefreq>${url.path.startsWith('/blog/') ? 'monthly' : 'weekly'}</changefreq>
-    <priority>${url.priority}</priority>
-  </url>`).join('\n')}
-</urlset>
-`;
+const sitemap = renderSitemap(urls);
+
+const softwareMatchers = ['software', 'erp', 'accounting', 'inventory', 'pos', 'crm', 'mobile-app', 'custom-app', 'cyber'];
+const globalMatchers = ['outsourcing', 'remote', 'offshore', 'dedicated-development-team', 'white-label', 'usa', 'uk', 'uae', 'dubai', 'new-york'];
+const trainingUrls = localPages.filter((path) => path.includes('training') || path.includes('classes')).map((path) => ({ path, priority: '0.8' }));
+const softwareUrls = localPages.filter((path) => softwareMatchers.some((part) => path.includes(part))).map((path) => ({ path, priority: '0.9' }));
+const globalUrls = localPages.filter((path) => globalMatchers.some((part) => path.includes(part))).map((path) => ({ path, priority: '0.9' }));
+const localServiceUrls = localPages
+  .filter((path) => !trainingUrls.some((url) => url.path === path))
+  .filter((path) => !softwareUrls.some((url) => url.path === path))
+  .filter((path) => !globalUrls.some((url) => url.path === path))
+  .map((path) => ({ path, priority: '0.9' }));
+
+const topicalSitemaps = [
+  ['sitemap-core.xml', corePages.map((path) => ({ path, priority: path === '/' ? '1.0' : '0.8' }))],
+  ['sitemap-local-services.xml', localServiceUrls],
+  ['sitemap-software.xml', softwareUrls],
+  ['sitemap-training.xml', trainingUrls],
+  ['sitemap-global.xml', globalUrls],
+  ['sitemap-blog.xml', [...blogPages.map((page) => ({ ...page, priority: '0.7' })), ...seedBlogPages.map((page) => ({ ...page, priority: '0.7' }))]]
+];
 
 const robots = `User-agent: *
 Allow: /
@@ -128,6 +139,7 @@ Disallow: /admin-reset
 Disallow: /admin
 
 Sitemap: ${siteUrl}/sitemap.xml
+${topicalSitemaps.map(([file]) => `Sitemap: ${siteUrl}/${file}`).join('\n')}
 `;
 
 const llms = `# Kritech Solution
@@ -169,10 +181,26 @@ Public HTML sitemap: ${siteUrl}/sitemap
 `;
 
 await writeFile(new URL('../public/sitemap.xml', import.meta.url), sitemap);
+for (const [file, sitemapUrls] of topicalSitemaps) {
+  await writeFile(new URL(`../public/${file}`, import.meta.url), renderSitemap(sitemapUrls));
+}
 await writeFile(new URL('../public/robots.txt', import.meta.url), robots);
 await writeFile(new URL('../public/llms.txt', import.meta.url), llms);
 
-console.log(`Generated sitemap.xml with ${urls.length} URLs, robots.txt and llms.txt`);
+console.log(`Generated sitemap.xml with ${urls.length} URLs, topical sitemaps, robots.txt and llms.txt`);
+
+function renderSitemap(sitemapUrls) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls.map((url) => `  <url>
+    <loc>${siteUrl}${url.path === '/' ? '' : url.path}</loc>
+    <lastmod>${url.lastmod || today}</lastmod>
+    <changefreq>${url.path.startsWith('/blog/') ? 'monthly' : 'weekly'}</changefreq>
+    <priority>${url.priority || '0.8'}</priority>
+  </url>`).join('\n')}
+</urlset>
+`;
+}
 
 function normalizeDate(value) {
   if (!value) return today;

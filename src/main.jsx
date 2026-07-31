@@ -60,6 +60,12 @@ function normalizeRoute(value = '/') {
   return path.replace(/\/+$/, '') || '/';
 }
 
+function followInternalLink(event, go, path) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  event.preventDefault();
+  go(path);
+}
+
 const internationalSeoTargets = [
   {
     key: 'remoteDigitalMarketingAgency',
@@ -2978,7 +2984,7 @@ function LocalCoverage({ go }) {
           ['/digital-marketing-agency-usa', 'USA client support'],
           ['/seo-company-new-york', 'New York SEO support']
         ].map(([path, label]) => (
-          <button key={path} onClick={() => go(path)}>{label} <ChevronRight size={16} /></button>
+          <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label} <ChevronRight size={16} /></a>
         ))}
       </div>
     </section>
@@ -4318,7 +4324,7 @@ function PublicSitemapPage({ posts, go }) {
             <h2>{group}</h2>
             <div>
               {links.map(([label, path]) => (
-                <button key={path} onClick={() => go(path)}>{label} <ChevronRight size={15} /></button>
+                <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label} <ChevronRight size={15} /></a>
               ))}
             </div>
           </article>
@@ -4388,23 +4394,26 @@ function Footer({ go }) {
       </div>
       <div>
         <h4>Company</h4>
-        {['Services', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => <button key={item} onClick={() => go(`/${item.toLowerCase()}`)}>{item}</button>)}
+        {['Services', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => {
+          const path = `/${item.toLowerCase()}`;
+          return <a key={item} href={path} onClick={(event) => followInternalLink(event, go, path)}>{item}</a>;
+        })}
       </div>
       <div>
         <h4>Services Area</h4>
-        {serviceAreas.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+        {serviceAreas.map(([label, path]) => <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label}</a>)}
       </div>
       <div>
         <h4>IT Classes</h4>
-        {trainingLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+        {trainingLinks.map(([label, path]) => <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label}</a>)}
       </div>
       <div>
         <h4>Software</h4>
-        {softwareLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+        {softwareLinks.map(([label, path]) => <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label}</a>)}
       </div>
       <div>
         <h4>Global</h4>
-        {globalLinks.map(([label, path]) => <button key={path} onClick={() => go(path)}>{label}</button>)}
+        {globalLinks.map(([label, path]) => <a key={path} href={path} onClick={(event) => followInternalLink(event, go, path)}>{label}</a>)}
       </div>
       <div>
         <h4>Contact</h4>

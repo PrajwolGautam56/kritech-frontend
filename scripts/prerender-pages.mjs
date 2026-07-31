@@ -299,13 +299,14 @@ function renderPage(template, page, path) {
 
   html = html.replace('</head>', `    <meta name="twitter:url" content="${escapeAttr(canonical)}" />
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
-    <style id="seo-prerender-style">.seo-prerender{font-family:Inter,system-ui,sans-serif;max-width:1120px;margin:0 auto;padding:48px 24px;color:#07120d;background:#fff}.seo-prerender h1{font-size:clamp(2rem,5vw,4.5rem);line-height:1.02;margin:0 0 18px}.seo-prerender p{max-width:760px;font-size:1.05rem;line-height:1.7;color:#33443a}.seo-prerender ul{display:grid;gap:10px;padding-left:20px}.seo-prerender li{font-weight:700}.seo-prerender h2{margin-top:34px}</style>
+    <style id="seo-prerender-style">.seo-prerender{font-family:Inter,system-ui,sans-serif;max-width:1120px;margin:0 auto;padding:48px 24px;color:#07120d;background:#fff}.seo-prerender h1{font-size:clamp(2rem,5vw,4.5rem);line-height:1.02;margin:0 0 18px}.seo-prerender p{max-width:760px;font-size:1.05rem;line-height:1.7;color:#33443a}.seo-prerender ul{display:grid;gap:10px;padding-left:20px}.seo-prerender li{font-weight:700}.seo-prerender h2{margin-top:34px}.seo-prerender .seo-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:0;list-style:none}.seo-prerender .seo-links a{display:block;padding:12px 14px;border:1px solid #d8eadf;border-radius:12px;color:#035f36;background:#f7fbf8;font-weight:800;text-decoration:none}.seo-prerender .seo-all-links{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}</style>
   </head>`);
 
   return html.replace('<div id="root"></div>', `<div id="root">${staticContent}</div>`);
 }
 
 function renderStaticContent(page) {
+  const relatedLinks = relatedLinksFor(page);
   return `<main class="seo-prerender">
     <p>Kritech Solution</p>
     ${page.category ? `<p>${escapeHtml(page.category)}${page.author ? ` · ${escapeHtml(page.author)}` : ''}${page.date ? ` · ${escapeHtml(page.date)}` : ''}</p>` : ''}
@@ -315,7 +316,64 @@ function renderStaticContent(page) {
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
     ${page.bodyHtml ? `<article class="imported-wordpress-content">${page.bodyHtml}</article>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}
+    ${relatedLinks.length ? `<section><h2>Related Kritech pages</h2>${renderLinkList(relatedLinks)}</section>` : ''}
+    ${page.path === '/sitemap' ? `<section><h2>All crawlable pages</h2>${renderLinkList(paths.map(linkForPath), 'seo-all-links')}</section>` : ''}
   </main>`;
+}
+
+function renderLinkList(links, extraClass = '') {
+  return `<ul class="seo-links ${extraClass}">${links.map((link) => `<li><a href="${escapeAttr(link.path)}">${escapeHtml(link.label)}</a></li>`).join('')}</ul>`;
+}
+
+function relatedLinksFor(page) {
+  const path = page.path;
+  const links = [
+    '/',
+    '/services',
+    '/contact',
+    '/sitemap'
+  ];
+
+  if (path.startsWith('/blog/')) {
+    links.push('/blog', '/seo-company-nepal', '/digital-marketing-agency-nepal', '/web-development-company-nepal', '/software-company-nepal');
+  }
+
+  if (path.includes('software') || path.includes('erp') || path.includes('accounting') || path.includes('inventory') || path.includes('pos') || path.includes('crm') || path.includes('app-development')) {
+    links.push('/software-company-nepal', '/custom-software-development-nepal', '/erp-software-nepal', '/accounting-software-nepal', '/crm-software-nepal', '/mobile-app-development-nepal', '/software-development-outsourcing-nepal');
+  }
+
+  if (path.includes('seo') || path.includes('marketing') || path.includes('agency')) {
+    links.push('/seo-company-nepal', '/seo-services-butwal', '/digital-marketing-agency-nepal', '/digital-marketing-agency-butwal', '/best-marketing-agency-butwal', '/remote-digital-marketing-agency');
+  }
+
+  if (path.includes('training') || path.includes('classes')) {
+    links.push('/it-training-institute-butwal', '/digital-marketing-training-butwal', '/seo-training-butwal', '/web-development-training-butwal', '/ai-ml-training-butwal', '/coding-classes-butwal');
+  }
+
+  if (path.includes('outsourcing') || path.includes('remote') || path.includes('offshore') || path.includes('usa') || path.includes('uk') || path.includes('uae') || path.includes('dubai') || path.includes('new-york')) {
+    links.push('/global-it-outsourcing-company', '/hire-remote-developers-nepal', '/white-label-seo-outsourcing', '/digital-marketing-outsourcing-company', '/software-development-outsourcing-usa', '/software-development-outsourcing-uae', '/software-development-outsourcing-uk');
+  }
+
+  if (path.includes('butwal')) {
+    links.push('/software-company-butwal', '/erp-software-butwal', '/it-company-butwal', '/services-bhairahawa', '/services-tilottama');
+  }
+
+  const unique = [];
+  const seen = new Set([path]);
+  for (const linkPath of links) {
+    if (seen.has(linkPath)) continue;
+    seen.add(linkPath);
+    unique.push(linkForPath(linkPath));
+  }
+  return unique.slice(0, 18);
+}
+
+function linkForPath(path) {
+  const page = pageData.get(path) || fallbackPage(path);
+  return {
+    path: path === '/' ? '/' : path,
+    label: page.h1 || humanizePath(path)
+  };
 }
 
 function buildSchema(page, canonical) {

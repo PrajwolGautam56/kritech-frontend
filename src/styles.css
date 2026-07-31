@@ -65,7 +65,8 @@ button {
 .brand,
 nav button,
 .nav-toggle,
-footer button {
+footer button,
+footer a {
   border: 0;
   background: transparent;
 }
@@ -751,11 +752,13 @@ footer img {
   width: 190px;
 }
 
-footer button {
+footer button,
+footer a {
   display: block;
   margin: 8px 0;
   padding: 0;
   color: var(--muted);
+  text-decoration: none;
 }
 
 .floating-contact {
@@ -2208,7 +2211,8 @@ label textarea.tall {
   gap: 8px;
 }
 
-.sitemap-public button {
+.sitemap-public button,
+.sitemap-public a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2221,9 +2225,11 @@ label textarea.tall {
   background: #f8faf8;
   font-weight: 850;
   text-align: left;
+  text-decoration: none;
 }
 
-.sitemap-public button:hover {
+.sitemap-public button:hover,
+.sitemap-public a:hover {
   color: #035f36;
   border-color: rgba(5, 138, 73, 0.34);
   background: #e5faee;
@@ -2542,7 +2548,8 @@ footer h4 {
   color: #07120d;
 }
 
-footer button {
+footer button,
+footer a {
   color: #42534a;
 }
 
@@ -4308,7 +4315,8 @@ body {
 }
 
 .trust-actions button,
-.coverage-links button {
+.coverage-links button,
+.coverage-links a {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -4319,6 +4327,7 @@ body {
   border-radius: 999px;
   background: #ffffff;
   font-weight: 900;
+  text-decoration: none;
 }
 
 .about-story {
@@ -4432,7 +4441,8 @@ body {
   gap: 12px;
 }
 
-.coverage-links button {
+.coverage-links button,
+.coverage-links a {
   border-radius: 14px;
   background: #f5fbf7;
 }

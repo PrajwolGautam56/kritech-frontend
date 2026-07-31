@@ -5,3 +5,9 @@ Disallow: /admin-reset
 Disallow: /admin
 
 Sitemap: https://kritechsolution.com/sitemap.xml
+Sitemap: https://kritechsolution.com/sitemap-core.xml
+Sitemap: https://kritechsolution.com/sitemap-local-services.xml
+Sitemap: https://kritechsolution.com/sitemap-software.xml
+Sitemap: https://kritechsolution.com/sitemap-training.xml
+Sitemap: https://kritechsolution.com/sitemap-global.xml
+Sitemap: https://kritechsolution.com/sitemap-blog.xml
