@@ -1751,6 +1751,7 @@ function App() {
   const [route, setRoute] = useState(currentRoute);
   const [posts, setPosts] = useState(loadPostsState);
   const [seo, setSeo] = useState(loadSeoState);
+  const [contentDirty, setContentDirty] = useState(false);
   const [adminSession, setAdminSession] = useState(loadAdminSession);
   const [menuOpen, setMenuOpen] = useState(false);
   const [apiState, setApiState] = useState({
@@ -1795,6 +1796,27 @@ function App() {
   }, [adminSession]);
 
   useEffect(() => {
+    if (!adminSession) return undefined;
+    let alive = true;
+
+    apiRequest('/api/auth/me')
+      .catch(() => {
+        if (!alive) return;
+        setAdminSession(null);
+        setApiState((state) => ({
+          ...state,
+          checked: true,
+          connected: false,
+          message: 'Admin session expired. Please login again.'
+        }));
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [adminSession?.token]);
+
+  useEffect(() => {
     let alive = true;
 
     apiRequest('/api/content')
@@ -1806,6 +1828,7 @@ function App() {
         if (data.seo && typeof data.seo === 'object') {
           setSeo({ ...defaultSeo, ...data.seo });
         }
+        setContentDirty(false);
         setApiState({ checked: true, connected: true, message: 'MongoDB connected' });
       })
       .catch(() => {
@@ -1819,19 +1842,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!apiState.connected || !adminSession || (!sessionCan(adminSession, 'posts') && !sessionCan(adminSession, 'seo'))) return undefined;
+    if (!contentDirty || !apiState.connected || !adminSession || (!sessionCan(adminSession, 'posts') && !sessionCan(adminSession, 'seo'))) return undefined;
 
     const timeout = window.setTimeout(() => {
       apiRequest('/api/content', {
         method: 'PUT',
         body: JSON.stringify({ posts, seo })
       })
-        .then(() => setApiState((state) => ({ ...state, message: 'MongoDB synced' })))
-        .catch(() => setApiState({ checked: true, connected: false, message: 'MongoDB sync failed' }));
+        .then(() => {
+          setContentDirty(false);
+          setApiState((state) => ({ ...state, message: 'MongoDB synced' }));
+        })
+        .catch((error) => setApiState((state) => ({
+          ...state,
+          checked: true,
+          message: `MongoDB sync failed: ${error.message}`
+        })));
     }, 700);
 
     return () => window.clearTimeout(timeout);
-  }, [posts, seo, apiState.connected, adminSession]);
+  }, [posts, seo, contentDirty, apiState.connected, adminSession]);
 
   useEffect(() => {
     const meta = getRouteMeta(route, seo, posts);
@@ -1862,11 +1892,21 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const updatePostsFromAdmin = (value) => {
+    setContentDirty(true);
+    setPosts(value);
+  };
+
+  const updateSeoFromAdmin = (value) => {
+    setContentDirty(true);
+    setSeo(value);
+  };
+
   if (route.startsWith('/admin-login')) {
     if (!adminSession) {
       return <AdminLogin setAdminSession={setAdminSession} go={go} />;
     }
-    return <Admin posts={posts} setPosts={setPosts} seo={seo} setSeo={setSeo} go={go} apiState={apiState} adminSession={adminSession} setAdminSession={setAdminSession} />;
+    return <Admin posts={posts} setPosts={updatePostsFromAdmin} seo={seo} setSeo={updateSeoFromAdmin} go={go} apiState={apiState} adminSession={adminSession} setAdminSession={setAdminSession} />;
   }
 
   if (route.startsWith('/admin-reset')) {
@@ -3332,6 +3372,15 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   ], [posts, seo, inquiries, leads, mailStatus, users]);
   const allowedModules = ACCESS_MODULES.filter(([key]) => sessionCan(adminSession, key));
   const can = (module) => sessionCan(adminSession, module);
+  const handleAdminApiError = (error, setState) => {
+    const message = error.message || 'Admin request failed.';
+    if (/admin login required|invalid token|unauthorized/i.test(message)) {
+      setAdminSession(null);
+      setState({ busy: false, message: 'Session expired. Please login again.' });
+      return;
+    }
+    setState({ busy: false, message });
+  };
 
   useEffect(() => {
     if (posts.length && !posts.some((post) => post.id === selectedId)) {
@@ -3353,7 +3402,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setInquiries(Array.isArray(items) ? items : []);
         setInquiryState({ busy: false, message: '' });
       })
-      .catch((error) => setInquiryState({ busy: false, message: error.message }));
+      .catch((error) => handleAdminApiError(error, setInquiryState));
   }, [active, adminSession]);
 
   useEffect(() => {
@@ -3364,7 +3413,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setLeads(Array.isArray(items) ? items : []);
         setLeadState({ busy: false, message: '' });
       })
-      .catch((error) => setLeadState({ busy: false, message: error.message }));
+      .catch((error) => handleAdminApiError(error, setLeadState));
   }, [active, adminSession]);
 
   useEffect(() => {
@@ -3375,7 +3424,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setUsers(Array.isArray(items) ? items : []);
         setUserState({ busy: false, message: '' });
       })
-      .catch((error) => setUserState({ busy: false, message: error.message }));
+      .catch((error) => handleAdminApiError(error, setUserState));
   }, [active, adminSession]);
 
   useEffect(() => {
