@@ -232,15 +232,16 @@ for (const path of paths) {
 console.log(`Pre-rendered ${paths.length} crawlable HTML pages`);
 
 function addPage(path, title, description, h1, bullets = [], faqs = defaultFaqs(path), extraParagraphs = []) {
-  pageData.set(path, { path, title: clampSeoText(title, 70), description: clampSeoText(description, 160), h1, bullets, faqs, extraParagraphs });
+  pageData.set(path, { path, title: makeDistinctSeoTitle(title, h1, 'Kritech Solution', 'Kritech'), description: clampSeoText(description, 160), h1, bullets, faqs, extraParagraphs });
 }
 
 function addBlogPage(post) {
   const path = `/blog/${post.slug}`;
+  const title = makeDistinctSeoTitle(post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`, post.title, 'Kritech Blog');
   pageData.set(path, {
     path,
     type: 'BlogPosting',
-    title: clampSeoText(post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`, 70),
+    title,
     description: clampSeoText(post.metaDescription || post.seoDescription || post.excerpt || `Read ${post.title} from Kritech Solution.`, 160),
     h1: post.title,
     bullets: [],
@@ -307,18 +308,25 @@ function renderPage(template, page, path) {
 
 function renderStaticContent(page) {
   const relatedLinks = relatedLinksFor(page);
+  const depthParagraphs = seoDepthParagraphsFor(page);
   return `<main class="seo-prerender">
     <p>Kritech Solution</p>
     ${page.category ? `<p>${escapeHtml(page.category)}${page.author ? ` · ${escapeHtml(page.author)}` : ''}${page.date ? ` · ${escapeHtml(page.date)}` : ''}</p>` : ''}
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.description)}</p>
-    ${page.extraParagraphs?.length ? page.extraParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
+    ${depthParagraphs.length ? depthParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
+    <p>${escapeHtml(searchSupportParagraph(page))}</p>
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
     ${page.bodyHtml ? `<article class="imported-wordpress-content">${page.bodyHtml}</article>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}
     ${relatedLinks.length ? `<section><h2>Related Kritech pages</h2>${renderLinkList(relatedLinks)}</section>` : ''}
     ${page.path === '/sitemap' ? `<section><h2>All crawlable pages</h2>${renderLinkList(paths.map(linkForPath), 'seo-all-links')}</section>` : ''}
   </main>`;
+}
+
+function searchSupportParagraph(page) {
+  const topic = page.h1 || humanizePath(page.path);
+  return `This ${page.path.startsWith('/blog/') ? 'article' : 'page'} is part of Kritech Solution's wider service knowledge base, so visitors can move from ${topic} to related services, useful blog guides, contact options and location-specific pages. That connected structure helps business owners compare solutions, understand the next step and contact Kritech with clearer project details. It also gives search engines a more complete crawl path through services, locations, training topics, software solutions and practical articles.`;
 }
 
 function renderLinkList(links, extraClass = '') {
@@ -368,6 +376,92 @@ function relatedLinksFor(page) {
   return unique.slice(0, 18);
 }
 
+function seoDepthParagraphsFor(page) {
+  const existing = page.extraParagraphs || [];
+  const topic = page.h1 || humanizePath(page.path);
+  const topicLower = topic.toLowerCase();
+
+  if (page.path === '/') {
+    return [
+      ...existing,
+      'Kritech Solution helps businesses choose one focused growth partner instead of separating software, website, SEO, ads, content and support into disconnected vendors. A visitor can request a business website, ERP workflow, search ranking plan, social media campaign, lead form, admin dashboard or remote IT support from the same team.',
+      'The company is based in Butwal, Nepal and supports clients across Nepal, UAE, UK, USA and other remote markets. The work is planned around practical outcomes: better inquiries, faster pages, clearer services, stronger local visibility, useful content and systems that owners can actually operate after launch.',
+      'For business owners comparing IT companies or digital marketing agencies, Kritech focuses on clean communication, measurable tasks and long-term improvement. Each project can connect website structure, blog publishing, technical SEO, analytics, conversion tracking and follow-up so the website becomes a useful sales asset.'
+    ];
+  }
+
+  if (page.path === '/blog') {
+    return [
+      ...existing,
+      'The Kritech blog gives business owners, students and growing teams practical guidance on digital marketing, SEO, web development, software systems, hosting, design and online growth. Articles are written to answer real questions people ask before hiring an agency or improving their own digital presence.',
+      'Readers can use these guides to understand local SEO in Nepal, website planning, content strategy, Google Search Console, ecommerce, social media campaigns, CRM, ERP, business email and technical website improvements. The blog also supports service pages with helpful explanations instead of thin sales copy.',
+      'For companies comparing vendors, the blog shows how Kritech thinks: clear structure, useful examples, simple language and execution that connects design, search visibility and lead generation.'
+    ];
+  }
+
+  if (page.path === '/contact') {
+    return [
+      ...existing,
+      'Contact Kritech Solution when you need a clear next step for a website, SEO campaign, software system, ERP, mobile app, cybersecurity support, hosting, business email, social media marketing or outsourcing work. Share your business type, target location, current website and the problem you want to solve.',
+      'A useful inquiry usually includes the service you need, your location, your expected timeline and whether you want a new build, improvement, monthly support or a technical review. This helps the team respond with practical advice instead of a generic package.',
+      'Kritech serves businesses in Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara and across Nepal, while also working remotely with clients who need software, SEO, design and marketing execution from Nepal.'
+    ];
+  }
+
+  if (page.path.startsWith('/blog/')) {
+    if (wordCount(stripHtml(page.bodyHtml || '')) > 320) return existing;
+    return [
+      ...existing,
+      `This guide is written for people researching ${topicLower} before they spend money on a website, campaign, software system or technical service. The goal is to explain what matters, what to avoid and how a focused plan can turn online activity into clearer business results.`,
+      'Kritech Solution works with Nepali businesses and remote clients that need practical digital execution: SEO-friendly websites, landing pages, content planning, software workflows, analytics, lead forms and regular improvement. The same thinking applies whether the project is a small local business page or a larger system.',
+      'If you are comparing options, look for clear scope, honest timelines, useful reporting, mobile performance, search-friendly structure and a team that can improve the work after launch. Good digital work should make the next decision easier for both the business owner and the visitor.'
+    ];
+  }
+
+  if (page.path.includes('training') || page.path.includes('classes')) {
+    return [
+      ...existing,
+      `${topic} is designed for learners who want practical skills, not only definitions. Students can understand the core concepts, practice real tasks, build small portfolio projects and learn how the skill is used in business, freelancing, marketing or software work.`,
+      'The training approach is useful for school students, college students, job seekers, business owners and beginners in Butwal who want structured guidance. Classes can connect theory with examples such as websites, SEO audits, social media campaigns, programming exercises, dashboards, design projects or AI-assisted workflows.',
+      'Learners also need confidence about tools, communication and project habits. Kritech focuses on clear explanations, hands-on practice and career-relevant direction so students can keep improving after the class ends.'
+    ];
+  }
+
+  if (page.path.includes('outsourcing') || page.path.includes('remote') || page.path.includes('offshore') || page.path.includes('usa') || page.path.includes('uk') || page.path.includes('uae') || page.path.includes('dubai') || page.path.includes('new-york')) {
+    return [
+      ...existing,
+      `${topic} is useful for companies that need reliable execution without increasing local hiring cost. Kritech can support websites, SEO, software features, ERP modules, dashboards, content, design assets, maintenance and campaign work from a Nepal-based delivery team.`,
+      'Remote clients usually need clarity more than noise. Kritech works best when tasks are documented, priorities are agreed and updates are shared regularly. This makes outsourcing practical for agencies, startups, consultants and small businesses that need steady output.',
+      'The benefit is not only lower cost. A focused remote team can help a company move faster by handling repeatable production, technical improvements, SEO pages, landing pages and support work while the client keeps strategy and approvals under control.'
+    ];
+  }
+
+  if (page.path.includes('software') || page.path.includes('erp') || page.path.includes('accounting') || page.path.includes('inventory') || page.path.includes('pos') || page.path.includes('crm') || page.path.includes('app-development')) {
+    return [
+      ...existing,
+      `${topic} should make daily work easier for owners, staff and customers. Kritech plans software around real workflows such as sales, billing, inventory, customer records, approvals, reports, user roles, reminders, dashboards and secure access.`,
+      'A good software project starts with the business process before the code. The team maps who will use the system, what data must be stored, which reports matter, what permissions are needed and how the system should grow after the first release.',
+      'Kritech can support new builds, improvements to existing systems, admin panels, APIs, web apps, mobile apps and maintenance. The focus is practical business control: fewer manual steps, better records and software that can evolve with the company.'
+    ];
+  }
+
+  if (page.path.includes('seo') || page.path.includes('marketing') || page.path.includes('agency')) {
+    return [
+      ...existing,
+      `${topic} should help a business become easier to find, easier to trust and easier to contact. Kritech connects SEO, website structure, content, social media, ads, analytics and landing pages so marketing work supports real inquiries.`,
+      'For local businesses, visibility depends on clear service pages, location relevance, useful answers, fast mobile experience, Google Business Profile strength, reviews, internal links and consistent business details. For competitive markets, the work also needs content depth and regular improvement.',
+      'Kritech avoids random posting without a plan. The team can improve service pages, publish blogs, prepare campaign creatives, set up tracking, review Search Console and report what is helping visitors call, message or submit a form.'
+    ];
+  }
+
+  return [
+    ...existing,
+    `${topic} support from Kritech Solution is built for people who want clear planning, practical execution and measurable improvement. The work can include strategy, website updates, content, technical setup, reporting and ongoing support depending on the business goal.`,
+    'Kritech is based in Butwal, Nepal and works with local, national and remote clients. The team focuses on fast communication, useful recommendations, SEO-friendly structure and digital systems that support real inquiries instead of only looking good on the surface.',
+    'Every page is connected to related services, contact options and helpful content so visitors can compare solutions and choose the next step with confidence.'
+  ];
+}
+
 function linkForPath(path) {
   const page = pageData.get(path) || fallbackPage(path);
   return {
@@ -412,6 +506,18 @@ function buildSchema(page, canonical) {
   });
 
   if (page.path.includes('training') || page.path.includes('classes')) {
+    const offer = {
+      '@type': 'Offer',
+      url: canonical,
+      availability: 'https://schema.org/InStock',
+      category: 'Paid',
+      priceCurrency: 'NPR',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'NPR',
+        description: 'Contact Kritech Solution for current course fees, batch schedule and enrollment details.'
+      }
+    };
     graph.push({
       '@type': 'Course',
       name: page.h1,
@@ -422,7 +528,29 @@ function buildSchema(page, canonical) {
         sameAs: siteUrl
       },
       educationalLevel: 'Beginner to practical',
-      inLanguage: 'en'
+      inLanguage: 'en',
+      offers: offer,
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        name: `${page.h1} practical training batch`,
+        courseMode: ['Onsite', 'Online', 'Blended'],
+        location: {
+          '@type': 'Place',
+          name: 'Kritech Solution',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Butwal-11, Kalikanagar',
+            addressLocality: 'Butwal',
+            addressCountry: 'NP'
+          }
+        },
+        instructor: {
+          '@type': 'Organization',
+          name: 'Kritech Solution',
+          url: siteUrl
+        },
+        offers: offer
+      }
     });
   } else if (!page.path.startsWith('/blog/') && page.path !== '/' && page.path !== '/sitemap') {
     graph.push({
@@ -442,21 +570,6 @@ function buildSchema(page, canonical) {
         }
       },
       areaServed: areaServedFor(page.path)
-    });
-  }
-
-  if (isSoftwareProductPage(page.path)) {
-    graph.push({
-      '@type': 'SoftwareApplication',
-      name: page.h1,
-      applicationCategory: page.path.includes('mobile-app') || page.path.includes('custom-app') ? 'BusinessApplication' : 'BusinessApplication',
-      operatingSystem: 'Web, Android, iOS',
-      description: page.description,
-      provider: {
-        '@type': 'Organization',
-        name: 'Kritech Solution',
-        url: siteUrl
-      }
     });
   }
 
@@ -560,6 +673,8 @@ function cleanWordPressContent(value = '') {
   return String(value)
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<h1([^>]*)>/gi, '<h2$1>')
+    .replace(/<\/h1>/gi, '</h2>')
     .replace(/\son[a-z]+=\"[^\"]*\"/gi, '')
     .replace(/\son[a-z]+='[^']*'/gi, '')
     .replace(/\sstyle=\"[^\"]*\"/gi, '')
@@ -581,6 +696,26 @@ function clampSeoText(value = '', maxLength = 160) {
   const sliced = text.slice(0, maxLength - 1);
   const clean = sliced.slice(0, Math.max(sliced.lastIndexOf(' '), Math.floor(maxLength * 0.72))).replace(/[,.:-]+$/, '');
   return `${clean}…`;
+}
+
+function makeDistinctSeoTitle(title = '', h1 = '', suffix = 'Kritech Solution', prefix = 'Guide:') {
+  const normalizedTitle = normalizeSeoCompare(title);
+  const normalizedH1 = normalizeSeoCompare(h1);
+  if (normalizedTitle && normalizedTitle !== normalizedH1) return clampSeoText(title, 70);
+
+  const suffixText = ` | ${suffix}`;
+  const baseLimit = Math.max(24, 70 - suffixText.length);
+  const baseTitle = `${prefix} ${h1 || title || 'Kritech Solution'}`.replace(/\s+/g, ' ').trim();
+  const base = clampSeoText(baseTitle, baseLimit).replace(/…$/, '').trim();
+  return `${base}${suffixText}`;
+}
+
+function normalizeSeoCompare(value = '') {
+  return String(value)
+    .replace(/\s*\|\s*Kritech( Solution| Nepal| Blog)?$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
 }
 
 function normalizeSchemaDate(value) {

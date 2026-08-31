@@ -1970,7 +1970,7 @@ function getRouteMeta(route, seo, posts) {
     const post = posts.find((item) => item.slug === slug);
     if (post) {
       return normalizeRouteMeta({
-        title: post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`,
+        title: makeDistinctSeoTitle(post.metaTitle || post.seoTitle || `${post.title} | Kritech Solution`, post.title, 'Kritech Blog'),
         description: post.metaDescription || post.seoDescription || post.excerpt || seo.blog.description
       });
     }
@@ -1994,6 +1994,26 @@ function clampSeoText(value = '', maxLength = 160) {
   const sliced = text.slice(0, maxLength - 1);
   const clean = sliced.slice(0, Math.max(sliced.lastIndexOf(' '), Math.floor(maxLength * 0.72))).replace(/[,.:-]+$/, '');
   return `${clean}…`;
+}
+
+function makeDistinctSeoTitle(title = '', h1 = '', suffix = 'Kritech Solution', prefix = 'Guide:') {
+  const normalizedTitle = normalizeSeoCompare(title);
+  const normalizedH1 = normalizeSeoCompare(h1);
+  if (normalizedTitle && normalizedTitle !== normalizedH1) return clampSeoText(title, 70);
+
+  const suffixText = ` | ${suffix}`;
+  const baseLimit = Math.max(24, 70 - suffixText.length);
+  const baseTitle = `${prefix} ${h1 || title || 'Kritech Solution'}`.replace(/\s+/g, ' ').trim();
+  const base = clampSeoText(baseTitle, baseLimit).replace(/…$/, '').trim();
+  return `${base}${suffixText}`;
+}
+
+function normalizeSeoCompare(value = '') {
+  return String(value)
+    .replace(/\s*\|\s*Kritech( Solution| Nepal| Blog)?$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
 }
 
 function setCanonical(href) {
@@ -3092,9 +3112,21 @@ function BlogDetail({ posts, route, go }) {
 function ArticleBody({ content = '' }) {
   const hasHtml = /<\/?[a-z][\s\S]*>/i.test(content);
   if (hasHtml) {
-    return <div className="article-body imported-wordpress-content" dangerouslySetInnerHTML={{ __html: content }} />;
+    return <div className="article-body imported-wordpress-content" dangerouslySetInnerHTML={{ __html: cleanArticleContent(content) }} />;
   }
   return <div className="article-body">{content}</div>;
+}
+
+function cleanArticleContent(value = '') {
+  return String(value)
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<h1([^>]*)>/gi, '<h2$1>')
+    .replace(/<\/h1>/gi, '</h2>')
+    .replace(/\son[a-z]+=\"[^\"]*\"/gi, '')
+    .replace(/\son[a-z]+='[^']*'/gi, '')
+    .replace(/\sstyle=\"[^\"]*\"/gi, '')
+    .replace(/\sstyle='[^']*'/gi, '');
 }
 
 function ContactPage({ go }) {
