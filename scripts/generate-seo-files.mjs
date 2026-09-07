@@ -25,6 +25,11 @@ const localPages = [
   '/ai-ml-training-butwal',
   '/coding-classes-butwal',
   '/best-marketing-agency-butwal',
+  '/best-digital-marketing-agency-butwal',
+  '/best-seo-company-butwal',
+  '/best-website-development-company-butwal',
+  '/best-software-company-butwal',
+  '/best-it-company-butwal',
   '/digital-marketing-agency-kathmandu',
   '/digital-marketing-agency-pokhara',
   '/digital-marketing-agency-chitwan',
@@ -57,7 +62,10 @@ const localPages = [
   '/cyber-security-company-butwal',
   '/it-company-nepal',
   '/services-bhairahawa',
+  '/digital-marketing-agency-bhairahawa',
+  '/seo-services-bhairahawa',
   '/services-tilottama',
+  '/digital-marketing-agency-tilottama',
   '/global-it-outsourcing-company',
   '/software-development-outsourcing-nepal',
   '/offshore-software-development-company',
@@ -152,6 +160,10 @@ Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web
 - Services: ${siteUrl}/services
 - Software company Nepal: ${siteUrl}/software-company-nepal
 - Software company Butwal: ${siteUrl}/software-company-butwal
+- Best digital marketing agency Butwal: ${siteUrl}/best-digital-marketing-agency-butwal
+- Best SEO company Butwal: ${siteUrl}/best-seo-company-butwal
+- Best website development company Butwal: ${siteUrl}/best-website-development-company-butwal
+- Best software company Butwal: ${siteUrl}/best-software-company-butwal
 - ERP software Nepal: ${siteUrl}/erp-software-nepal
 - Accounting software Nepal: ${siteUrl}/accounting-software-nepal
 - Custom software development Nepal: ${siteUrl}/custom-software-development-nepal
@@ -172,7 +184,7 @@ Kritech provides custom software development, ERP modules, accounting and billin
 
 ## Location focus
 
-Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Kritech also supports remote clients in UAE, USA, UK, Australia, Canada and other global markets.
+Kritech is based in Butwal-11, Kalikanagar and serves Butwal, Bhairahawa, Tilottama, Kathmandu, Pokhara, Chitwan and clients across Nepal. Priority local search pages include best digital marketing agency in Butwal, best SEO company in Butwal, best website development company in Butwal, best software company in Butwal, digital marketing agency in Bhairahawa, SEO services in Bhairahawa and digital marketing agency in Tilottama. Kritech also supports remote clients in UAE, USA, UK, Australia, Canada and other global markets.
 
 ## Crawl notes
 

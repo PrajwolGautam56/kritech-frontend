@@ -617,6 +617,153 @@ const cityAreaPages = [
   }
 ];
 
+const bestIntentPages = [
+  {
+    key: 'bestDigitalMarketingAgencyButwal',
+    path: '/best-digital-marketing-agency-butwal',
+    eyebrow: 'Best digital marketing agency in Butwal',
+    metaTitle: 'Best Digital Marketing Agency in Butwal | SEO, Ads & Web',
+    metaDescription: 'Compare Kritech Solution as a digital marketing agency in Butwal for SEO, Google Ads, Meta Ads, social media, websites and lead generation.',
+    title: 'A digital marketing partner in Butwal for businesses that want measurable inquiries.',
+    text: 'Kritech Solution helps Butwal businesses improve Google visibility, run better campaigns, create sharper social media content and build websites that make it easy for customers to call, WhatsApp or send an inquiry.',
+    bullets: ['Butwal local SEO and Google Business Profile support', 'Meta Ads, Google Ads and landing pages', 'Website content built around buyer intent', 'Monthly reporting for calls, clicks and inquiries'],
+    highlights: ['Local market understanding in Rupandehi', 'SEO, ads, website and content under one team', 'Built for business leads, not only page likes'],
+    marketIntro: 'When you compare digital marketing agencies in Butwal, look beyond attractive posts. A strong agency should understand search intent, website conversion, paid campaign tracking, local reviews and the service pages customers read before contacting you.',
+    areaLine: 'Kritech works with shops, institutes, clinics, consultants, restaurants, real estate teams, ecommerce brands and local service businesses in Butwal, Kalikanagar, Yogikuti, Traffic Chowk, Bhairahawa and Tilottama.',
+    faqs: [
+      ['Why choose Kritech as a digital marketing agency in Butwal?', 'Kritech connects local SEO, social media, ads, website improvements, content and tracking so your marketing focuses on inquiries and business growth.'],
+      ['Can you help my Butwal business get more Google visibility?', 'Yes. We can improve your website structure, Google Business Profile signals, service pages, blogs, internal links and Search Console tracking for Butwal search terms.'],
+      ['Do you manage Facebook, Instagram and Google Ads?', 'Yes. Kritech can plan campaign creatives, audience targeting, landing pages, tracking and reports for Meta Ads and Google Ads.']
+    ]
+  },
+  {
+    key: 'bestSeoCompanyButwal',
+    path: '/best-seo-company-butwal',
+    eyebrow: 'Best SEO company in Butwal',
+    metaTitle: 'Best SEO Company in Butwal | Local Google Ranking Support',
+    metaDescription: 'SEO company in Butwal for local SEO, technical SEO, Google Business Profile optimization, content, schema, sitemap and Search Console reporting.',
+    title: 'SEO support for Butwal businesses that want to be found before competitors.',
+    text: 'Kritech Solution improves the search foundation behind your business: technical SEO, local landing pages, service content, Google Business Profile signals, blog planning, schema, internal links and tracking.',
+    bullets: ['Technical SEO and indexing checks', 'Butwal keyword and competitor mapping', 'Local service pages and blog strategy', 'Google Business Profile and review guidance'],
+    highlights: ['Built for local service searches', 'Search Console-based improvement', 'Content and technical fixes together'],
+    marketIntro: 'Ranking in Butwal search results is not only about repeating keywords. Your site needs crawlable pages, clear service relevance, fast mobile experience, helpful content, reviews, location signals and internal links that guide Google through your important pages.',
+    areaLine: 'Kritech supports local businesses in Butwal, Bhairahawa, Tilottama and Rupandehi that want stronger visibility for services, products, appointments, inquiries and local leads.',
+    faqs: [
+      ['How long does SEO take in Butwal?', 'Some indexing and technical fixes can improve faster, but meaningful SEO growth usually needs consistent work for 3 to 6 months depending on competition, content quality, reviews and backlinks.'],
+      ['Do you work on Google Business Profile too?', 'Yes. Kritech can guide Google Business Profile categories, services, photos, posts, review requests and website links for stronger local SEO signals.'],
+      ['Can SEO bring calls and WhatsApp inquiries?', 'Yes. SEO pages should connect to clear calls-to-action, phone buttons, WhatsApp links and forms so search traffic can become real inquiries.']
+    ]
+  },
+  {
+    key: 'bestWebsiteDevelopmentCompanyButwal',
+    path: '/best-website-development-company-butwal',
+    eyebrow: 'Best website development company in Butwal',
+    metaTitle: 'Best Website Development Company in Butwal | SEO-Ready Sites',
+    metaDescription: 'Website development company in Butwal building SEO-ready business websites, landing pages, blogs, CMS workflows, WhatsApp forms and fast mobile design.',
+    title: 'Modern business websites in Butwal built for trust, speed and inquiries.',
+    text: 'Kritech Solution designs and develops websites for businesses that need more than a simple online brochure. We build service pages, landing pages, blog systems, SEO metadata, tracking and contact flows that support real growth.',
+    bullets: ['SEO-ready page structure and metadata', 'Fast mobile-first design', 'Blog CMS and landing page setup', 'WhatsApp, forms and analytics tracking'],
+    highlights: ['Professional first impression', 'Built around conversion paths', 'Website plus SEO support after launch'],
+    marketIntro: 'A good business website should explain your offer clearly, load fast on mobile, make services easy to compare and guide visitors toward calling, messaging or submitting a form. It should also give Google clean pages to crawl.',
+    areaLine: 'Kritech builds websites for Butwal businesses, startups, institutes, clinics, agencies, shops, service providers and companies across Nepal.',
+    faqs: [
+      ['What makes a website SEO-ready?', 'Clean URLs, page-specific titles and descriptions, one clear H1, structured headings, schema, internal links, sitemap, fast loading, mobile layout and useful service content make a website SEO-ready.'],
+      ['Can you redesign my existing website?', 'Yes. Kritech can improve design, content, SEO structure, speed, forms, WhatsApp links, blog setup and tracking for existing websites.'],
+      ['Can my website include an admin panel?', 'Yes. Kritech can build admin dashboards for blogs, inquiries, leads, users, images, SEO fields and sitemap management.']
+    ]
+  },
+  {
+    key: 'bestSoftwareCompanyButwal',
+    path: '/best-software-company-butwal',
+    eyebrow: 'Best software company in Butwal',
+    metaTitle: 'Best Software Company in Butwal | ERP, CRM, POS & Apps',
+    metaDescription: 'Software company in Butwal for custom ERP, CRM, accounting, POS, inventory, dashboards, web apps, mobile apps and business automation.',
+    title: 'Custom software, ERP and business systems for Butwal teams that need control.',
+    text: 'Kritech Solution builds practical software for companies that want to reduce manual work, track records properly, manage staff access and see useful reports from one connected system.',
+    bullets: ['Custom ERP, CRM and dashboards', 'Accounting, billing, POS and inventory modules', 'Web apps, mobile apps and admin panels', 'Secure deployment, backups and maintenance'],
+    highlights: ['Workflow mapping before development', 'Role-based systems and reports', 'Built in phases for real users'],
+    marketIntro: 'The best software company for your business is the one that understands your daily process before writing code. Kritech maps users, data, approvals, reports and pain points so the software supports how your team actually works.',
+    areaLine: 'Kritech supports Butwal and Nepal businesses that need ERP, CRM, POS, accounting, inventory, booking, dashboards, portals, mobile apps or custom automation.',
+    faqs: [
+      ['Can Kritech build ERP software in Butwal?', 'Yes. Kritech can build ERP-style systems with sales, purchase, inventory, accounts, CRM, staff roles, dashboards and reports.'],
+      ['Can software be built step by step?', 'Yes. We usually recommend launching the most useful version first, then improving modules after your team starts using the system.'],
+      ['Can you maintain existing software?', 'Yes. Kritech can review existing systems, fix bugs, improve UI, add features, connect APIs and support maintenance.']
+    ]
+  },
+  {
+    key: 'bestItCompanyButwal',
+    path: '/best-it-company-butwal',
+    eyebrow: 'Best IT company in Butwal',
+    metaTitle: 'Best IT Company in Butwal | Software, Website, SEO & Support',
+    metaDescription: 'IT company in Butwal for websites, software, ERP, SEO, hosting, email, cybersecurity, maintenance, backups and business IT support.',
+    title: 'One IT partner in Butwal for websites, software, SEO, hosting and support.',
+    text: 'Kritech Solution helps businesses manage the digital foundation behind growth: website development, SEO, software systems, hosting, business email, cybersecurity basics, backups, maintenance and campaign support.',
+    bullets: ['Website and software development', 'SEO and digital marketing support', 'Hosting, email, backups and maintenance', 'Cybersecurity checks and technical guidance'],
+    highlights: ['Technical and marketing support together', 'Local Butwal team with Nepal-wide service', 'Practical systems for daily business needs'],
+    marketIntro: 'A business IT partner should keep your website, software, email, hosting, backups and security working together. When technical support and marketing are separated, businesses often lose time fixing the same problems repeatedly.',
+    areaLine: 'Kritech supports shops, institutes, offices, service providers, startups and growing companies in Butwal, Bhairahawa, Tilottama and across Nepal.',
+    faqs: [
+      ['What IT services does Kritech provide in Butwal?', 'Kritech supports websites, software, ERP, hosting, business email, backups, maintenance, cybersecurity checks, SEO and digital marketing.'],
+      ['Can you fix website and hosting problems?', 'Yes. Kritech can review website issues, hosting setup, domain, SSL, backups, forms, email and performance problems.'],
+      ['Can one team handle both IT and digital marketing?', 'Yes. Kritech combines technical work with SEO, content, ads and tracking so your digital presence is easier to manage.']
+    ]
+  },
+  {
+    key: 'digitalMarketingAgencyBhairahawa',
+    path: '/digital-marketing-agency-bhairahawa',
+    eyebrow: 'Digital marketing agency in Bhairahawa',
+    metaTitle: 'Digital Marketing Agency in Bhairahawa | SEO, Ads & Web',
+    metaDescription: 'Digital marketing agency in Bhairahawa for SEO, Meta Ads, Google Ads, social media, websites, landing pages and lead generation in Rupandehi.',
+    title: 'SEO, social media, ads and website support for Bhairahawa businesses.',
+    text: 'Kritech Solution helps Bhairahawa businesses build better visibility through local SEO, Google Business Profile support, website improvements, Meta Ads, Google Ads, social media creatives and lead-focused landing pages.',
+    bullets: ['Bhairahawa local SEO and service pages', 'Meta Ads and Google Ads campaign support', 'Website and landing page improvements', 'Reporting for calls, WhatsApp clicks and forms'],
+    highlights: ['Rupandehi market targeting', 'Useful for trading, education, clinics and services', 'Remote and local support from Butwal'],
+    marketIntro: 'Bhairahawa businesses compete across search, maps, social media and referrals. A focused digital strategy helps customers find the right service faster and gives business owners clearer tracking.',
+    areaLine: 'Kritech supports businesses in Bhairahawa, Siddharthanagar, Belahiya, Lumbini Road, Butwal and Rupandehi with digital marketing and website support.',
+    faqs: [
+      ['Do you provide digital marketing in Bhairahawa?', 'Yes. Kritech provides SEO, website development, Meta Ads, Google Ads, social media marketing and lead-generation support for Bhairahawa businesses.'],
+      ['Can you target Bhairahawa customers on Google?', 'Yes. We can build local service pages, improve technical SEO, plan content and optimize campaigns for Bhairahawa and Rupandehi search intent.'],
+      ['Can you help with social media content?', 'Yes. Kritech can plan content, design creatives, write captions and connect posts with campaigns and website landing pages.']
+    ]
+  },
+  {
+    key: 'digitalMarketingAgencyTilottama',
+    path: '/digital-marketing-agency-tilottama',
+    eyebrow: 'Digital marketing agency in Tilottama',
+    metaTitle: 'Digital Marketing Agency in Tilottama | SEO, Ads & Websites',
+    metaDescription: 'Digital marketing agency in Tilottama for SEO, social media, Meta Ads, Google Ads, websites, landing pages and local lead generation.',
+    title: 'Digital marketing, SEO and website systems for Tilottama businesses.',
+    text: 'Kritech Solution supports Tilottama businesses with local SEO, service pages, Google Business Profile guidance, social media creatives, Meta Ads, Google Ads, landing pages and lead tracking.',
+    bullets: ['Tilottama local SEO and website pages', 'Social media and paid campaigns', 'Landing pages for inquiries', 'Search Console and campaign reporting'],
+    highlights: ['Location-focused content strategy', 'Campaigns connected to contact flows', 'Support for growing Rupandehi brands'],
+    marketIntro: 'Tilottama businesses need digital visibility that matches how local customers search, compare and contact service providers. Strong pages, useful content and clear conversion paths make that process easier.',
+    areaLine: 'Kritech supports businesses in Tilottama, Manigram, Driver Tole, Yogikuti, Butwal, Bhairahawa and nearby Rupandehi areas.',
+    faqs: [
+      ['Do you provide digital marketing services in Tilottama?', 'Yes. Kritech provides SEO, websites, social media content, Meta Ads, Google Ads and lead tracking for Tilottama businesses.'],
+      ['Can you build local SEO pages for Tilottama?', 'Yes. We can create service pages, improve metadata, add internal links and publish helpful content for Tilottama search terms.'],
+      ['Can you manage ads and website together?', 'Yes. Ads work better when landing pages, forms, WhatsApp buttons, tracking and reporting are connected.']
+    ]
+  },
+  {
+    key: 'seoServicesBhairahawa',
+    path: '/seo-services-bhairahawa',
+    eyebrow: 'SEO services in Bhairahawa',
+    metaTitle: 'SEO Services in Bhairahawa | Local Google Ranking Support',
+    metaDescription: 'SEO services in Bhairahawa for local ranking, technical SEO, Google Business Profile, service pages, content, sitemap and Search Console tracking.',
+    title: 'Local SEO support for Bhairahawa businesses that want more search visibility.',
+    text: 'Kritech Solution helps Bhairahawa businesses improve local Google visibility through technical SEO, website structure, service pages, blog planning, Google Business Profile guidance, internal links and reporting.',
+    bullets: ['Bhairahawa keyword and competitor research', 'Technical SEO and indexing cleanup', 'Service pages and blog content', 'Google Business Profile and review guidance'],
+    highlights: ['Search visibility for Rupandehi customers', 'Better website structure and content', 'Reports tied to inquiries'],
+    marketIntro: 'SEO in Bhairahawa should focus on real buyer searches: services, locations, prices, trust signals and how quickly customers can contact the business from mobile devices.',
+    areaLine: 'Kritech supports SEO for Bhairahawa, Siddharthanagar, Butwal, Tilottama, Lumbini and nearby Rupandehi businesses.',
+    faqs: [
+      ['Can SEO help my Bhairahawa business get local leads?', 'Yes. Local SEO can improve visibility for people searching near Bhairahawa and guide them to phone, WhatsApp or form inquiries.'],
+      ['What do you fix first in SEO?', 'We review indexability, page titles, headings, content depth, internal links, schema, sitemap, mobile performance and Search Console issues.'],
+      ['Do reviews help local SEO?', 'Yes. Genuine customer reviews, complete business details, photos and active Google Business Profile updates can support local trust and visibility.']
+    ]
+  }
+];
+
 const trainingPages = [
   {
     key: 'itTrainingButwal',
@@ -1036,6 +1183,14 @@ const defaultSeo = {
     description:
       'Looking for the best marketing agency in Butwal? Kritech Solution helps local businesses grow with SEO, social media, ads, websites and clear reporting.'
   },
+  ...Object.fromEntries(bestIntentPages.map((page) => [
+    page.key,
+    {
+      path: page.path,
+      title: page.metaTitle,
+      description: page.metaDescription
+    }
+  ])),
   ...Object.fromEntries(cityAreaPages.map((page) => [
     page.key,
     {
@@ -1340,6 +1495,30 @@ const localLandingPages = {
       ['Do you only work with large companies?', 'No. Kritech works with local shops, service businesses, institutes, startups and growing companies that need a professional digital presence in Butwal and across Nepal.']
     ]
   },
+  ...Object.fromEntries(bestIntentPages.map((page) => [
+    page.path,
+    {
+      eyebrow: page.eyebrow,
+      title: page.title,
+      text: page.text,
+      bullets: page.bullets,
+      highlights: page.highlights,
+      marketIntro: page.marketIntro,
+      areaLine: page.areaLine,
+      faqs: page.faqs,
+      ctaLabel: 'Plan my ranking campaign',
+      proofTitle: 'A practical decision page for visibility, trust and lead generation.',
+      proofText: 'These pages are built around what customers compare before contacting a marketing, SEO, website, software or IT partner.',
+      processTitle: 'A ranking system built around search intent and real business actions.',
+      processText: 'Kritech connects local keyword research, crawlable pages, Google Business Profile signals, content, reviews, internal links and reporting so visibility can improve over time.',
+      process: [
+        ['01', 'Map buyer intent', 'We identify the services, locations, questions and comparison terms customers search before choosing a provider.'],
+        ['02', 'Improve the page', 'We build clear headings, useful copy, local relevance, internal links and contact paths for phone, WhatsApp and forms.'],
+        ['03', 'Support with proof', 'We connect the page with blogs, service pages, business details, genuine reviews, photos and local trust signals.'],
+        ['04', 'Track and improve', 'We review Search Console, ranking movement, inquiries and campaign data to improve the page over time.']
+      ]
+    }
+  ])),
   ...Object.fromEntries(cityAreaPages.map((page) => [
     page.path,
     {
@@ -3022,13 +3201,21 @@ function LocalCoverage({ go }) {
           ['/digital-marketing-outsourcing-company', 'Marketing outsourcing'],
           ['/digital-marketing-agency-butwal', 'Butwal marketing support'],
           ['/best-marketing-agency-butwal', 'Best marketing agency Butwal'],
+          ['/best-digital-marketing-agency-butwal', 'Best digital agency Butwal'],
+          ['/best-seo-company-butwal', 'Best SEO company Butwal'],
+          ['/best-website-development-company-butwal', 'Best website company Butwal'],
+          ['/best-software-company-butwal', 'Best software company Butwal'],
+          ['/best-it-company-butwal', 'Best IT company Butwal'],
           ['/seo-services-butwal', 'Local ranking support'],
           ['/website-development-company-butwal', 'Website projects'],
           ['/software-company-butwal', 'Software company Butwal'],
           ['/erp-software-butwal', 'ERP software Butwal'],
           ['/it-company-butwal', 'IT and maintenance'],
           ['/services-bhairahawa', 'Bhairahawa businesses'],
+          ['/digital-marketing-agency-bhairahawa', 'Bhairahawa marketing agency'],
+          ['/seo-services-bhairahawa', 'Bhairahawa SEO services'],
           ['/services-tilottama', 'Tilottama businesses'],
+          ['/digital-marketing-agency-tilottama', 'Tilottama marketing agency'],
           ['/digital-marketing-agency-nepal', 'Nepal-wide campaigns'],
           ['/seo-company-nepal', 'Organic growth support'],
           ['/web-development-company-nepal', 'Web development'],
@@ -4370,6 +4557,11 @@ function PublicSitemapPage({ posts, go }) {
     ]],
     ['Butwal Services', [
       ['Best Marketing Agency in Butwal', '/best-marketing-agency-butwal'],
+      ['Best Digital Marketing Agency in Butwal', '/best-digital-marketing-agency-butwal'],
+      ['Best SEO Company in Butwal', '/best-seo-company-butwal'],
+      ['Best Website Development Company in Butwal', '/best-website-development-company-butwal'],
+      ['Best Software Company in Butwal', '/best-software-company-butwal'],
+      ['Best IT Company in Butwal', '/best-it-company-butwal'],
       ['Digital Marketing Agency in Butwal', '/digital-marketing-agency-butwal'],
       ['SEO Services in Butwal', '/seo-services-butwal'],
       ['Web Development in Butwal', '/web-development-butwal'],
@@ -4389,7 +4581,10 @@ function PublicSitemapPage({ posts, go }) {
       ['Web Development Company in Nepal', '/web-development-company-nepal'],
       ['IT Company in Nepal', '/it-company-nepal'],
       ['Services in Bhairahawa', '/services-bhairahawa'],
+      ['Digital Marketing Agency in Bhairahawa', '/digital-marketing-agency-bhairahawa'],
+      ['SEO Services in Bhairahawa', '/seo-services-bhairahawa'],
       ['Services in Tilottama', '/services-tilottama'],
+      ['Digital Marketing Agency in Tilottama', '/digital-marketing-agency-tilottama'],
       ['Remote Digital Marketing Agency', '/remote-digital-marketing-agency'],
       ['Digital Marketing Agency USA', '/digital-marketing-agency-usa'],
       ['Digital Marketing Agency UAE', '/digital-marketing-agency-uae']
@@ -4435,6 +4630,12 @@ function slugify(value) {
 function Footer({ go }) {
   const serviceAreas = [
     ['Butwal', '/best-marketing-agency-butwal'],
+    ['Best Digital Agency Butwal', '/best-digital-marketing-agency-butwal'],
+    ['SEO Company Butwal', '/best-seo-company-butwal'],
+    ['Website Company Butwal', '/best-website-development-company-butwal'],
+    ['Software Company Butwal', '/best-software-company-butwal'],
+    ['Bhairahawa', '/digital-marketing-agency-bhairahawa'],
+    ['Tilottama', '/digital-marketing-agency-tilottama'],
     ['Kathmandu', '/digital-marketing-agency-kathmandu'],
     ['Pokhara', '/digital-marketing-agency-pokhara'],
     ['Chitwan', '/digital-marketing-agency-chitwan'],
