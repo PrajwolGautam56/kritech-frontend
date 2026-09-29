@@ -4962,12 +4962,300 @@ body {
   font-weight: 750;
 }
 
+.sms-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px 20px 0;
+}
+
+.sms-overview-grid article {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 14px;
+  background: #f7fbf8;
+}
+
+.sms-overview-grid span,
+.sms-overview-grid small,
+.sms-campaign-head span {
+  color: #617067;
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sms-overview-grid strong {
+  color: #07120d;
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.sms-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(7, 18, 13, 0.1);
+}
+
+.sms-tabs button {
+  padding: 10px 15px;
+  color: #425148;
+  border: 1px solid rgba(7, 18, 13, 0.12);
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 900;
+}
+
+.sms-tabs button.active {
+  color: #fff;
+  border-color: #057641;
+  background: #057641;
+}
+
+.sms-compose,
+.sms-contacts-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 18px;
+  padding: 20px;
+}
+
+.sms-form-card,
+.sms-preview-card,
+.sms-upload-card,
+.sms-contact-list,
+.sms-campaign-list > article {
+  padding: 20px;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 48px rgba(4, 32, 18, 0.06);
+}
+
+.sms-form-card {
+  display: grid;
+  gap: 14px;
+}
+
+.sms-form-card h3,
+.sms-campaign-head h3 {
+  margin: 0;
+  color: #07120d;
+}
+
+.sms-helper {
+  margin: -4px 0 2px;
+  color: #526057;
+  font-weight: 750;
+}
+
+.sms-helper code {
+  color: #057641;
+  font-weight: 900;
+}
+
+.sms-preview-card {
+  align-self: start;
+  color: #dff8ea;
+  background:
+    radial-gradient(circle at 100% 0, rgba(34, 225, 132, 0.22), transparent 18rem),
+    #06140d;
+}
+
+.sms-preview-card > span {
+  color: #8ef4bd;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sms-phone-preview {
+  min-height: 180px;
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid rgba(157, 255, 208, 0.2);
+  border-radius: 18px 18px 18px 5px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sms-phone-preview small {
+  color: #8ef4bd;
+  font-weight: 900;
+}
+
+.sms-phone-preview p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sms-meter,
+.sms-campaign-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sms-meter span,
+.sms-campaign-stats span {
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: rgba(157, 255, 208, 0.12);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.sms-preview-card > p {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.sms-special-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.sms-contact-tools {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.sms-upload-card {
+  display: grid;
+  gap: 7px;
+  cursor: pointer;
+  color: #33443a;
+}
+
+.sms-upload-card svg,
+.sms-upload-card strong {
+  color: #057641;
+}
+
+.sms-upload-card input {
+  margin-top: 8px;
+}
+
+.sms-contact-list {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.sms-list-head,
+.sms-contact-list article,
+.sms-campaign-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sms-contact-list article {
+  padding: 12px;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 12px;
+  background: #f8faf8;
+}
+
+.sms-contact-list input {
+  width: auto;
+}
+
+.sms-contact-list article > div {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.sms-contact-list article span {
+  color: #617067;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.sms-campaign-list {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.sms-campaign-list > article {
+  display: grid;
+  gap: 14px;
+}
+
+.sms-status {
+  padding: 8px 11px;
+  color: #7b530e;
+  border-radius: 999px;
+  background: #fff3d4;
+  font-size: 0.78rem;
+}
+
+.sms-status.completed {
+  color: #035f36;
+  background: #dff8ea;
+}
+
+.sms-status.failed {
+  color: #84250f;
+  background: #ffe7df;
+}
+
+.sms-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7eee9;
+}
+
+.sms-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #18b768;
+  transition: width 300ms ease;
+}
+
+.sms-campaign-stats span {
+  color: #035f36;
+  background: #e5faee;
+}
+
 @media (max-width: 1120px) {
   .users-layout,
   .leads-layout,
   .mail-layout,
-  .lead-head {
+  .lead-head,
+  .sms-compose,
+  .sms-contacts-layout {
     grid-template-columns: 1fr;
+  }
+
+  .sms-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .sms-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-tabs,
+  .sms-campaign-head,
+  .sms-list-head {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 

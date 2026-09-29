@@ -18,6 +18,7 @@ import {
   MapPin,
   Megaphone,
   Menu,
+  MessageSquareText,
   PenLine,
   Phone,
   Plus,
@@ -43,6 +44,7 @@ const ACCESS_MODULES = [
   ['inquiries', 'Inquiries'],
   ['leads', 'Leads'],
   ['mail', 'Mail Delivery'],
+  ['sms', 'SMS Portal'],
   ['seo', 'Site SEO'],
   ['sitemap', 'Sitemap'],
   ['users', 'Users']
@@ -2045,7 +2047,7 @@ function App() {
   useEffect(() => {
     const meta = getRouteMeta(route, seo, posts);
     const canonicalUrl = `${SITE_URL}${route === '/' ? '' : route}`;
-    const isAdminRoute = route.startsWith('/admin-login') || route.startsWith('/admin-reset') || route.startsWith('/admin');
+    const isAdminRoute = route.startsWith('/admin-login') || route.startsWith('/admin-reset') || route.startsWith('/admin') || route.startsWith('/sms-portal');
     const isBlogRoute = route.startsWith('/blog/');
     const shareImage = `${SITE_URL}/agency-hero.png`;
     document.title = meta.title;
@@ -2090,6 +2092,13 @@ function App() {
 
   if (route.startsWith('/admin-reset')) {
     return <AdminPasswordReset go={go} />;
+  }
+
+  if (route.startsWith('/admin') || route.startsWith('/sms-portal')) {
+    if (!adminSession) {
+      return <AdminLogin setAdminSession={setAdminSession} go={go} />;
+    }
+    return <Admin posts={posts} setPosts={updatePostsFromAdmin} seo={seo} setSeo={updateSeoFromAdmin} go={go} apiState={apiState} adminSession={adminSession} setAdminSession={setAdminSession} initialActive={route.startsWith('/sms-portal') ? 'sms' : 'posts'} />;
   }
 
   return (
@@ -3555,8 +3564,8 @@ function AdminPasswordReset({ go }) {
   );
 }
 
-function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAdminSession }) {
-  const [active, setActive] = useState('posts');
+function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAdminSession, initialActive = 'posts' }) {
+  const [active, setActive] = useState(initialActive);
   const [editorTab, setEditorTab] = useState('content');
   const [selectedId, setSelectedId] = useState(posts[0]?.id);
   const [uploadState, setUploadState] = useState({ busy: false, message: '' });
@@ -3566,6 +3575,10 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   const [leadState, setLeadState] = useState({ busy: false, message: '' });
   const [mailStatus, setMailStatus] = useState(null);
   const [mailState, setMailState] = useState({ busy: false, message: '' });
+  const [smsOverview, setSmsOverview] = useState(null);
+  const [smsContacts, setSmsContacts] = useState([]);
+  const [smsCampaigns, setSmsCampaigns] = useState([]);
+  const [smsState, setSmsState] = useState({ busy: false, message: '' });
   const [users, setUsers] = useState([]);
   const [userState, setUserState] = useState({ busy: false, message: '' });
   const [query, setQuery] = useState('');
@@ -3586,9 +3599,10 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     ['Inquiries', inquiries.length],
     ['Leads', leads.length],
     ['Mail', mailStatus?.configured ? 'Ready' : 'Check'],
+    ['SMS Contacts', smsOverview?.contactCount || 0],
     ['Users', users.length || 1],
     ['Sitemap URLs', Object.keys(seo).length + posts.filter((post) => post.status === 'Published').length]
-  ], [posts, seo, inquiries, leads, mailStatus, users]);
+  ], [posts, seo, inquiries, leads, mailStatus, smsOverview, users]);
   const allowedModules = ACCESS_MODULES.filter(([key]) => sessionCan(adminSession, key));
   const can = (module) => sessionCan(adminSession, module);
   const handleAdminApiError = (error, setState) => {
@@ -3655,6 +3669,30 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         setMailState({ busy: false, message: status.configured ? 'SMTP is configured.' : 'SMTP variables are incomplete.' });
       })
       .catch((error) => setMailState({ busy: false, message: error.message }));
+  }, [active, adminSession]);
+
+  const loadSmsPortal = async (quiet = false) => {
+    if (!quiet) setSmsState({ busy: true, message: 'Loading SMS portal...' });
+    try {
+      const [overview, contacts, campaigns] = await Promise.all([
+        apiRequest('/api/sms/overview'),
+        apiRequest('/api/sms/contacts'),
+        apiRequest('/api/sms/campaigns')
+      ]);
+      setSmsOverview(overview);
+      setSmsContacts(Array.isArray(contacts) ? contacts : []);
+      setSmsCampaigns(Array.isArray(campaigns) ? campaigns : []);
+      setSmsState({ busy: false, message: overview.providerError || '' });
+    } catch (error) {
+      handleAdminApiError(error, setSmsState);
+    }
+  };
+
+  useEffect(() => {
+    if (active !== 'sms' || !adminSession || !can('sms')) return undefined;
+    loadSmsPortal();
+    const timer = window.setInterval(() => loadSmsPortal(true), 12000);
+    return () => window.clearInterval(timer);
   }, [active, adminSession]);
 
   const updatePost = (patch) => {
@@ -3828,6 +3866,50 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
     }
   };
 
+  const importSmsContacts = async (contacts) => {
+    setSmsState({ busy: true, message: 'Importing contacts...' });
+    try {
+      const result = await apiRequest('/api/sms/contacts/import', { method: 'POST', body: JSON.stringify({ contacts }) });
+      setSmsState({ busy: false, message: `Imported ${result.imported} contact(s). ${result.skipped || 0} skipped.` });
+      await loadSmsPortal(true);
+    } catch (error) {
+      setSmsState({ busy: false, message: error.message });
+    }
+  };
+
+  const deleteSmsContact = async (id) => {
+    if (!window.confirm('Delete this SMS contact?')) return;
+    try {
+      await apiRequest(`/api/sms/contacts/${id}`, { method: 'DELETE' });
+      setSmsContacts((items) => items.filter((item) => item.id !== id));
+    } catch (error) {
+      setSmsState({ busy: false, message: error.message });
+    }
+  };
+
+  const createSmsCampaign = async (payload) => {
+    setSmsState({ busy: true, message: 'Queuing personalized SMS campaign...' });
+    try {
+      const campaign = await apiRequest('/api/sms/campaigns', { method: 'POST', body: JSON.stringify(payload) });
+      setSmsCampaigns((items) => [campaign, ...items]);
+      setSmsState({ busy: false, message: `${campaign.total} personalized message(s) queued safely.` });
+      await loadSmsPortal(true);
+    } catch (error) {
+      setSmsState({ busy: false, message: error.message });
+    }
+  };
+
+  const syncSmsDlr = async (campaignId) => {
+    setSmsState({ busy: true, message: 'Refreshing delivery reports...' });
+    try {
+      const result = await apiRequest(`/api/sms/campaigns/${campaignId}/sync-dlr`, { method: 'POST' });
+      setSmsState({ busy: false, message: `DLR refreshed: ${result.delivered} delivered, ${result.failed} failed.` });
+      await loadSmsPortal(true);
+    } catch (error) {
+      setSmsState({ busy: false, message: error.message });
+    }
+  };
+
   const createUser = async (payload) => {
     setUserState({ busy: true, message: 'Creating user...' });
     try {
@@ -3875,6 +3957,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
         {can('inquiries') && <button className={active === 'inquiries' ? 'active' : ''} onClick={() => setActive('inquiries')}><Mail /> Inquiries</button>}
         {can('leads') && <button className={active === 'leads' ? 'active' : ''} onClick={() => setActive('leads')}><Target /> Leads</button>}
         {can('mail') && <button className={active === 'mail' ? 'active' : ''} onClick={() => setActive('mail')}><Send /> Mail Delivery</button>}
+        {can('sms') && <button className={active === 'sms' ? 'active' : ''} onClick={() => setActive('sms')}><MessageSquareText /> SMS Portal</button>}
         {can('seo') && <button className={active === 'seo' ? 'active' : ''} onClick={() => setActive('seo')}><Search /> Site SEO</button>}
         {can('sitemap') && <button className={active === 'sitemap' ? 'active' : ''} onClick={() => setActive('sitemap')}><Globe2 /> Sitemap</button>}
         {can('users') && <button className={active === 'users' ? 'active' : ''} onClick={() => setActive('users')}><ShieldCheck /> Users</button>}
@@ -4049,6 +4132,19 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             mailState={mailState}
             adminEmail={adminSession.admin?.email}
             sendTestMail={sendTestMail}
+          />
+        )}
+        {active === 'sms' && can('sms') && (
+          <SmsPortal
+            overview={smsOverview}
+            contacts={smsContacts}
+            campaigns={smsCampaigns}
+            state={smsState}
+            importContacts={importSmsContacts}
+            deleteContact={deleteSmsContact}
+            createCampaign={createSmsCampaign}
+            syncDlr={syncSmsDlr}
+            refresh={() => loadSmsPortal()}
           />
         )}
         {active === 'seo' && can('seo') && <SeoManager seo={seo} setSeo={setSeo} />}
@@ -4367,6 +4463,219 @@ function LeadsPanel({ leads, leadState, createLead, updateLead, deleteLead, send
           </div>
         </div>
       </div>
+    </section>
+  );
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let field = '';
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    const next = text[index + 1];
+    if (char === '"' && quoted && next === '"') {
+      field += '"';
+      index += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === ',' && !quoted) {
+      row.push(field.trim());
+      field = '';
+    } else if ((char === '\n' || char === '\r') && !quoted) {
+      if (char === '\r' && next === '\n') index += 1;
+      row.push(field.trim());
+      if (row.some(Boolean)) rows.push(row);
+      row = [];
+      field = '';
+    } else {
+      field += char;
+    }
+  }
+  row.push(field.trim());
+  if (row.some(Boolean)) rows.push(row);
+  if (rows.length < 2) return [];
+  const headers = rows[0].map((header) => header.toLowerCase().replace(/[^a-z0-9_]+/g, '_').replace(/^_+|_+$/g, ''));
+  return rows.slice(1).map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] || ''])));
+}
+
+function smsSegmentInfo(message, type) {
+  const unicode = type === 'unicode' || /[^\x00-\x7F]/.test(message);
+  const single = unicode ? 70 : 160;
+  const multipart = unicode ? 67 : 153;
+  const parts = message.length <= single ? 1 : Math.ceil(message.length / multipart);
+  return { characters: message.length, parts, unicode };
+}
+
+function SmsPortal({ overview, contacts, campaigns, state, importContacts, deleteContact, createCampaign, syncDlr, refresh }) {
+  const [tab, setTab] = useState('compose');
+  const [selected, setSelected] = useState([]);
+  const [contactForm, setContactForm] = useState({ name: '', phone: '', group: 'General' });
+  const [form, setForm] = useState({
+    name: '',
+    type: 'unicode',
+    group: '',
+    template: 'नमस्कार {{name}} जी, Kritech Solution बाट जानकारी: ',
+    scheduledAt: '',
+    payload: { wapTitle: '', wapUrl: '', firstName: '', lastName: '', company: 'Kritech Solution', jobTitle: '', telephone: '', email: '' }
+  });
+  const groups = useMemo(() => [...new Set(contacts.map((contact) => contact.group || 'General'))].sort(), [contacts]);
+  const selectedContacts = form.group ? contacts.filter((contact) => contact.group === form.group) : contacts.filter((contact) => selected.includes(contact.id));
+  const previewContact = selectedContacts[0] || contacts[0] || { name: 'Prajwol', phone: '98XXXXXXXX', group: 'General', customFields: {} };
+  const preview = form.template.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_match, key) => ({ name: previewContact.name, phone: previewContact.phone, group: previewContact.group, ...previewContact.customFields }[key] || ''));
+  const segment = smsSegmentInfo(preview, form.type);
+  const balanceItems = Array.isArray(overview?.balance) ? overview.balance : [];
+
+  const uploadCsv = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const rows = parseCsv(await file.text());
+    importContacts(rows);
+    event.target.value = '';
+  };
+
+  const addContact = (event) => {
+    event.preventDefault();
+    importContacts([contactForm]);
+    setContactForm({ name: '', phone: '', group: contactForm.group || 'General' });
+  };
+
+  const submitCampaign = (event) => {
+    event.preventDefault();
+    const count = selectedContacts.length;
+    const estimatedCredits = Math.max(1, segment.parts) * count;
+    if (!count) return;
+    if (!window.confirm(`Queue ${count} personalized message(s)? Estimated minimum credit use: ${estimatedCredits}.`)) return;
+    createCampaign({ ...form, contactIds: form.group ? [] : selected });
+  };
+
+  const toggle = (id) => setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  const updatePayload = (key, value) => setForm((current) => ({ ...current, payload: { ...current.payload, [key]: value } }));
+
+  return (
+    <section className="cms-panel sms-panel">
+      <div className="cms-toolbar">
+        <div>
+          <span className="eyebrow">Personalized messaging</span>
+          <h2>Kritech SMS Portal</h2>
+          <p>Import contacts, personalize every message, schedule campaigns and track SamayaSMS delivery reports.</p>
+        </div>
+        <button type="button" className="secondary small" onClick={refresh}>Refresh data</button>
+      </div>
+      {state.message && <p className="admin-alert">{state.message}</p>}
+      <div className="sms-overview-grid">
+        <article><span>Provider</span><strong>{overview?.configured ? 'SamayaSMS ready' : 'Setup required'}</strong><small>{overview?.senderId || 'No sender ID'}</small></article>
+        <article><span>Contacts</span><strong>{overview?.contactCount || 0}</strong><small>{groups.length} group(s)</small></article>
+        <article><span>Campaigns</span><strong>{overview?.campaignCount || 0}</strong><small>Saved in MongoDB</small></article>
+        <article><span>Credits</span><strong>{balanceItems.length ? balanceItems.reduce((sum, item) => sum + Number(item.BALANCE || 0), 0) : '—'}</strong><small>{balanceItems.map((item) => item.ROUTE).filter(Boolean).join(', ') || 'Refresh from provider'}</small></article>
+      </div>
+      <div className="sms-tabs">
+        {[['compose', 'Compose'], ['contacts', `Contacts (${contacts.length})`], ['campaigns', 'Campaigns']].map(([key, label]) => (
+          <button type="button" key={key} className={tab === key ? 'active' : ''} onClick={() => setTab(key)}>{label}</button>
+        ))}
+      </div>
+
+      {tab === 'compose' && (
+        <form className="sms-compose" onSubmit={submitCampaign}>
+          <div className="sms-form-card">
+            <h3>Campaign setup</h3>
+            <Field label="Campaign Name" value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
+            <div className="two-col">
+              <label>Message Type<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })}>
+                <option value="text">Text SMS</option>
+                <option value="unicode">Unicode / Nepali</option>
+                <option value="flash">Flash SMS</option>
+                <option value="wap">WAP Push</option>
+                <option value="vcard">vCard</option>
+              </select></label>
+              <label>Send to Group<select value={form.group} onChange={(event) => setForm({ ...form, group: event.target.value })}>
+                <option value="">Selected contacts ({selected.length})</option>
+                {groups.map((group) => <option key={group} value={group}>{group}</option>)}
+              </select></label>
+            </div>
+            {!['wap', 'vcard'].includes(form.type) && (
+              <>
+                <Field label="Personalized Message" value={form.template} onChange={(value) => setForm({ ...form, template: value })} textarea tall />
+                <p className="sms-helper">Variables: <code>{'{{name}}'}</code> <code>{'{{phone}}'}</code> <code>{'{{group}}'}</code> plus any CSV column.</p>
+              </>
+            )}
+            {form.type === 'wap' && (
+              <div className="sms-special-fields">
+                <Field label="WAP Title" value={form.payload.wapTitle} onChange={(value) => updatePayload('wapTitle', value)} />
+                <Field label="Mobile URL" value={form.payload.wapUrl} onChange={(value) => updatePayload('wapUrl', value)} />
+              </div>
+            )}
+            {form.type === 'vcard' && (
+              <div className="sms-special-fields two-col">
+                <Field label="First Name" value={form.payload.firstName} onChange={(value) => updatePayload('firstName', value)} />
+                <Field label="Last Name" value={form.payload.lastName} onChange={(value) => updatePayload('lastName', value)} />
+                <Field label="Company" value={form.payload.company} onChange={(value) => updatePayload('company', value)} />
+                <Field label="Job Title" value={form.payload.jobTitle} onChange={(value) => updatePayload('jobTitle', value)} />
+                <Field label="Telephone" value={form.payload.telephone} onChange={(value) => updatePayload('telephone', value)} />
+                <Field label="Email" value={form.payload.email} onChange={(value) => updatePayload('email', value)} />
+              </div>
+            )}
+            <label>Schedule (optional)<input type="datetime-local" value={form.scheduledAt} onChange={(event) => setForm({ ...form, scheduledAt: event.target.value })} /></label>
+            <button className="primary" disabled={state.busy || !selectedContacts.length}>Queue {selectedContacts.length} message(s) <Send size={16} /></button>
+          </div>
+          <aside className="sms-preview-card">
+            <span>Live recipient preview</span>
+            <div className="sms-phone-preview">
+              <small>{overview?.senderId || 'Kritech'}</small>
+              <p>{form.type === 'wap' ? `${form.payload.wapTitle}\n${form.payload.wapUrl}` : form.type === 'vcard' ? `${form.payload.firstName} ${form.payload.lastName}\n${form.payload.company}\n${form.payload.telephone}` : preview}</p>
+            </div>
+            {!['wap', 'vcard'].includes(form.type) && <div className="sms-meter"><span>{segment.characters} characters</span><span>{segment.parts} SMS part(s)</span><span>{segment.unicode ? 'Unicode' : 'GSM text'}</span></div>}
+            <p>{selectedContacts.length} recipient(s). Every contact receives a separate rendered message.</p>
+          </aside>
+        </form>
+      )}
+
+      {tab === 'contacts' && (
+        <div className="sms-contacts-layout">
+          <div className="sms-contact-tools">
+            <form className="sms-form-card" onSubmit={addContact}>
+              <h3>Add one contact</h3>
+              <Field label="Name" value={contactForm.name} onChange={(value) => setContactForm({ ...contactForm, name: value })} />
+              <Field label="Nepal Mobile Number" value={contactForm.phone} onChange={(value) => setContactForm({ ...contactForm, phone: value })} />
+              <Field label="Group" value={contactForm.group} onChange={(value) => setContactForm({ ...contactForm, group: value })} />
+              <button className="primary small">Save contact <Plus size={16} /></button>
+            </form>
+            <label className="sms-upload-card">
+              <Upload size={24} />
+              <strong>Import CSV</strong>
+              <span>Use headers: name, phone, group. Extra columns become template variables.</span>
+              <input type="file" accept=".csv,text/csv" onChange={uploadCsv} />
+            </label>
+          </div>
+          <div className="sms-contact-list">
+            <div className="sms-list-head"><strong>{selected.length} selected</strong><button type="button" className="text-link" onClick={() => setSelected(selected.length === contacts.length ? [] : contacts.map((item) => item.id))}>{selected.length === contacts.length ? 'Clear all' : 'Select all'}</button></div>
+            {contacts.map((contact) => (
+              <article key={contact.id}>
+                <input type="checkbox" checked={selected.includes(contact.id)} onChange={() => toggle(contact.id)} />
+                <div><strong>{contact.name || 'Unnamed contact'}</strong><span>{contact.phone} · {contact.group}</span></div>
+                <button type="button" className="secondary small" onClick={() => deleteContact(contact.id)}>Delete</button>
+              </article>
+            ))}
+            {!contacts.length && <div className="empty-inquiries"><MessageSquareText size={24} /><h3>No SMS contacts</h3><p>Add one contact or import a CSV list.</p></div>}
+          </div>
+        </div>
+      )}
+
+      {tab === 'campaigns' && (
+        <div className="sms-campaign-list">
+          {campaigns.map((campaign) => {
+            const progress = campaign.total ? Math.round((campaign.processed / campaign.total) * 100) : 0;
+            return <article key={campaign.id}>
+              <div className="sms-campaign-head"><div><span>{campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
+              <div className="sms-progress"><i style={{ width: `${progress}%` }} /></div>
+              <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} submitted</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.failed || 0} failed</span></div>
+              <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>
+            </article>;
+          })}
+          {!campaigns.length && <div className="empty-inquiries"><Send size={24} /><h3>No SMS campaigns</h3><p>Your queued and completed campaigns will appear here.</p></div>}
+        </div>
+      )}
     </section>
   );
 }
