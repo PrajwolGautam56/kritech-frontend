@@ -1,7 +1,9 @@
 {
   "rewrites": [
     { "source": "/admin-login", "destination": "/" },
-    { "source": "/admin-reset", "destination": "/" }
+    { "source": "/admin-reset", "destination": "/" },
+    { "source": "/admin", "destination": "/" },
+    { "source": "/sms-portal", "destination": "/" }
   ],
   "headers": [
     {
@@ -31,6 +33,18 @@
     },
     {
       "source": "/admin-reset",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/sms-portal",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
