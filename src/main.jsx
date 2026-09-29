@@ -3691,7 +3691,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
 
   useEffect(() => {
     if (active !== 'sms' || !adminSession || !can('sms')) return undefined;
-    const hasActiveCampaign = smsCampaigns.some((campaign) => ['Processing', 'Scheduled'].includes(campaign.status));
+    const hasActiveCampaign = smsCampaigns.some((campaign) => ['Processing', 'Tracking'].includes(campaign.status));
     if (!hasActiveCampaign) return undefined;
     const timer = window.setInterval(async () => {
       if (document.visibilityState !== 'visible') return;
@@ -3701,9 +3701,9 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
       } catch (error) {
         setSmsState({ busy: false, message: error.message });
       }
-    }, 30000);
+    }, 60000);
     return () => window.clearInterval(timer);
-  }, [active, adminSession, smsCampaigns.some((campaign) => ['Processing', 'Scheduled'].includes(campaign.status))]);
+  }, [active, adminSession, smsCampaigns.some((campaign) => ['Processing', 'Tracking'].includes(campaign.status))]);
 
   const updatePost = (patch) => {
     if (!selectedPost) return;
@@ -4676,10 +4676,11 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
         <div className="sms-campaign-list">
           {campaigns.map((campaign) => {
             const progress = campaign.total ? Math.round((campaign.processed / campaign.total) * 100) : 0;
+            const pendingDlr = campaign.pendingDlr ?? Math.max(0, (campaign.submitted || 0) - (campaign.delivered || 0) - (campaign.deliveryFailed || 0));
             return <article key={campaign.id}>
               <div className="sms-campaign-head"><div><span>{campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
               <div className="sms-progress"><i style={{ width: `${progress}%` }} /></div>
-              <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} submitted</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.failed || 0} failed</span></div>
+              <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} accepted</span><span>{pendingDlr} pending DLR</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.deliveryFailed || 0} delivery failed</span><span>{campaign.failed || 0} submit failed</span>{Boolean(campaign.dlrUnavailable) && <span>{campaign.dlrUnavailable} report unavailable</span>}</div>
               <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>
             </article>;
           })}
