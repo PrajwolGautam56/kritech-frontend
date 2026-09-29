@@ -4518,10 +4518,16 @@ function smsSegmentInfo(message, type) {
   return { characters: message.length, parts, unicode };
 }
 
+function renderSmsTemplate(template, contact) {
+  const values = { name: contact.name || '', phone: contact.phone || '', group: contact.group || '', ...contact.customFields };
+  return template.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_match, key) => values[key] || '');
+}
+
 function SmsPortal({ overview, contacts, campaigns, state, importContacts, deleteContact, createCampaign, syncDlr, refresh }) {
   const [tab, setTab] = useState('compose');
   const [selected, setSelected] = useState([]);
   const [contactForm, setContactForm] = useState({ name: '', phone: '', group: 'General' });
+  const [importGroup, setImportGroup] = useState('Imported Contacts');
   const [form, setForm] = useState({
     name: '',
     type: 'unicode',
@@ -4532,8 +4538,10 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
   });
   const groups = useMemo(() => [...new Set(contacts.map((contact) => contact.group || 'General'))].sort(), [contacts]);
   const selectedContacts = form.group ? contacts.filter((contact) => contact.group === form.group) : contacts.filter((contact) => selected.includes(contact.id));
-  const previewContact = selectedContacts[0] || contacts[0] || { name: 'Prajwol', phone: '98XXXXXXXX', group: 'General', customFields: {} };
-  const preview = form.template.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_match, key) => ({ name: previewContact.name, phone: previewContact.phone, group: previewContact.group, ...previewContact.customFields }[key] || ''));
+  const previewContacts = (selectedContacts.length ? selectedContacts : contacts).slice(0, 6);
+  const fallbackPreviewContact = { name: 'Prajwol', phone: '98XXXXXXXX', group: 'General', customFields: {} };
+  const previewMessages = (previewContacts.length ? previewContacts : [fallbackPreviewContact]).map((contact) => ({ contact, message: renderSmsTemplate(form.template, contact) }));
+  const preview = previewMessages[0].message;
   const segment = smsSegmentInfo(preview, form.type);
   const balanceItems = Array.isArray(overview?.balance) ? overview.balance : [];
 
@@ -4541,7 +4549,11 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
     const file = event.target.files?.[0];
     if (!file) return;
     const rows = parseCsv(await file.text());
-    importContacts(rows);
+    const targetGroup = importGroup.trim() || 'Imported Contacts';
+    const groupedRows = rows.map((row) => ({ ...row, group: row.group?.trim() || targetGroup }));
+    await importContacts(groupedRows);
+    setForm((current) => ({ ...current, group: targetGroup }));
+    setTab('compose');
     event.target.value = '';
   };
 
@@ -4630,10 +4642,19 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
             <button className="primary" disabled={state.busy || !selectedContacts.length}>Queue {selectedContacts.length} message(s) <Send size={16} /></button>
           </div>
           <aside className="sms-preview-card">
-            <span>Live recipient preview</span>
-            <div className="sms-phone-preview">
-              <small>{overview?.senderId || 'Kritech'}</small>
-              <p>{form.type === 'wap' ? `${form.payload.wapTitle}\n${form.payload.wapUrl}` : form.type === 'vcard' ? `${form.payload.firstName} ${form.payload.lastName}\n${form.payload.company}\n${form.payload.telephone}` : preview}</p>
+            <span>Live recipient previews · up to 6</span>
+            <div className="sms-preview-list">
+              {['wap', 'vcard'].includes(form.type) ? (
+                <div className="sms-phone-preview">
+                  <small>{overview?.senderId || 'Kritech'}</small>
+                  <p>{form.type === 'wap' ? `${form.payload.wapTitle}\n${form.payload.wapUrl}` : `${form.payload.firstName} ${form.payload.lastName}\n${form.payload.company}\n${form.payload.telephone}`}</p>
+                </div>
+              ) : previewMessages.map(({ contact, message }) => (
+                <div className="sms-phone-preview" key={contact.id || contact.phone}>
+                  <small>{contact.name || 'Unnamed'} · {contact.phone}</small>
+                  <p>{message}</p>
+                </div>
+              ))}
             </div>
             {!['wap', 'vcard'].includes(form.type) && <div className="sms-meter"><span>{segment.characters} characters</span><span>{segment.parts} SMS part(s)</span><span>{segment.unicode ? 'Unicode' : 'GSM text'}</span></div>}
             <p>{selectedContacts.length} recipient(s). Every contact receives a separate rendered message.</p>
@@ -4651,12 +4672,13 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
               <Field label="Group" value={contactForm.group} onChange={(value) => setContactForm({ ...contactForm, group: value })} />
               <button className="primary small">Save contact <Plus size={16} /></button>
             </form>
-            <label className="sms-upload-card">
+            <div className="sms-upload-card">
               <Upload size={24} />
               <strong>Import CSV</strong>
-              <span>Use headers: name, phone, group. Extra columns become template variables.</span>
+              <span>Only name and phone are required. Choose a group here when the file has no group column.</span>
+              <Field label="Assign Missing Group To" value={importGroup} onChange={setImportGroup} />
               <input type="file" accept=".csv,text/csv" onChange={uploadCsv} />
-            </label>
+            </div>
           </div>
           <div className="sms-contact-list">
             <div className="sms-list-head"><strong>{selected.length} selected</strong><button type="button" className="text-link" onClick={() => setSelected(selected.length === contacts.length ? [] : contacts.map((item) => item.id))}>{selected.length === contacts.length ? 'Clear all' : 'Select all'}</button></div>

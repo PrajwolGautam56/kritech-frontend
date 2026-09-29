@@ -5084,12 +5084,27 @@ body {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.sms-preview-list {
+  display: grid;
+  gap: 10px;
+  max-height: 560px;
+  margin: 18px 0;
+  overflow: auto;
+}
+
+.sms-preview-list .sms-phone-preview {
+  min-height: 0;
+  margin: 0;
+  padding: 14px;
+}
+
 .sms-phone-preview small {
   color: #8ef4bd;
   font-weight: 900;
 }
 
 .sms-phone-preview p {
+  margin: 8px 0 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
