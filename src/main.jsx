@@ -3671,18 +3671,14 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
       .catch((error) => setMailState({ busy: false, message: error.message }));
   }, [active, adminSession]);
 
-  const loadSmsPortal = async (quiet = false) => {
+  const loadSmsPortal = async (quiet = false, forceProvider = false) => {
     if (!quiet) setSmsState({ busy: true, message: 'Loading SMS portal...' });
     try {
-      const [overview, contacts, campaigns] = await Promise.all([
-        apiRequest('/api/sms/overview'),
-        apiRequest('/api/sms/contacts'),
-        apiRequest('/api/sms/campaigns')
-      ]);
-      setSmsOverview(overview);
-      setSmsContacts(Array.isArray(contacts) ? contacts : []);
-      setSmsCampaigns(Array.isArray(campaigns) ? campaigns : []);
-      setSmsState({ busy: false, message: overview.providerError || '' });
+      const data = await apiRequest(`/api/sms/bootstrap${forceProvider ? '?refresh=1' : ''}`);
+      setSmsOverview(data.overview || null);
+      setSmsContacts(Array.isArray(data.contacts) ? data.contacts : []);
+      setSmsCampaigns(Array.isArray(data.campaigns) ? data.campaigns : []);
+      setSmsState({ busy: false, message: data.overview?.providerError || '' });
     } catch (error) {
       handleAdminApiError(error, setSmsState);
     }
@@ -3691,9 +3687,23 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
   useEffect(() => {
     if (active !== 'sms' || !adminSession || !can('sms')) return undefined;
     loadSmsPortal();
-    const timer = window.setInterval(() => loadSmsPortal(true), 12000);
-    return () => window.clearInterval(timer);
   }, [active, adminSession]);
+
+  useEffect(() => {
+    if (active !== 'sms' || !adminSession || !can('sms')) return undefined;
+    const hasActiveCampaign = smsCampaigns.some((campaign) => ['Processing', 'Scheduled'].includes(campaign.status));
+    if (!hasActiveCampaign) return undefined;
+    const timer = window.setInterval(async () => {
+      if (document.visibilityState !== 'visible') return;
+      try {
+        const campaigns = await apiRequest('/api/sms/campaign-status');
+        setSmsCampaigns(Array.isArray(campaigns) ? campaigns : []);
+      } catch (error) {
+        setSmsState({ busy: false, message: error.message });
+      }
+    }, 30000);
+    return () => window.clearInterval(timer);
+  }, [active, adminSession, smsCampaigns.some((campaign) => ['Processing', 'Scheduled'].includes(campaign.status))]);
 
   const updatePost = (patch) => {
     if (!selectedPost) return;
@@ -4144,7 +4154,7 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
             deleteContact={deleteSmsContact}
             createCampaign={createSmsCampaign}
             syncDlr={syncSmsDlr}
-            refresh={() => loadSmsPortal()}
+            refresh={() => loadSmsPortal(false, true)}
           />
         )}
         {active === 'seo' && can('seo') && <SeoManager seo={seo} setSeo={setSeo} />}
