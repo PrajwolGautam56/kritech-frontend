@@ -4543,6 +4543,13 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
   const groups = useMemo(() => [...new Set(contacts.map((contact) => contact.group || 'General'))].sort(), [contacts]);
   const providers = Array.isArray(overview?.providers) ? overview.providers : [];
   const selectedProvider = providers.find((provider) => provider.id === form.providerId) || providers.find((provider) => provider.configured) || providers[0];
+  const messageTypes = [
+    ['text', 'Text SMS'],
+    ['unicode', 'Unicode / Nepali'],
+    ['flash', 'Flash SMS'],
+    ['wap', 'WAP Push'],
+    ['vcard', 'vCard']
+  ].filter(([type]) => !selectedProvider?.supportedTypes?.length || selectedProvider.supportedTypes.includes(type));
   const selectedContacts = form.group ? contacts.filter((contact) => contact.group === form.group) : contacts.filter((contact) => selected.includes(contact.id));
   const previewContacts = (selectedContacts.length ? selectedContacts : contacts).slice(0, 6);
   const fallbackPreviewContact = { name: 'Prajwol', phone: '98XXXXXXXX', group: 'General', customFields: {} };
@@ -4557,6 +4564,12 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
   useEffect(() => {
     if (!form.providerId && selectedProvider?.id) setForm((current) => ({ ...current, providerId: selectedProvider.id }));
   }, [form.providerId, selectedProvider?.id]);
+
+  useEffect(() => {
+    if (messageTypes.length && !messageTypes.some(([type]) => type === form.type)) {
+      setForm((current) => ({ ...current, type: messageTypes[0][0] }));
+    }
+  }, [form.type, selectedProvider?.id]);
 
   useEffect(() => {
     if (groups.length && !groups.includes(contactGroupChoice) && contactGroupChoice !== '__new__') setContactGroupChoice(groups[0]);
@@ -4632,11 +4645,7 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
             </div>
             <div className="two-col">
               <label>Message Type<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })}>
-                <option value="text">Text SMS</option>
-                <option value="unicode">Unicode / Nepali</option>
-                <option value="flash">Flash SMS</option>
-                <option value="wap">WAP Push</option>
-                <option value="vcard">vCard</option>
+                {messageTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
               </select></label>
               <label>Send to Group<select value={form.group} onChange={(event) => setForm({ ...form, group: event.target.value })}>
                 <option value="">Selected contacts ({selected.length})</option>
@@ -4740,7 +4749,9 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
               <div className="sms-campaign-head"><div><span>{campaign.providerName || 'SamayaSMS'} · {campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
               <div className="sms-progress"><i style={{ width: `${progress}%` }} /></div>
               <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} accepted</span><span>{pendingDlr} pending DLR</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.deliveryFailed || 0} delivery failed</span><span>{campaign.failed || 0} submit failed</span>{Boolean(campaign.dlrUnavailable) && <span>{campaign.dlrUnavailable} report unavailable</span>}</div>
-              <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>
+              {campaign.providerSupportsDlr === false
+                ? <span className="sms-dlr-note">Provider accepted · DLR API unavailable</span>
+                : <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>}
             </article>;
           })}
           {!campaigns.length && <div className="empty-inquiries"><Send size={24} /><h3>No SMS campaigns</h3><p>Your queued and completed campaigns will appear here.</p></div>}

@@ -5076,6 +5076,12 @@ body {
   color: #07120d;
 }
 
+.sms-dlr-note {
+  color: #526057;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
 .sms-helper {
   margin: -4px 0 2px;
   color: #526057;
