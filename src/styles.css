@@ -5048,6 +5048,34 @@ body {
   color: #07120d;
 }
 
+.sms-provider-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 8px;
+}
+
+.sms-provider-strip span {
+  display: grid;
+  gap: 3px;
+  padding: 11px 12px;
+  color: #526057;
+  border: 1px solid rgba(7, 18, 13, 0.1);
+  border-radius: 11px;
+  background: #f8faf8;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.sms-provider-strip span.active {
+  color: #075b34;
+  border-color: rgba(5, 118, 65, 0.42);
+  background: #eaf9f1;
+}
+
+.sms-provider-strip strong {
+  color: #07120d;
+}
+
 .sms-helper {
   margin: -4px 0 2px;
   color: #526057;

@@ -4526,10 +4526,14 @@ function renderSmsTemplate(template, contact) {
 function SmsPortal({ overview, contacts, campaigns, state, importContacts, deleteContact, createCampaign, syncDlr, refresh }) {
   const [tab, setTab] = useState('compose');
   const [selected, setSelected] = useState([]);
-  const [contactForm, setContactForm] = useState({ name: '', phone: '', group: 'General' });
-  const [importGroup, setImportGroup] = useState('Imported Contacts');
+  const [contactForm, setContactForm] = useState({ name: '', phone: '' });
+  const [contactGroupChoice, setContactGroupChoice] = useState('General');
+  const [newContactGroup, setNewContactGroup] = useState('');
+  const [importGroupChoice, setImportGroupChoice] = useState('General');
+  const [newImportGroup, setNewImportGroup] = useState('');
   const [form, setForm] = useState({
     name: '',
+    providerId: '',
     type: 'unicode',
     group: '',
     template: 'नमस्कार {{name}} जी, Kritech Solution बाट जानकारी: ',
@@ -4537,19 +4541,33 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
     payload: { wapTitle: '', wapUrl: '', firstName: '', lastName: '', company: 'Kritech Solution', jobTitle: '', telephone: '', email: '' }
   });
   const groups = useMemo(() => [...new Set(contacts.map((contact) => contact.group || 'General'))].sort(), [contacts]);
+  const providers = Array.isArray(overview?.providers) ? overview.providers : [];
+  const selectedProvider = providers.find((provider) => provider.id === form.providerId) || providers.find((provider) => provider.configured) || providers[0];
   const selectedContacts = form.group ? contacts.filter((contact) => contact.group === form.group) : contacts.filter((contact) => selected.includes(contact.id));
   const previewContacts = (selectedContacts.length ? selectedContacts : contacts).slice(0, 6);
   const fallbackPreviewContact = { name: 'Prajwol', phone: '98XXXXXXXX', group: 'General', customFields: {} };
   const previewMessages = (previewContacts.length ? previewContacts : [fallbackPreviewContact]).map((contact) => ({ contact, message: renderSmsTemplate(form.template, contact) }));
   const preview = previewMessages[0].message;
   const segment = smsSegmentInfo(preview, form.type);
-  const balanceItems = Array.isArray(overview?.balance) ? overview.balance : [];
+  const providerCredits = providers.map((provider) => ({
+    ...provider,
+    credits: Array.isArray(provider.balance) ? provider.balance.reduce((sum, item) => sum + Number(item.BALANCE || 0), 0) : null
+  }));
+
+  useEffect(() => {
+    if (!form.providerId && selectedProvider?.id) setForm((current) => ({ ...current, providerId: selectedProvider.id }));
+  }, [form.providerId, selectedProvider?.id]);
+
+  useEffect(() => {
+    if (groups.length && !groups.includes(contactGroupChoice) && contactGroupChoice !== '__new__') setContactGroupChoice(groups[0]);
+    if (groups.length && !groups.includes(importGroupChoice) && importGroupChoice !== '__new__') setImportGroupChoice(groups[0]);
+  }, [groups, contactGroupChoice, importGroupChoice]);
 
   const uploadCsv = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
     const rows = parseCsv(await file.text());
-    const targetGroup = importGroup.trim() || 'Imported Contacts';
+    const targetGroup = (importGroupChoice === '__new__' ? newImportGroup : importGroupChoice).trim() || 'Imported Contacts';
     const groupedRows = rows.map((row) => ({ ...row, group: row.group?.trim() || targetGroup }));
     await importContacts(groupedRows);
     setForm((current) => ({ ...current, group: targetGroup }));
@@ -4559,8 +4577,11 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
 
   const addContact = (event) => {
     event.preventDefault();
-    importContacts([contactForm]);
-    setContactForm({ name: '', phone: '', group: contactForm.group || 'General' });
+    const group = (contactGroupChoice === '__new__' ? newContactGroup : contactGroupChoice).trim() || 'General';
+    importContacts([{ ...contactForm, group }]);
+    setContactForm({ name: '', phone: '' });
+    if (contactGroupChoice === '__new__') setContactGroupChoice(group);
+    setNewContactGroup('');
   };
 
   const submitCampaign = (event) => {
@@ -4581,16 +4602,16 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
         <div>
           <span className="eyebrow">Personalized messaging</span>
           <h2>Kritech SMS Portal</h2>
-          <p>Import contacts, personalize every message, schedule campaigns and track SamayaSMS delivery reports.</p>
+          <p>Use shared contact groups with multiple SMS providers, personalize every message, schedule campaigns and track delivery reports.</p>
         </div>
         <button type="button" className="secondary small" onClick={refresh}>Refresh data</button>
       </div>
       {state.message && <p className="admin-alert">{state.message}</p>}
       <div className="sms-overview-grid">
-        <article><span>Provider</span><strong>{overview?.configured ? 'SamayaSMS ready' : 'Setup required'}</strong><small>{overview?.senderId || 'No sender ID'}</small></article>
+        <article><span>Providers</span><strong>{providers.filter((provider) => provider.configured).length} ready</strong><small>{providers.map((provider) => provider.name).join(' · ') || 'Setup required'}</small></article>
         <article><span>Contacts</span><strong>{overview?.contactCount || 0}</strong><small>{groups.length} group(s)</small></article>
         <article><span>Campaigns</span><strong>{overview?.campaignCount || 0}</strong><small>Saved in MongoDB</small></article>
-        <article><span>Credits</span><strong>{balanceItems.length ? balanceItems.reduce((sum, item) => sum + Number(item.BALANCE || 0), 0) : '—'}</strong><small>{balanceItems.map((item) => item.ROUTE).filter(Boolean).join(', ') || 'Refresh from provider'}</small></article>
+        <article><span>Credits</span><strong>{(selectedProvider && providerCredits.find((provider) => provider.id === selectedProvider.id)?.credits) ?? '—'}</strong><small>{selectedProvider ? `${selectedProvider.name} · ${selectedProvider.senderId}` : 'Refresh from provider'}</small></article>
       </div>
       <div className="sms-tabs">
         {[['compose', 'Compose'], ['contacts', `Contacts (${contacts.length})`], ['campaigns', 'Campaigns']].map(([key, label]) => (
@@ -4603,6 +4624,12 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
           <div className="sms-form-card">
             <h3>Campaign setup</h3>
             <Field label="Campaign Name" value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
+            <label>SMS Provider<select value={form.providerId} onChange={(event) => setForm({ ...form, providerId: event.target.value })}>
+              {providers.map((provider) => <option key={provider.id} value={provider.id} disabled={!provider.configured}>{provider.name}{provider.configured ? ` · ${provider.senderId}` : ' · not configured'}</option>)}
+            </select></label>
+            <div className="sms-provider-strip">
+              {providerCredits.map((provider) => <span key={provider.id} className={provider.id === selectedProvider?.id ? 'active' : ''}><strong>{provider.name}</strong>{provider.configured ? `${provider.credits ?? '—'} credits` : 'Setup required'}</span>)}
+            </div>
             <div className="two-col">
               <label>Message Type<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })}>
                 <option value="text">Text SMS</option>
@@ -4639,14 +4666,14 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
               </div>
             )}
             <label>Schedule (optional)<input type="datetime-local" value={form.scheduledAt} onChange={(event) => setForm({ ...form, scheduledAt: event.target.value })} /></label>
-            <button className="primary" disabled={state.busy || !selectedContacts.length}>Queue {selectedContacts.length} message(s) <Send size={16} /></button>
+            <button className="primary" disabled={state.busy || !selectedContacts.length || !selectedProvider?.configured}>Queue {selectedContacts.length} message(s) <Send size={16} /></button>
           </div>
           <aside className="sms-preview-card">
             <span>Live recipient previews · up to 6</span>
             <div className="sms-preview-list">
               {['wap', 'vcard'].includes(form.type) ? (
                 <div className="sms-phone-preview">
-                  <small>{overview?.senderId || 'Kritech'}</small>
+                  <small>{selectedProvider?.senderId || 'Kritech'}</small>
                   <p>{form.type === 'wap' ? `${form.payload.wapTitle}\n${form.payload.wapUrl}` : `${form.payload.firstName} ${form.payload.lastName}\n${form.payload.company}\n${form.payload.telephone}`}</p>
                 </div>
               ) : previewMessages.map(({ contact, message }) => (
@@ -4669,14 +4696,24 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
               <h3>Add one contact</h3>
               <Field label="Name" value={contactForm.name} onChange={(value) => setContactForm({ ...contactForm, name: value })} />
               <Field label="Nepal Mobile Number" value={contactForm.phone} onChange={(value) => setContactForm({ ...contactForm, phone: value })} />
-              <Field label="Group" value={contactForm.group} onChange={(value) => setContactForm({ ...contactForm, group: value })} />
+              <label>Group<select value={contactGroupChoice} onChange={(event) => setContactGroupChoice(event.target.value)}>
+                {!groups.includes('General') && <option value="General">General</option>}
+                {groups.map((group) => <option key={group} value={group}>{group}</option>)}
+                <option value="__new__">+ Create new group</option>
+              </select></label>
+              {contactGroupChoice === '__new__' && <Field label="New Group Name" value={newContactGroup} onChange={setNewContactGroup} />}
               <button className="primary small">Save contact <Plus size={16} /></button>
             </form>
             <div className="sms-upload-card">
               <Upload size={24} />
               <strong>Import CSV</strong>
               <span>Only name and phone are required. Choose a group here when the file has no group column.</span>
-              <Field label="Assign Missing Group To" value={importGroup} onChange={setImportGroup} />
+              <label>Assign Missing Group To<select value={importGroupChoice} onChange={(event) => setImportGroupChoice(event.target.value)}>
+                {!groups.includes('General') && <option value="General">General</option>}
+                {groups.map((group) => <option key={group} value={group}>{group}</option>)}
+                <option value="__new__">+ Create new group</option>
+              </select></label>
+              {importGroupChoice === '__new__' && <Field label="New Import Group" value={newImportGroup} onChange={setNewImportGroup} />}
               <input type="file" accept=".csv,text/csv" onChange={uploadCsv} />
             </div>
           </div>
@@ -4700,7 +4737,7 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
             const progress = campaign.total ? Math.round((campaign.processed / campaign.total) * 100) : 0;
             const pendingDlr = campaign.pendingDlr ?? Math.max(0, (campaign.submitted || 0) - (campaign.delivered || 0) - (campaign.deliveryFailed || 0));
             return <article key={campaign.id}>
-              <div className="sms-campaign-head"><div><span>{campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
+              <div className="sms-campaign-head"><div><span>{campaign.providerName || 'SamayaSMS'} · {campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
               <div className="sms-progress"><i style={{ width: `${progress}%` }} /></div>
               <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} accepted</span><span>{pendingDlr} pending DLR</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.deliveryFailed || 0} delivery failed</span><span>{campaign.failed || 0} submit failed</span>{Boolean(campaign.dlrUnavailable) && <span>{campaign.dlrUnavailable} report unavailable</span>}</div>
               <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>
