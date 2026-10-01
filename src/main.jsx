@@ -4749,6 +4749,7 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
               <div className="sms-campaign-head"><div><span>{campaign.providerName || 'SamayaSMS'} · {campaign.type} · {formatDateTime(campaign.createdAt)}</span><h3>{campaign.name}</h3></div><strong className={`sms-status ${String(campaign.status).toLowerCase()}`}>{campaign.status}</strong></div>
               <div className="sms-progress"><i style={{ width: `${progress}%` }} /></div>
               <div className="sms-campaign-stats"><span>{campaign.total} total</span><span>{campaign.submitted || 0} accepted</span><span>{pendingDlr} pending DLR</span><span>{campaign.delivered || 0} delivered</span><span>{campaign.deliveryFailed || 0} delivery failed</span><span>{campaign.failed || 0} submit failed</span>{Boolean(campaign.dlrUnavailable) && <span>{campaign.dlrUnavailable} report unavailable</span>}</div>
+              {campaign.lastError && <p className="sms-campaign-error"><strong>Provider error:</strong> {campaign.lastError}</p>}
               {campaign.providerSupportsDlr === false
                 ? <span className="sms-dlr-note">Provider accepted · DLR API unavailable</span>
                 : <button type="button" className="secondary small" onClick={() => syncDlr(campaign.id)} disabled={!campaign.submitted}>Refresh delivery report</button>}

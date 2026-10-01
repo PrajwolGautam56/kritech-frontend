@@ -5082,6 +5082,17 @@ body {
   font-weight: 850;
 }
 
+.sms-campaign-error {
+  margin: 12px 0;
+  padding: 10px 12px;
+  color: #8a1f1f;
+  border: 1px solid rgba(180, 40, 40, 0.22);
+  border-radius: 10px;
+  background: #fff2f2;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
 .sms-helper {
   margin: -4px 0 2px;
   color: #526057;
