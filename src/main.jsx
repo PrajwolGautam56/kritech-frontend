@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { outsourcingContent } from './outsourcing-content.js';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
 import {
@@ -554,6 +555,28 @@ const globalOutsourcingPages = [
     ]
   }
 ];
+
+globalOutsourcingPages.push({
+  key: 'videoEditingOutsourcing', path: '/video-editing-outsourcing',
+  eyebrow: 'Remote video editing from Nepal',
+  title: outsourcingContent['/video-editing-outsourcing'].title,
+  text: outsourcingContent['/video-editing-outsourcing'].description,
+  bullets: ['Reels and short-form edits', 'YouTube and campaign videos', 'Caption and export requirements', 'Review and revision scope'],
+  highlights: ['Brief-based production', 'Timestamped feedback', 'Agreed file handover'],
+  ctaLabel: 'Discuss a video editing brief',
+  faqs: outsourcingContent['/video-editing-outsourcing'].faqs
+});
+for (const page of globalOutsourcingPages) {
+  const content = outsourcingContent[page.path];
+  if (!content) continue;
+  page.title = content.title;
+  page.text = content.description;
+  page.metaTitle = `${content.title} | Kritech`;
+  page.metaDescription = content.description;
+  page.buyerSections = content.sections;
+  page.marketIntro = content.sections[0][1];
+  if (content.faqs) page.faqs = content.faqs;
+}
 
 const proofDescriptions = [
   'Clear service positioning so visitors quickly understand what you offer and why they should contact you.',
@@ -1448,6 +1471,7 @@ const globalOutsourcingLandingPages = Object.fromEntries(globalOutsourcingPages.
     areaLine: page.areaLine,
     faqs: page.faqs,
     ctaLabel: page.ctaLabel,
+    buyerSections: page.buyerSections,
     proofTitle: 'A remote delivery system built for serious work, not random outsourcing.',
     proofText: 'Kritech keeps the offer clear, the workflow visible and the output connected to business results: better software, better pages, better campaigns and better follow-up.',
     processTitle: 'A clear global delivery process from scope to measurable output.',
@@ -2712,6 +2736,16 @@ function LocalLandingPage({ page, go }) {
           <button className="primary" onClick={() => go('/contact')}>{page.ctaLabel || 'Request SEO consultation'} <ArrowRight size={18} /></button>
         </div>
       </section>
+      {page.buyerSections?.length > 0 && (
+        <section className="section" aria-label="Planning your outsourcing project">
+          <div className="local-proof-grid">
+            {page.buyerSections.map(([title, text]) => (
+              <article key={title}><h2>{title}</h2><p>{text}</p></article>
+            ))}
+          </div>
+          <a className="text-link" href="/contact">Share your brief, budget range and deadline <ArrowRight size={17} /></a>
+        </section>
+      )}
       <section className="section local-proof-section">
         <div className="section-head">
           <div>

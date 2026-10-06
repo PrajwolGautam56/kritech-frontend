@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { outsourcingContent } from '../src/outsourcing-content.js';
 
 const siteUrl = 'https://kritechsolution.com';
 const distDir = new URL('../dist/', import.meta.url);
@@ -280,6 +281,13 @@ for (const [slug, title, description, h1] of seedPosts) {
   addPage(`/blog/${slug}`, title, description, h1, ['SEO guidance', 'Digital marketing Nepal', 'Practical business growth']);
 }
 
+for (const [path, content] of Object.entries(outsourcingContent)) {
+  const existing = pageData.get(path);
+  addPage(path, `${content.title} | Kritech`, content.description, content.title,
+    existing?.bullets || [], content.faqs || existing?.faqs || []);
+  pageData.get(path).buyerSections = content.sections;
+}
+
 const paths = [...sitemap.matchAll(/<loc>https:\/\/kritechsolution\.com([^<]*)<\/loc>/g)]
   .map((match) => match[1] || '/')
   .map((path) => path || '/');
@@ -377,7 +385,9 @@ function renderStaticContent(page) {
     ${page.category ? `<p>${escapeHtml(page.category)}${page.author ? ` · ${escapeHtml(page.author)}` : ''}${page.date ? ` · ${escapeHtml(page.date)}` : ''}</p>` : ''}
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.description)}</p>
-    ${depthParagraphs.length ? depthParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
+    ${page.buyerSections ? page.buyerSections.map(([title, text]) => `<section><h2>${escapeHtml(title)}</h2><p>${escapeHtml(text)}</p></section>`).join('') : ''}
+    ${!page.buyerSections && depthParagraphs.length ? depthParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
+    ${page.buyerSections ? '<p><a href="/contact">Share your project brief, budget range and deadline</a></p>' : ''}
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
     ${page.bodyHtml ? `<article class="imported-wordpress-content">${page.bodyHtml}</article>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}

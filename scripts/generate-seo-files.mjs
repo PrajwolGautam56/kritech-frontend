@@ -74,6 +74,7 @@ const localPages = [
   '/white-label-seo-outsourcing',
   '/digital-marketing-outsourcing-company',
   '/graphic-design-outsourcing-nepal',
+  '/video-editing-outsourcing',
   '/erp-development-outsourcing',
   '/software-development-outsourcing-usa',
   '/software-development-outsourcing-uk',
