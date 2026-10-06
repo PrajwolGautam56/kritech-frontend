@@ -1,7 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
 const siteUrl = 'https://kritechsolution.com';
-const today = new Date().toISOString().slice(0, 10);
 
 const corePages = [
   '/',
@@ -109,7 +108,7 @@ const seedBlogPages = [
   '/blog/local-seo-nepal-business-leads',
   '/blog/best-digital-marketing-agency-butwal',
   '/blog/seo-services-nepal-local-business-plan'
-].map((path) => ({ path, lastmod: today }));
+].map((path) => ({ path }));
 
 const urls = [
   ...corePages.map((path) => ({ path, priority: path === '/' ? '1.0' : '0.8' })),
@@ -205,8 +204,7 @@ function renderSitemap(sitemapUrls) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.map((url) => `  <url>
-    <loc>${siteUrl}${url.path === '/' ? '' : url.path}</loc>
-    <lastmod>${url.lastmod || today}</lastmod>
+    <loc>${siteUrl}${url.path === '/' ? '' : url.path}</loc>${url.lastmod ? `\n    <lastmod>${url.lastmod}</lastmod>` : ''}
     <changefreq>${url.path.startsWith('/blog/') ? 'monthly' : 'weekly'}</changefreq>
     <priority>${url.priority || '0.8'}</priority>
   </url>`).join('\n')}
@@ -215,8 +213,8 @@ ${sitemapUrls.map((url) => `  <url>
 }
 
 function normalizeDate(value) {
-  if (!value) return today;
+  if (!value) return null;
   const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return today;
+  if (Number.isNaN(parsed.getTime())) return null;
   return parsed.toISOString().slice(0, 10);
 }

@@ -1529,7 +1529,7 @@ const localLandingPages = {
       text: `Kritech Solution helps ${page.city} businesses build a stronger online presence through SEO, website improvements, social media content, Meta ads, Google Ads and lead-focused landing pages. We plan campaigns around buyer intent, local search behavior and how customers in ${page.nearby} compare companies before contacting them.`,
       bullets: page.industries ? [`SEO pages for ${page.city} and nearby searches`, `Campaigns for ${page.industries.slice(0, 3).join(', ')}`, 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'] : [`SEO and Google ranking for ${page.city} searches`, 'Facebook, Instagram and Google campaign support', 'Website and landing page improvements', 'Monthly reporting for calls, WhatsApp clicks and inquiries'],
       highlights: [`${page.city}-focused marketing strategy`, 'SEO, ads, content and website support together', 'Remote execution with clear reporting'],
-      marketIntro: `A ${page.city} marketing page should do more than say "we provide digital marketing." It should explain why customers should trust your business, make services easy to compare, and give Google clear local relevance for searches in ${page.city} and nearby areas.`,
+      marketIntro: `Reach customers in ${page.city} with a plan that matches your business. We can coordinate service-page content, search campaigns, social media creatives and inquiry forms. Tell us what you sell, who you want to reach and your monthly budget; we will recommend a scope and explain what you can measure before work begins.`,
       areaLine: `Kritech supports ${page.audience} in ${page.city}, ${page.nearby}. ${page.industries ? `This includes ${page.industries.join(', ')}. ` : ''}Our team is based in Butwal and works remotely across Nepal with clear communication, practical execution and measurable reporting.`,
       faqs: [
         [`Do you provide digital marketing services in ${page.city}?`, `Yes. Kritech provides SEO, social media marketing, Google Ads, Meta Ads, website design, landing pages and content support for businesses in ${page.city} and nearby areas.`],
@@ -2821,9 +2821,9 @@ function ServicesPreview({ go }) {
 
 function WorkShowcase() {
   const work = [
-    ['Local SEO Engine', 'City pages, technical fixes, Google Business Profile, review strategy, and monthly ranking reports.', '+132% organic calls'],
-    ['Conversion Website', 'Premium interface, fast pages, persuasive sections, WhatsApp/contact flows, analytics, and schema.', '3.4x inquiry rate'],
-    ['Campaign Command Center', 'Meta and Google campaign structure with landing pages, tracking, budget control, and reporting.', '-28% cost per lead']
+    ['Local SEO Engine', 'Service content, technical fixes, Google Business Profile support and reports for search visibility and inquiries.', 'Search and inquiry tracking'],
+    ['Conversion Website', 'Responsive pages, clear service information, WhatsApp and contact forms, with analytics to measure visitor actions.', 'Website and contact flows'],
+    ['Campaign Command Center', 'Meta and Google campaign structure with landing pages, budget control and reporting.', 'Campaign budget reporting']
   ];
   return (
     <motion.section className="section work-showcase" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.16 }}>

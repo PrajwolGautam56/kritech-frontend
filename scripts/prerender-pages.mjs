@@ -378,18 +378,12 @@ function renderStaticContent(page) {
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.description)}</p>
     ${depthParagraphs.length ? depthParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('') : ''}
-    <p>${escapeHtml(searchSupportParagraph(page))}</p>
     ${page.bullets?.length ? `<ul>${page.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
     ${page.bodyHtml ? `<article class="imported-wordpress-content">${page.bodyHtml}</article>` : ''}
     ${page.faqs?.length ? `<section><h2>Frequently asked questions</h2>${page.faqs.map(([question, answer]) => `<article><h3>${escapeHtml(question)}</h3><p>${escapeHtml(answer)}</p></article>`).join('')}</section>` : ''}
     ${relatedLinks.length ? `<section><h2>Related Kritech pages</h2>${renderLinkList(relatedLinks)}</section>` : ''}
     ${page.path === '/sitemap' ? `<section><h2>All crawlable pages</h2>${renderLinkList(paths.map(linkForPath), 'seo-all-links')}</section>` : ''}
   </main>`;
-}
-
-function searchSupportParagraph(page) {
-  const topic = page.h1 || humanizePath(page.path);
-  return `This ${page.path.startsWith('/blog/') ? 'article' : 'page'} is part of Kritech Solution's wider service knowledge base, so visitors can move from ${topic} to related services, useful blog guides, contact options and location-specific pages. That connected structure helps business owners compare solutions, understand the next step and contact Kritech with clearer project details. It also gives search engines a more complete crawl path through services, locations, training topics, software solutions and practical articles.`;
 }
 
 function renderLinkList(links, extraClass = '') {
