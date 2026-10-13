@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import ContactFileImport from './ContactFileImport.jsx';
 import { outsourcingContent } from './outsourcing-content.js';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
@@ -3916,8 +3917,10 @@ function Admin({ posts, setPosts, seo, setSeo, go, apiState, adminSession, setAd
       const result = await apiRequest('/api/sms/contacts/import', { method: 'POST', body: JSON.stringify({ contacts }) });
       setSmsState({ busy: false, message: `Imported ${result.imported} contact(s). ${result.skipped || 0} skipped.` });
       await loadSmsPortal(true);
+      return true;
     } catch (error) {
       setSmsState({ busy: false, message: error.message });
+      return false;
     }
   };
 
@@ -4749,15 +4752,14 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
             </form>
             <div className="sms-upload-card">
               <Upload size={24} />
-              <strong>Import CSV</strong>
-              <span>Only name and phone are required. Choose a group here when the file has no group column.</span>
-              <label>Assign Missing Group To<select value={importGroupChoice} onChange={(event) => setImportGroupChoice(event.target.value)}>
+              <strong>Import Excel or CSV</strong>
+              <label>Import To Group<select value={importGroupChoice} onChange={(event) => setImportGroupChoice(event.target.value)}>
                 {!groups.includes('General') && <option value="General">General</option>}
                 {groups.map((group) => <option key={group} value={group}>{group}</option>)}
                 <option value="__new__">+ Create new group</option>
               </select></label>
               {importGroupChoice === '__new__' && <Field label="New Import Group" value={newImportGroup} onChange={setNewImportGroup} />}
-              <input type="file" accept=".csv,text/csv" onChange={uploadCsv} />
+              <ContactFileImport contacts={contacts} targetGroup={(importGroupChoice === '__new__' ? newImportGroup : importGroupChoice).trim()} importContacts={importContacts} disabled={state.busy} />
             </div>
           </div>
           <div className="sms-contact-list">
@@ -4769,7 +4771,7 @@ function SmsPortal({ overview, contacts, campaigns, state, importContacts, delet
                 <button type="button" className="secondary small" onClick={() => deleteContact(contact.id)}>Delete</button>
               </article>
             ))}
-            {!contacts.length && <div className="empty-inquiries"><MessageSquareText size={24} /><h3>No SMS contacts</h3><p>Add one contact or import a CSV list.</p></div>}
+            {!contacts.length && <div className="empty-inquiries"><MessageSquareText size={24} /><h3>No SMS contacts</h3><p>Add a contact or import an Excel or CSV list.</p></div>}
           </div>
         </div>
       )}

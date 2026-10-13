@@ -5186,6 +5186,13 @@ body {
   gap: 14px;
 }
 
+.contact-file-import { display: grid; gap: 12px; min-width: 0; width: 100%; }
+.contact-file-import label { display: grid; gap: 6px; }
+.contact-file-import select { width: 100%; min-width: 0; }
+.contact-file-import p { overflow-wrap: anywhere; }
+.contact-import-preview { overflow-x: auto; max-width: 100%; }
+.contact-import-preview table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.contact-import-preview th, .contact-import-preview td { text-align: left; padding: 8px; border-bottom: 1px solid #d9e4df; overflow-wrap: anywhere; }
 .sms-upload-card {
   display: grid;
   gap: 7px;
