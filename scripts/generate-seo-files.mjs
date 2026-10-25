@@ -97,9 +97,27 @@ const localPages = [
 const wordpressPosts = JSON.parse(
   await readFile(new URL('../src/wordpress-posts.json', import.meta.url), 'utf8')
 );
+const apiBase = (process.env.VITE_API_URL || 'https://kritech-backend-production.up.railway.app').replace(/\/+$/, '');
+let cmsPosts = [];
 
-const blogPages = wordpressPosts
-  .filter((post) => post.status === 'Published' && post.slug)
+try {
+  const response = await fetch(`${apiBase}/api/posts`, { signal: AbortSignal.timeout(8000) });
+  if (!response.ok) throw new Error(`CMS returned HTTP ${response.status}`);
+  const result = await response.json();
+  cmsPosts = Array.isArray(result) ? result.filter((post) => post.status === 'Published' && post.slug) : [];
+  await writeFile(new URL('../src/cms-published-posts.json', import.meta.url), JSON.stringify(cmsPosts, null, 2) + '\n');
+  console.log(`Loaded ${cmsPosts.length} published CMS posts for sitemap generation`);
+} catch (error) {
+  console.warn(`CMS sitemap sync unavailable; using WordPress snapshot: ${error.message}`);
+}
+
+const postsBySlug = new Map();
+for (const post of [...wordpressPosts, ...cmsPosts]) {
+  if (post.status === 'Published' && post.slug) postsBySlug.set(post.slug, post);
+}
+const publishedPosts = [...postsBySlug.values()];
+
+const blogPages = publishedPosts
   .map((post) => ({
     path: `/blog/${post.slug}`,
     lastmod: normalizeDate(post.date)

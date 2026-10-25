@@ -7,6 +7,16 @@ const distDir = new URL('../dist/', import.meta.url);
 const baseHtml = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
 const wordpressPosts = JSON.parse(await readFile(new URL('../src/wordpress-posts.json', import.meta.url), 'utf8'));
+let cmsPosts = [];
+try {
+  cmsPosts = JSON.parse(await readFile(new URL('../src/cms-published-posts.json', import.meta.url), 'utf8'));
+} catch {
+  // Use the WordPress snapshot when the CMS feed was unavailable during the build.
+}
+const postsBySlug = new Map();
+for (const post of [...wordpressPosts, ...cmsPosts]) {
+  if (post.status === 'Published' && post.slug) postsBySlug.set(post.slug, post);
+}
 
 const cityPages = [
   ['Kathmandu', '/digital-marketing-agency-kathmandu', 'Top Digital Marketing Agency in Kathmandu | Kritech Solution', 'Digital marketing agency in Kathmandu for SEO, social media, Google Ads, Meta campaigns, websites and lead generation for Kathmandu Valley businesses.'],
@@ -272,7 +282,7 @@ const seedPosts = [
   ['seo-services-nepal-local-business-plan', 'SEO Services in Nepal for Local Businesses | Kritech Solution', 'A practical SEO services plan for Nepal businesses that want better Google rankings, local leads and measurable search visibility.', 'SEO services in Nepal: a practical ranking plan for local businesses']
 ];
 
-for (const post of wordpressPosts) {
+for (const post of postsBySlug.values()) {
   if (post.status !== 'Published' || !post.slug) continue;
   addBlogPage(post);
 }

@@ -2048,6 +2048,26 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!adminSession?.token) return undefined;
+    let alive = true;
+
+    apiRequest('/api/admin/content')
+      .then((data) => {
+        if (!alive) return;
+        if (Array.isArray(data.posts)) setPosts(mergePostsWithStaticContent(data.posts));
+        if (data.seo && typeof data.seo === 'object') setSeo({ ...defaultSeo, ...data.seo });
+        setContentDirty(false);
+      })
+      .catch(() => {
+        if (alive) setApiState((state) => ({ ...state, message: 'Could not load admin content.' }));
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [adminSession?.token]);
+
+  useEffect(() => {
     if (!contentDirty || !apiState.connected || !adminSession || (!sessionCan(adminSession, 'posts') && !sessionCan(adminSession, 'seo'))) return undefined;
 
     const timeout = window.setTimeout(() => {
@@ -3326,7 +3346,7 @@ function BlogPage({ posts, go }) {
 function BlogDetail({ posts, route, go }) {
   const slug = route.replace('/blog/', '');
   const post = posts.find((item) => item.slug === slug);
-  if (!post) return <PageShell eyebrow="Not found" title="This blog post is not available." text="It may still be a draft in the admin dashboard." />;
+  if (!post || post.status !== 'Published') return <PageShell eyebrow="Not found" title="This blog post is not available." text="It may still be a draft in the admin dashboard." />;
   return (
     <article className="article-page">
       {post.featuredImage && <img className="article-featured-image" src={post.featuredImage} alt={post.title} />}
