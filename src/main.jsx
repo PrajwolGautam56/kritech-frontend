@@ -41,6 +41,7 @@ const SITE_URL = 'https://kritechsolution.com';
 const SEO_VERSION = '2026-07-23-global-outsourcing-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
+const CLARITY_PROJECT_ID = import.meta.env.VITE_CLARITY_PROJECT_ID || 'zge0hcp7df';
 const ACCESS_MODULES = [
   ['posts', 'Blog CMS'],
   ['inquiries', 'Inquiries'],
@@ -1940,17 +1941,29 @@ function stripHtml(value = '') {
 }
 
 function installAnalytics() {
-  if (!GA_MEASUREMENT_ID || typeof window === 'undefined' || window.gtag) return;
+  if (typeof window === 'undefined') return;
+
+  if (GA_MEASUREMENT_ID && !window.gtag) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_MEASUREMENT_ID);
+  }
+
+  if (!CLARITY_PROJECT_ID || window.clarity) return;
+  window.clarity = window.clarity || function clarity() {
+    (window.clarity.q = window.clarity.q || []).push(arguments);
+  };
   const script = document.createElement('script');
   script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  script.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
   document.head.appendChild(script);
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID);
 }
 
 function App() {
