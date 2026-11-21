@@ -3265,33 +3265,39 @@ function ShareSetu() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const shareText = `${SETU_SHARE_TEXT} ${SETU_URL}`;
-  const encodedUrl = encodeURIComponent(SETU_URL);
-  const encodedText = encodeURIComponent(SETU_SHARE_TEXT);
-  const links = [
-    ['WhatsApp', `https://wa.me/?text=${encodeURIComponent(shareText)}`],
-    ['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`],
-    ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`],
-    ['X', `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`]
-  ];
+  const copyText = async () => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(shareText);
+      return;
+    }
+
+    const field = document.createElement('textarea');
+    field.value = shareText;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand('copy');
+    field.remove();
+  };
 
   const copyLink = async () => {
     try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(shareText);
-      } else {
-        const field = document.createElement('textarea');
-        field.value = shareText;
-        field.setAttribute('readonly', '');
-        field.style.position = 'fixed';
-        field.style.opacity = '0';
-        document.body.appendChild(field);
-        field.select();
-        document.execCommand('copy');
-        field.remove();
-      }
-      setMessage('Copied. Paste it into an Instagram DM, group or story.');
+      await copyText();
+      setMessage('Message copied. Paste it into a private DM.');
     } catch {
-      setMessage('Copy failed. Use the WhatsApp or native share option.');
+      setMessage('Copy failed. Use Share via phone or WhatsApp DM.');
+    }
+  };
+
+  const openDm = async (targetUrl, label) => {
+    try {
+      await copyText();
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      setMessage(`Message copied. Paste it into ${label}.`);
+    } catch {
+      setMessage('Copy failed. Use Share via phone or WhatsApp DM.');
     }
   };
 
@@ -3301,7 +3307,7 @@ function ShareSetu() {
       await navigator.share({ title: 'Setu CRM for education consultancies', text: SETU_SHARE_TEXT, url: SETU_URL });
       setMessage('Shared with your team.');
     } catch (error) {
-      if (error.name !== 'AbortError') setMessage('Share failed. Try WhatsApp or Copy link.');
+      if (error.name !== 'AbortError') setMessage('Share failed. Try WhatsApp DM or Copy DM message.');
     }
   };
 
@@ -3309,9 +3315,11 @@ function ShareSetu() {
     <div className="setu-share">
       <button className="secondary setu-share-trigger" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}><Share2 size={17} /> Share with your team</button>
       {open && <div className="setu-share-menu" role="menu">
-        <button type="button" onClick={nativeShare}>Phone share</button>
-        {links.map(([label, href]) => <a key={label} href={href} target="_blank" rel="noreferrer" role="menuitem">{label}</a>)}
-        <button type="button" onClick={copyLink}>Instagram / Copy link</button>
+        <button type="button" onClick={nativeShare}>Choose a DM app</button>
+        <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer" role="menuitem">WhatsApp DM</a>
+        <button type="button" onClick={() => openDm('https://www.messenger.com/', 'Messenger')}>Messenger DM</button>
+        <button type="button" onClick={() => openDm('https://www.instagram.com/direct/inbox/', 'Instagram DM')}>Instagram DM</button>
+        <button type="button" onClick={copyLink}>Copy DM message</button>
         {message && <span role="status">{message}</span>}
       </div>}
     </div>
