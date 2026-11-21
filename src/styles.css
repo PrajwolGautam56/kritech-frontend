@@ -1134,6 +1134,10 @@ footer a {
   color: #a7f0c9;
 }
 
+.setu-final-cta .hero-actions {
+  justify-content: center;
+}
+
 @media (max-width: 900px) {
   .setu-hero-product {
     grid-template-columns: 1fr;
