@@ -3301,21 +3301,10 @@ function ShareSetu() {
     }
   };
 
-  const nativeShare = async () => {
-    if (!navigator.share) return copyLink();
-    try {
-      await navigator.share({ title: 'Setu CRM for education consultancies', text: SETU_SHARE_TEXT, url: SETU_URL });
-      setMessage('Shared with your team.');
-    } catch (error) {
-      if (error.name !== 'AbortError') setMessage('Share failed. Try WhatsApp DM or Copy DM message.');
-    }
-  };
-
   return (
     <div className="setu-share">
       <button className="secondary setu-share-trigger" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}><Share2 size={17} /> Share with your team</button>
       {open && <div className="setu-share-menu" role="menu">
-        <button type="button" onClick={nativeShare}>Choose an app</button>
         <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer" role="menuitem">WhatsApp</a>
         <button type="button" onClick={() => openDm('https://www.messenger.com/', 'Messenger')}>Messenger</button>
         <button type="button" onClick={() => openDm('https://www.instagram.com/direct/inbox/', 'Instagram')}>Instagram</button>
