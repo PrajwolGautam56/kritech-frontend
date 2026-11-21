@@ -40,7 +40,8 @@ import wordpressPosts from './wordpress-posts.json';
 
 const SITE_URL = 'https://kritechsolution.com';
 const SETU_URL = `${SITE_URL}/products/setu-crm`;
-const SETU_SHARE_TEXT = 'I found Setu, a CRM built for education consultancies in Nepal. It keeps enquiries, follow-ups, documents, applications and team work in one place. Worth showing the team:';
+const SETU_DEMO_URL = 'https://www.setu-crm.com/demo';
+const SETU_SHARE_TEXT = `Hey, Kritech Solution has a product called Setu CRM for education consultancies. It helps make enquiries, follow-ups, documents and applications easier to manage. Worth checking out: ${SETU_DEMO_URL}`;
 const productCatalog = [
   {
     path: '/products/setu-crm',
@@ -3264,7 +3265,7 @@ function SetuCrmPage() {
 function ShareSetu() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const shareText = `${SETU_SHARE_TEXT} ${SETU_URL}`;
+  const shareText = SETU_SHARE_TEXT;
   const copyText = async () => {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(shareText);
