@@ -2323,13 +2323,13 @@ function Header({ go, menuOpen, setMenuOpen }) {
 
 function ProductsPage({ go }) {
   return (
-    <PageShell eyebrow="Products" title="Practical software for teams doing real work." text="Kritech products are built around the workflows businesses repeat every day. Start with Setu CRM, then return here as more products become ready.">
+    <PageShell eyebrow="Products" title="Software for clearer business operations." text="Explore Kritech Solution’s business software, starting with Setu CRM for education consultancies."
+    >
       <section className="section products-catalog">
-        <div className="section-head"><div><span className="eyebrow">Kritech product catalogue</span><h2>Tools that keep the work moving.</h2></div><p>Each product has a focused job, a clear workflow and a direct path to see it in action.</p></div>
+        <div className="section-head"><div><span className="eyebrow">Business software</span><h2>Focused products for growing teams.</h2></div><p>Explore software designed to help teams manage customers, information and daily operations with greater clarity.</p></div>
         <div className="products-grid">
           {productCatalog.map((product) => <article key={product.path} className="product-card"><span className="eyebrow">{product.eyebrow}</span><h3>{product.title}</h3><p>{product.text}</p><button className="primary" onClick={() => go(product.path)}>{product.action} <ArrowRight size={17} /></button></article>)}
         </div>
-        <p className="products-note">More Kritech products will be added here as they are ready to explore.</p>
       </section>
     </PageShell>
   );
