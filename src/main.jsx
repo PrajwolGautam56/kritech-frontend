@@ -1990,6 +1990,16 @@ function installAnalytics() {
   document.head.appendChild(script);
 }
 
+function trackEvent(name, params = {}) {
+  if (GA_MEASUREMENT_ID && window.gtag) {
+    window.gtag('event', name, params);
+  }
+
+  if (CLARITY_PROJECT_ID && window.clarity) {
+    window.clarity('event', name);
+  }
+}
+
 function App() {
   const [route, setRoute] = useState(currentRoute);
   const [posts, setPosts] = useState(loadPostsState);
@@ -3213,7 +3223,7 @@ function SetuCrmPage() {
           <p>Walk-ins, Facebook and WhatsApp enquiries, counsellor follow-ups, document checklists, university applications and commission reporting—Setu keeps the work connected.</p>
           <div className="setu-proof-line"><strong>Free setup + Excel lead import</strong><span>Bring your existing leads. See your branches and workflow in the demo.</span></div>
           <div className="hero-actions">
-            <a className="primary" href="https://www.setu-crm.com/demo">See your consultancy in Setu <ArrowRight size={18} /></a>
+            <a className="primary" href="https://www.setu-crm.com/demo" onClick={() => trackEvent('setu_demo_click', { placement: 'hero' })}>See your consultancy in Setu <ArrowRight size={18} /></a>
             <ShareSetu />
           </div>
         </motion.div>
@@ -3257,7 +3267,7 @@ function SetuCrmPage() {
         <div className="setu-compare"><div><strong>The work</strong><span>Sheets + chats</span><span>Setu</span></div>{[['New enquiry', 'Copied into a sheet later', 'Captured with source and owner'], ['Next follow-up', 'Lives in someone’s memory', 'Due date, assignee and escalation'], ['Documents', 'Files and lists in different places', 'Uploads, checklist and status'], ['Owner visibility', 'Ask the team, then reconcile', 'Live overview by branch and period']].map(([label, oldValue, newValue]) => <div key={label}><strong>{label}</strong><span>{oldValue}</span><span><Check size={15} /> {newValue}</span></div>)}</div>
       </section>
 
-      <section className="setu-final-cta"><span className="eyebrow">Make the next intake easier to run</span><h2>Show your team what one clear student journey looks like.</h2><p>Bring your branches, counsellors and Excel leads. We’ll show the demo around your actual workflow and set up the starting point free.</p><div className="hero-actions"><a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a><ShareSetu /></div></section>
+      <section className="setu-final-cta"><span className="eyebrow">Make the next intake easier to run</span><h2>Show your team what one clear student journey looks like.</h2><p>Bring your branches, counsellors and Excel leads. We’ll show the demo around your actual workflow and set up the starting point free.</p><div className="hero-actions"><a className="primary" href="https://www.setu-crm.com/demo" onClick={() => trackEvent('setu_demo_click', { placement: 'final_cta' })}>Book a Setu demo <ArrowRight size={18} /></a><ShareSetu /></div></section>
     </PageShell>
   );
 }
@@ -3266,6 +3276,12 @@ function ShareSetu() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const shareText = SETU_SHARE_TEXT;
+  const toggleShare = () => setOpen((value) => {
+    const next = !value;
+    if (next) trackEvent('setu_share_open');
+    return next;
+  });
+
   const copyText = async () => {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(shareText);
@@ -3286,6 +3302,7 @@ function ShareSetu() {
   const copyLink = async () => {
     try {
       await copyText();
+      trackEvent('setu_share_copy', { channel: 'copy' });
       setMessage('Message copied. Paste it into a private DM.');
     } catch {
       setMessage('Copy failed. Use Share via phone or WhatsApp DM.');
@@ -3295,6 +3312,7 @@ function ShareSetu() {
   const openDm = async (targetUrl, label) => {
     try {
       await copyText();
+      trackEvent('setu_share_click', { channel: label.toLowerCase() });
       window.open(targetUrl, '_blank', 'noopener,noreferrer');
       setMessage(`Message copied. Paste it into ${label}.`);
     } catch {
@@ -3304,9 +3322,9 @@ function ShareSetu() {
 
   return (
     <div className="setu-share">
-      <button className="secondary setu-share-trigger" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}><Share2 size={17} /> Share with your team</button>
+      <button className="secondary setu-share-trigger" type="button" aria-expanded={open} onClick={toggleShare}><Share2 size={17} /> Share with your team</button>
       {open && <div className="setu-share-menu" role="menu">
-        <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer" role="menuitem">WhatsApp</a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer" role="menuitem" onClick={() => trackEvent('setu_share_click', { channel: 'whatsapp' })}>WhatsApp</a>
         <button type="button" onClick={() => openDm('https://www.messenger.com/', 'Messenger')}>Messenger</button>
         <button type="button" onClick={() => openDm('https://www.instagram.com/direct/inbox/', 'Instagram')}>Instagram</button>
         <button type="button" onClick={copyLink}>Copy message</button>
