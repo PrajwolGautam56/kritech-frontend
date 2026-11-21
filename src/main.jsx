@@ -41,7 +41,7 @@ import wordpressPosts from './wordpress-posts.json';
 const SITE_URL = 'https://kritechsolution.com';
 const SETU_URL = `${SITE_URL}/products/setu-crm`;
 const SETU_DEMO_URL = 'https://www.setu-crm.com/demo';
-const SETU_SHARE_TEXT = `Hey, Kritech Solution has a product called Setu CRM for education consultancies. It helps make enquiries, follow-ups, documents and applications easier to manage. Worth checking out: ${SETU_DEMO_URL}`;
+const SETU_SHARE_TEXT = `Hey! I just came across Setu CRM by Kritech Solution, and it looks like exactly what education consultancies need to keep enquiries, follow-ups, documents and applications organised in one place. This could make the team’s day-to-day work so much easier. Definitely worth checking out: ${SETU_DEMO_URL}`;
 const productCatalog = [
   {
     path: '/products/setu-crm',
