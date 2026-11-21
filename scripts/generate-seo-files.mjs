@@ -118,17 +118,18 @@ for (const post of [...wordpressPosts, ...cmsPosts]) {
 }
 const publishedPosts = [...postsBySlug.values()];
 
+const seedBlogPages = [
+  ['/blog/local-seo-nepal-business-leads', '2026-07-07'],
+  ['/blog/best-digital-marketing-agency-butwal', '2026-07-08'],
+  ['/blog/seo-services-nepal-local-business-plan', '2026-07-08']
+].map(([path, lastmod]) => ({ path, lastmod }));
+
 const blogPages = publishedPosts
+  .filter((post) => !seedBlogPages.some((page) => page.path === `/blog/${post.slug}`))
   .map((post) => ({
     path: `/blog/${post.slug}`,
     lastmod: normalizeDate(post.date)
   }));
-
-const seedBlogPages = [
-  '/blog/local-seo-nepal-business-leads',
-  '/blog/best-digital-marketing-agency-butwal',
-  '/blog/seo-services-nepal-local-business-plan'
-].map((path) => ({ path }));
 
 const urls = [
   ...corePages.map((path) => ({ path, priority: path === '/' ? '1.0' : '0.8' })),

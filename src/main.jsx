@@ -28,6 +28,7 @@ import {
   Search,
   Send,
   ServerCog,
+  Share2,
   ShieldCheck,
   Sparkles,
   Target,
@@ -38,6 +39,8 @@ import './styles.css';
 import wordpressPosts from './wordpress-posts.json';
 
 const SITE_URL = 'https://kritechsolution.com';
+const SETU_URL = `${SITE_URL}/products/setu-crm`;
+const SETU_SHARE_TEXT = 'I found Setu, a CRM built for education consultancies in Nepal. It keeps enquiries, follow-ups, documents, applications and team work in one place. Worth showing the team:';
 const SEO_VERSION = '2026-07-23-global-outsourcing-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
@@ -3155,37 +3158,38 @@ function ServicesPage({ go }) {
 
 function SetuCrmPage() {
   const features = [
-    ['Capture every enquiry', 'Bring walk-ins, calls, campaigns and fairs into one searchable lead pipeline.'],
-    ['Keep follow-ups moving', 'Assign work, set due dates and keep calls, visits and messages on the student timeline.'],
-    ['Track every application', 'Manage universities, documents, deadlines, visa work and enrolment without losing context.'],
-    ['See the business clearly', 'Give owners and managers useful views across counsellors, branches, sources and commissions.']
+    ['Never lose the next call', 'Assign every enquiry to a counsellor, set the next follow-up and see what is overdue before a student goes cold.'],
+    ['Know what is missing', 'Keep passport, transcript, English test and other documents beside the application they belong to.'],
+    ['Move applications forward', 'Track multiple universities for one student, deadlines, tasks, offers, visa work and enrolment in one journey.'],
+    ['Run the office from facts', 'See source performance, counsellor workload, branch activity, enrolment and commission without asking five people.']
   ];
   const stages = ['Capture', 'Assign', 'Follow up', 'Documents', 'Applications', 'Visa', 'Enrolment', 'Reports'];
 
   return (
     <PageShell
       eyebrow="Setu CRM · Education consultancies"
-      title="Every student. One clear journey."
-      text="Setu gives education consultancies one shared workspace for leads, follow-ups, documents, applications, messages, enrolment and commission."
+      title="Turn every enquiry into the next student you enrol."
+      text="Setu is the CRM built for education consultancies in Nepal—so your team can capture the lead, make the next call, collect the documents and move the application forward from one shared record."
     >
       <section className="section setu-hero-product">
         <motion.div className="setu-hero-copy" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
-          <span className="eyebrow">Built for the work between enquiry and enrolment</span>
-          <h2>Stop stitching the student journey together from sheets and chats.</h2>
-          <p>Setu keeps the whole team working from the same student record, so the next action is visible and nothing disappears between “hello” and enrolled.</p>
+          <span className="eyebrow">Built for Nepal’s education consultancy workflow</span>
+          <h2>When the office gets busy, the next action should not live in someone’s memory.</h2>
+          <p>Walk-ins, Facebook and WhatsApp enquiries, counsellor follow-ups, document checklists, university applications and commission reporting—Setu keeps the work connected.</p>
+          <div className="setu-proof-line"><strong>Free setup + Excel lead import</strong><span>Bring your existing leads. See your branches and workflow in the demo.</span></div>
           <div className="hero-actions">
-            <a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a>
-            <a className="secondary" href="https://www.setu-crm.com/demo#flow">See the full workflow <ChevronRight size={17} /></a>
+            <a className="primary" href="https://www.setu-crm.com/demo">See your consultancy in Setu <ArrowRight size={18} /></a>
+            <ShareSetu />
           </div>
         </motion.div>
         <motion.div className="setu-dashboard" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
-          <div className="setu-dashboard-top"><span>Illustrative Setu workspace</span><b>Example</b></div>
+          <div className="setu-dashboard-top"><span>Illustrative Setu workspace</span><b>Example view</b></div>
           <div className="setu-stat-row">
             {[['New enquiries', '24'], ['Follow-ups due', '17'], ['In office', '3']].map(([label, value]) => <article key={label}><span>{label}</span><strong>{value}</strong></article>)}
           </div>
           <div className="setu-student-card">
-            <div><span>Student record</span><strong>Aayush Sharma</strong><small>Australia · February intake</small></div>
-            <em>Application in progress</em>
+            <div><span>One student record</span><strong>Aayush Sharma</strong><small>Australia · February intake</small></div>
+            <em>Next: 2 documents</em>
           </div>
           <div className="setu-activity-list">
             {['Follow-up scheduled · Tomorrow at 10:30 AM', 'SMS delivered · Document reminder', '2 documents outstanding · Waiting'].map((item) => <div key={item}><Check size={15} /> {item}</div>)}
@@ -3195,8 +3199,8 @@ function SetuCrmPage() {
 
       <motion.section className="section setu-definition" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}>
         <motion.div className="section-head" variants={fadeUp}>
-          <div><span className="eyebrow">What is Setu?</span><h2>The operating system for an education consultancy.</h2></div>
-          <p>Front desk, counsellors, managers and owners share one record for every student—from first contact through documents, applications, visa, enrolment and commission.</p>
+          <div><span className="eyebrow">What changes on Monday morning?</span><h2>Your team sees the work. Your students feel the follow-through.</h2></div>
+          <p>Setu gives front desk, counsellors, managers and owners one record for every student—from first contact through documents, applications, visa, enrolment and commission.</p>
         </motion.div>
         <motion.div className="setu-role-grid" variants={stagger}>
           {['Front desk', 'Counsellor', 'Manager', 'Owner'].map((role, index) => <motion.article key={role} variants={fadeUp}><strong>0{index + 1}</strong><h3>{role}</h3><p>{['Capture and check in', 'Work follow-ups and applications', 'Balance workload and unblock work', 'See sources, enrolment and commission'][index]}</p></motion.article>)}
@@ -3204,22 +3208,79 @@ function SetuCrmPage() {
       </motion.section>
 
       <section className="section setu-flow-section">
-        <div className="section-head"><div><span className="eyebrow">One connected workflow</span><h2>Nothing disappears between “hello” and enrolled.</h2></div><p>Each stage keeps the next action close to the context your team already needs.</p></div>
+        <div className="section-head"><div><span className="eyebrow">From first hello to commission received</span><h2>One student. One owner. One visible next step.</h2></div><p>See where every student is, who owns the next action and what is blocking progress.</p></div>
         <div className="setu-flow" aria-label="Setu student workflow">{stages.map((stage, index) => <motion.div key={stage} className="setu-flow-step" initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} viewport={{ once: true, amount: 0.8 }}><b>{String(index + 1).padStart(2, '0')}</b><span>{stage}</span></motion.div>)}</div>
       </section>
 
       <motion.section className="section setu-feature-section" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.18 }}>
-        <div className="section-head" variants={fadeUp}><div><span className="eyebrow">Built around daily work</span><h2>Less chasing. More counselling.</h2></div><p>Setu turns repeatable consultancy work into a clear team rhythm without forcing you to rebuild the way your office operates.</p></div>
+        <div className="section-head" variants={fadeUp}><div><span className="eyebrow">Built around daily work</span><h2>Less chasing. More counselling.</h2></div><p>Setu turns the work your office repeats every day into a clear team rhythm—without forcing you to abandon the process you already know.</p></div>
         <div className="setu-feature-grid">{features.map(([title, text], index) => <motion.article key={title} variants={fadeUp}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></motion.article>)}</div>
       </motion.section>
 
       <section className="section setu-compare-section">
-        <div className="section-head"><div><span className="eyebrow">Why Setu?</span><h2>A spreadsheet remembers rows. Setu remembers the student.</h2></div></div>
+        <div className="section-head"><div><span className="eyebrow">Why teams switch</span><h2>A spreadsheet remembers rows. Setu remembers the relationship.</h2></div><p>Keep Excel as your starting point. Stop using it as the place where the whole consultancy has to live.</p></div>
         <div className="setu-compare"><div><strong>The work</strong><span>Sheets + chats</span><span>Setu</span></div>{[['New enquiry', 'Copied into a sheet later', 'Captured with source and owner'], ['Next follow-up', 'Lives in someone’s memory', 'Due date, assignee and escalation'], ['Documents', 'Files and lists in different places', 'Uploads, checklist and status'], ['Owner visibility', 'Ask the team, then reconcile', 'Live overview by branch and period']].map(([label, oldValue, newValue]) => <div key={label}><strong>{label}</strong><span>{oldValue}</span><span><Check size={15} /> {newValue}</span></div>)}</div>
       </section>
 
-      <section className="setu-final-cta"><span className="eyebrow">See it with your workflow</span><h2>Bring your branches, team and intake to the demo.</h2><p>Setu can start with the work you already have, including your Excel leads and current consultancy process.</p><a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a></section>
+      <section className="setu-final-cta"><span className="eyebrow">Make the next intake easier to run</span><h2>Show your team what one clear student journey looks like.</h2><p>Bring your branches, counsellors and Excel leads. We’ll show the demo around your actual workflow and set up the starting point free.</p><div className="hero-actions"><a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a><ShareSetu /></div></section>
     </PageShell>
+  );
+}
+
+function ShareSetu() {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const shareText = `${SETU_SHARE_TEXT} ${SETU_URL}`;
+  const encodedUrl = encodeURIComponent(SETU_URL);
+  const encodedText = encodeURIComponent(SETU_SHARE_TEXT);
+  const links = [
+    ['WhatsApp', `https://wa.me/?text=${encodeURIComponent(shareText)}`],
+    ['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`],
+    ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`],
+    ['X', `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`]
+  ];
+
+  const copyLink = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareText);
+      } else {
+        const field = document.createElement('textarea');
+        field.value = shareText;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        document.execCommand('copy');
+        field.remove();
+      }
+      setMessage('Copied. Paste it into an Instagram DM, group or story.');
+    } catch {
+      setMessage('Copy failed. Use the WhatsApp or native share option.');
+    }
+  };
+
+  const nativeShare = async () => {
+    if (!navigator.share) return copyLink();
+    try {
+      await navigator.share({ title: 'Setu CRM for education consultancies', text: SETU_SHARE_TEXT, url: SETU_URL });
+      setMessage('Shared with your team.');
+    } catch (error) {
+      if (error.name !== 'AbortError') setMessage('Share failed. Try WhatsApp or Copy link.');
+    }
+  };
+
+  return (
+    <div className="setu-share">
+      <button className="secondary setu-share-trigger" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}><Share2 size={17} /> Share with your team</button>
+      {open && <div className="setu-share-menu" role="menu">
+        <button type="button" onClick={nativeShare}>Phone share</button>
+        {links.map(([label, href]) => <a key={label} href={href} target="_blank" rel="noreferrer" role="menuitem">{label}</a>)}
+        <button type="button" onClick={copyLink}>Instagram / Copy link</button>
+        {message && <span role="status">{message}</span>}
+      </div>}
+    </div>
   );
 }
 

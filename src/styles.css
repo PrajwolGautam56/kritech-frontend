@@ -838,6 +838,74 @@ footer a {
   font-size: 0.78rem;
 }
 
+.setu-proof-line {
+  display: grid;
+  gap: 4px;
+  margin: 24px 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--setu-coral);
+  background: rgba(255, 107, 71, 0.08);
+}
+
+.setu-proof-line strong {
+  color: var(--setu-ink);
+}
+
+.setu-proof-line span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.setu-share {
+  position: relative;
+}
+
+.setu-share-trigger {
+  white-space: nowrap;
+}
+
+.setu-share-menu {
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  display: grid;
+  min-width: 220px;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 18px 40px rgba(4, 32, 18, 0.16);
+}
+
+.setu-share-menu a,
+.setu-share-menu button {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  color: var(--ink);
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.setu-share-menu a:hover,
+.setu-share-menu button:hover {
+  background: var(--soft);
+  color: var(--green);
+}
+
+.setu-share-menu span {
+  display: block;
+  padding: 10px 12px 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
 .setu-stat-row {
   position: relative;
   z-index: 1;
@@ -1086,6 +1154,11 @@ footer a {
     margin-top: 56px;
     margin-bottom: 70px;
     padding: 52px 24px;
+  }
+
+  .setu-share-menu {
+    right: auto;
+    left: 0;
   }
 }
 
