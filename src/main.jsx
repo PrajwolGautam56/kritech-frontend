@@ -41,6 +41,15 @@ import wordpressPosts from './wordpress-posts.json';
 const SITE_URL = 'https://kritechsolution.com';
 const SETU_URL = `${SITE_URL}/products/setu-crm`;
 const SETU_SHARE_TEXT = 'I found Setu, a CRM built for education consultancies in Nepal. It keeps enquiries, follow-ups, documents, applications and team work in one place. Worth showing the team:';
+const productCatalog = [
+  {
+    path: '/products/setu-crm',
+    eyebrow: 'Education consultancy CRM',
+    title: 'Setu CRM',
+    text: 'One shared workspace for enquiries, follow-ups, documents, applications, team work and enrolment.',
+    action: 'Explore Setu CRM'
+  }
+];
 const SEO_VERSION = '2026-07-23-global-outsourcing-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
@@ -1195,6 +1204,11 @@ const defaultSeo = {
     description:
       'Setu CRM helps education consultancies manage leads, follow-ups, documents, applications, teams and enrolment in one shared workspace.'
   },
+  products: {
+    path: '/products',
+    title: 'Business Products | Kritech Solution',
+    description: 'Explore practical business software from Kritech Solution, starting with Setu CRM for education consultancies.'
+  },
   about: {
     path: '/about',
     title: 'About Kritech Solution | Software, Marketing & IT Company',
@@ -2174,6 +2188,7 @@ function App() {
       <main>
         {route === '/' && <Home go={go} posts={posts} />}
         {route === '/services' && <ServicesPage go={go} />}
+        {route === '/products' && <ProductsPage go={go} />}
         {route === '/products/setu-crm' && <SetuCrmPage />}
         {route === '/about' && <AboutPage go={go} />}
         {localLandingPages[route] && <LocalLandingPage page={localLandingPages[route]} go={go} />}
@@ -2284,6 +2299,10 @@ function setCanonical(href) {
 
 function Header({ go, menuOpen, setMenuOpen }) {
   const nav = [['Services', '/services'], ['About', '/about'], ['Pricing', '/pricing'], ['Blog', '/blog'], ['Contact', '/contact']];
+  const open = (path) => {
+    go(path);
+  };
+
   return (
     <header className="site-header">
       <button className="brand" onClick={() => go('/')} aria-label="Go to homepage">
@@ -2291,13 +2310,28 @@ function Header({ go, menuOpen, setMenuOpen }) {
       </button>
       <nav className={menuOpen ? 'open' : ''}>
         {nav.map(([label, path]) => (
-          <button key={path} onClick={() => go(path)}>{label}</button>
+          <button key={path} onClick={() => open(path)}>{label}</button>
         ))}
+        <button onClick={() => open('/products')}>Products</button>
       </nav>
-      <button className="nav-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
+      <button className="nav-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>
         {menuOpen ? <X /> : <Menu />}
       </button>
     </header>
+  );
+}
+
+function ProductsPage({ go }) {
+  return (
+    <PageShell eyebrow="Products" title="Practical software for teams doing real work." text="Kritech products are built around the workflows businesses repeat every day. Start with Setu CRM, then return here as more products become ready.">
+      <section className="section products-catalog">
+        <div className="section-head"><div><span className="eyebrow">Kritech product catalogue</span><h2>Tools that keep the work moving.</h2></div><p>Each product has a focused job, a clear workflow and a direct path to see it in action.</p></div>
+        <div className="products-grid">
+          {productCatalog.map((product) => <article key={product.path} className="product-card"><span className="eyebrow">{product.eyebrow}</span><h3>{product.title}</h3><p>{product.text}</p><button className="primary" onClick={() => go(product.path)}>{product.action} <ArrowRight size={17} /></button></article>)}
+        </div>
+        <p className="products-note">More Kritech products will be added here as they are ready to explore.</p>
+      </section>
+    </PageShell>
   );
 }
 
@@ -5148,6 +5182,7 @@ function PublicSitemapPage({ posts, go }) {
     ['Main Pages', [
       ['Home', '/'],
       ['Services', '/services'],
+      ['Products', '/products'],
       ['About', '/about'],
       ['Pricing', '/pricing'],
       ['Blog', '/blog'],
@@ -5275,7 +5310,7 @@ function Footer({ go }) {
       </div>
       <div>
         <h4>Company</h4>
-        {['Services', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => {
+        {['Services', 'Products', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => {
           const path = `/${item.toLowerCase()}`;
           return <a key={item} href={path} onClick={(event) => followInternalLink(event, go, path)}>{item}</a>;
         })}

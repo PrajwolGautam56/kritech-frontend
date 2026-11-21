@@ -5,6 +5,7 @@ const siteUrl = 'https://kritechsolution.com';
 const corePages = [
   '/',
   '/services',
+  '/products',
   '/products/setu-crm',
   '/about',
   '/pricing',

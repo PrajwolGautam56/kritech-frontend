@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://kritechsolution.com/products</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://kritechsolution.com/products/setu-crm</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
