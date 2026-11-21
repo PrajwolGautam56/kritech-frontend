@@ -5,6 +5,7 @@ const siteUrl = 'https://kritechsolution.com';
 const corePages = [
   '/',
   '/services',
+  '/products/setu-crm',
   '/about',
   '/pricing',
   '/blog',
@@ -177,6 +178,7 @@ Kritech Solution is a Butwal, Nepal based software, ERP, cybersecurity, SEO, web
 - Home: ${siteUrl}
 - Services: ${siteUrl}/services
 - Software company Nepal: ${siteUrl}/software-company-nepal
+- Setu CRM: ${siteUrl}/products/setu-crm
 - Software company Butwal: ${siteUrl}/software-company-butwal
 - Best digital marketing agency Butwal: ${siteUrl}/best-digital-marketing-agency-butwal
 - Best SEO company Butwal: ${siteUrl}/best-seo-company-butwal

@@ -1186,6 +1186,12 @@ const defaultSeo = {
     description:
       'Explore software development, ERP, cybersecurity, SEO, websites, digital marketing, white-label support and IT outsourcing services from Kritech Solution.'
   },
+  setuCrm: {
+    path: '/products/setu-crm',
+    title: 'Setu CRM for Education Consultancies | Kritech Solution',
+    description:
+      'Setu CRM helps education consultancies manage leads, follow-ups, documents, applications, teams and enrolment in one shared workspace.'
+  },
   about: {
     path: '/about',
     title: 'About Kritech Solution | Software, Marketing & IT Company',
@@ -2165,6 +2171,7 @@ function App() {
       <main>
         {route === '/' && <Home go={go} posts={posts} />}
         {route === '/services' && <ServicesPage go={go} />}
+        {route === '/products/setu-crm' && <SetuCrmPage />}
         {route === '/about' && <AboutPage go={go} />}
         {localLandingPages[route] && <LocalLandingPage page={localLandingPages[route]} go={go} />}
         {route === '/pricing' && <PricingPage go={go} />}
@@ -3142,6 +3149,76 @@ function ServicesPage({ go }) {
       <Process />
       <FAQSection />
       <CTA go={go} />
+    </PageShell>
+  );
+}
+
+function SetuCrmPage() {
+  const features = [
+    ['Capture every enquiry', 'Bring walk-ins, calls, campaigns and fairs into one searchable lead pipeline.'],
+    ['Keep follow-ups moving', 'Assign work, set due dates and keep calls, visits and messages on the student timeline.'],
+    ['Track every application', 'Manage universities, documents, deadlines, visa work and enrolment without losing context.'],
+    ['See the business clearly', 'Give owners and managers useful views across counsellors, branches, sources and commissions.']
+  ];
+  const stages = ['Capture', 'Assign', 'Follow up', 'Documents', 'Applications', 'Visa', 'Enrolment', 'Reports'];
+
+  return (
+    <PageShell
+      eyebrow="Setu CRM · Education consultancies"
+      title="Every student. One clear journey."
+      text="Setu gives education consultancies one shared workspace for leads, follow-ups, documents, applications, messages, enrolment and commission."
+    >
+      <section className="section setu-hero-product">
+        <motion.div className="setu-hero-copy" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <span className="eyebrow">Built for the work between enquiry and enrolment</span>
+          <h2>Stop stitching the student journey together from sheets and chats.</h2>
+          <p>Setu keeps the whole team working from the same student record, so the next action is visible and nothing disappears between “hello” and enrolled.</p>
+          <div className="hero-actions">
+            <a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a>
+            <a className="secondary" href="https://www.setu-crm.com/demo#flow">See the full workflow <ChevronRight size={17} /></a>
+          </div>
+        </motion.div>
+        <motion.div className="setu-dashboard" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="setu-dashboard-top"><span>Illustrative Setu workspace</span><b>Example</b></div>
+          <div className="setu-stat-row">
+            {[['New enquiries', '24'], ['Follow-ups due', '17'], ['In office', '3']].map(([label, value]) => <article key={label}><span>{label}</span><strong>{value}</strong></article>)}
+          </div>
+          <div className="setu-student-card">
+            <div><span>Student record</span><strong>Aayush Sharma</strong><small>Australia · February intake</small></div>
+            <em>Application in progress</em>
+          </div>
+          <div className="setu-activity-list">
+            {['Follow-up scheduled · Tomorrow at 10:30 AM', 'SMS delivered · Document reminder', '2 documents outstanding · Waiting'].map((item) => <div key={item}><Check size={15} /> {item}</div>)}
+          </div>
+        </motion.div>
+      </section>
+
+      <motion.section className="section setu-definition" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}>
+        <motion.div className="section-head" variants={fadeUp}>
+          <div><span className="eyebrow">What is Setu?</span><h2>The operating system for an education consultancy.</h2></div>
+          <p>Front desk, counsellors, managers and owners share one record for every student—from first contact through documents, applications, visa, enrolment and commission.</p>
+        </motion.div>
+        <motion.div className="setu-role-grid" variants={stagger}>
+          {['Front desk', 'Counsellor', 'Manager', 'Owner'].map((role, index) => <motion.article key={role} variants={fadeUp}><strong>0{index + 1}</strong><h3>{role}</h3><p>{['Capture and check in', 'Work follow-ups and applications', 'Balance workload and unblock work', 'See sources, enrolment and commission'][index]}</p></motion.article>)}
+        </motion.div>
+      </motion.section>
+
+      <section className="section setu-flow-section">
+        <div className="section-head"><div><span className="eyebrow">One connected workflow</span><h2>Nothing disappears between “hello” and enrolled.</h2></div><p>Each stage keeps the next action close to the context your team already needs.</p></div>
+        <div className="setu-flow" aria-label="Setu student workflow">{stages.map((stage, index) => <motion.div key={stage} className="setu-flow-step" initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} viewport={{ once: true, amount: 0.8 }}><b>{String(index + 1).padStart(2, '0')}</b><span>{stage}</span></motion.div>)}</div>
+      </section>
+
+      <motion.section className="section setu-feature-section" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.18 }}>
+        <div className="section-head" variants={fadeUp}><div><span className="eyebrow">Built around daily work</span><h2>Less chasing. More counselling.</h2></div><p>Setu turns repeatable consultancy work into a clear team rhythm without forcing you to rebuild the way your office operates.</p></div>
+        <div className="setu-feature-grid">{features.map(([title, text], index) => <motion.article key={title} variants={fadeUp}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></motion.article>)}</div>
+      </motion.section>
+
+      <section className="section setu-compare-section">
+        <div className="section-head"><div><span className="eyebrow">Why Setu?</span><h2>A spreadsheet remembers rows. Setu remembers the student.</h2></div></div>
+        <div className="setu-compare"><div><strong>The work</strong><span>Sheets + chats</span><span>Setu</span></div>{[['New enquiry', 'Copied into a sheet later', 'Captured with source and owner'], ['Next follow-up', 'Lives in someone’s memory', 'Due date, assignee and escalation'], ['Documents', 'Files and lists in different places', 'Uploads, checklist and status'], ['Owner visibility', 'Ask the team, then reconcile', 'Live overview by branch and period']].map(([label, oldValue, newValue]) => <div key={label}><strong>{label}</strong><span>{oldValue}</span><span><Check size={15} /> {newValue}</span></div>)}</div>
+      </section>
+
+      <section className="setu-final-cta"><span className="eyebrow">See it with your workflow</span><h2>Bring your branches, team and intake to the demo.</h2><p>Setu can start with the work you already have, including your Excel leads and current consultancy process.</p><a className="primary" href="https://www.setu-crm.com/demo">Book a Setu demo <ArrowRight size={18} /></a></section>
     </PageShell>
   );
 }
@@ -5031,7 +5108,7 @@ function PublicSitemapPage({ posts, go }) {
       ['ERP Software in Butwal', '/erp-software-butwal'],
       ['IT Company in Butwal', '/it-company-butwal']
     ]],
-    ['Software and Cybersecurity', softwarePages.map((page) => [page.eyebrow, page.path])],
+    ['Software and Cybersecurity', [['Setu CRM', '/products/setu-crm'], ...softwarePages.map((page) => [page.eyebrow, page.path])]],
     ['Global Outsourcing', globalOutsourcingPages.map((page) => [page.eyebrow, page.path])],
     ['Nepal City Service Areas', cityAreaPages.map((page) => [`Digital Marketing Agency in ${page.city}`, page.path])],
     ['IT and Marketing Classes', trainingPages.map((page) => [page.course, page.path])],
@@ -5113,6 +5190,7 @@ function Footer({ go }) {
   ];
   const softwareLinks = [
     ['Software Company Nepal', '/software-company-nepal'],
+    ['Setu CRM', '/products/setu-crm'],
     ['ERP Software', '/erp-software-nepal'],
     ['Accounting Software', '/accounting-software-nepal'],
     ['Custom Software', '/custom-software-development-nepal'],

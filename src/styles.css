@@ -13,6 +13,8 @@
   --panel: #ffffff;
   --soft: #eaf4ee;
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.14);
+  --setu-coral: #ff6b47;
+  --setu-ink: #14151a;
 }
 
 * {
@@ -773,6 +775,324 @@ footer a {
   background: #25d366;
   box-shadow: 0 14px 34px rgba(37, 211, 102, 0.35);
   font-weight: 900;
+}
+
+.setu-hero-product {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
+  gap: 64px;
+  align-items: center;
+  padding-top: 38px;
+}
+
+.setu-hero-copy h2,
+.setu-definition h2,
+.setu-flow-section h2,
+.setu-feature-section h2,
+.setu-compare-section h2,
+.setu-final-cta h2 {
+  color: var(--setu-ink);
+}
+
+.setu-dashboard {
+  position: relative;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(7, 18, 13, 0.12);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #101713, #214c37);
+  box-shadow: 0 30px 80px rgba(4, 32, 18, 0.2);
+}
+
+.setu-dashboard::after {
+  position: absolute;
+  inset: auto -12% -35% 28%;
+  height: 70%;
+  content: '';
+  border-radius: 50%;
+  background: rgba(255, 107, 71, 0.28);
+  filter: blur(50px);
+}
+
+.setu-dashboard-top,
+.setu-student-card,
+.setu-activity-list div {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.setu-dashboard-top {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 800;
+}
+
+.setu-dashboard-top b {
+  padding: 6px 10px;
+  color: #092719;
+  border-radius: 999px;
+  background: #a7f0c9;
+  font-size: 0.78rem;
+}
+
+.setu-stat-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 26px 0 14px;
+}
+
+.setu-stat-row article,
+.setu-student-card,
+.setu-activity-list {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.setu-stat-row article {
+  display: grid;
+  gap: 10px;
+}
+
+.setu-stat-row span,
+.setu-student-card span,
+.setu-student-card small {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.78rem;
+}
+
+.setu-stat-row strong,
+.setu-student-card strong {
+  color: white;
+}
+
+.setu-student-card {
+  margin-bottom: 12px;
+}
+
+.setu-student-card div {
+  display: grid;
+  gap: 5px;
+}
+
+.setu-student-card em {
+  padding: 7px 9px;
+  color: #ffd2c6;
+  border-radius: 999px;
+  background: rgba(255, 107, 71, 0.18);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.setu-activity-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+}
+
+.setu-activity-list div {
+  justify-content: flex-start;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.84rem;
+}
+
+.setu-activity-list svg,
+.setu-compare svg {
+  flex: 0 0 auto;
+  color: var(--setu-coral);
+}
+
+.setu-definition {
+  padding-top: 100px;
+}
+
+.setu-role-grid,
+.setu-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.setu-role-grid article,
+.setu-feature-grid article {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.setu-role-grid strong,
+.setu-feature-grid article > span,
+.setu-compare strong {
+  color: var(--green);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.setu-role-grid h3,
+.setu-feature-grid h3 {
+  margin: 20px 0 10px;
+}
+
+.setu-role-grid p,
+.setu-feature-grid p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.setu-flow-section,
+.setu-feature-section,
+.setu-compare-section {
+  padding-top: 100px;
+}
+
+.setu-flow {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+}
+
+.setu-flow-step {
+  display: grid;
+  gap: 18px;
+  min-height: 130px;
+  padding: 16px;
+  border-top: 2px solid var(--setu-coral);
+  background: white;
+}
+
+.setu-flow-step b {
+  color: var(--setu-coral);
+  font-size: 0.8rem;
+}
+
+.setu-flow-step span {
+  font-weight: 900;
+}
+
+.setu-compare {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+}
+
+.setu-compare > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.setu-compare > div:last-child {
+  border-bottom: 0;
+}
+
+.setu-compare span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.setu-final-cta {
+  width: min(1180px, calc(100% - 32px));
+  margin: 100px auto 110px;
+  padding: 78px 8%;
+  color: white;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #10261a, #257149);
+  text-align: center;
+}
+
+.setu-final-cta h2 {
+  max-width: 700px;
+  margin: 0 auto 18px;
+  color: white;
+}
+
+.setu-final-cta p {
+  max-width: 620px;
+  margin: 0 auto 26px;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.setu-final-cta .eyebrow {
+  color: #a7f0c9;
+}
+
+@media (max-width: 900px) {
+  .setu-hero-product {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .setu-role-grid,
+  .setu-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .setu-flow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .setu-hero-product,
+  .setu-definition,
+  .setu-flow-section,
+  .setu-feature-section,
+  .setu-compare-section {
+    padding-top: 56px;
+  }
+
+  .setu-dashboard {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .setu-stat-row,
+  .setu-role-grid,
+  .setu-feature-grid,
+  .setu-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .setu-student-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .setu-compare {
+    overflow-x: auto;
+  }
+
+  .setu-compare > div {
+    min-width: 620px;
+  }
+
+  .setu-final-cta {
+    margin-top: 56px;
+    margin-bottom: 70px;
+    padding: 52px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .setu-flow-step {
+    transition: none;
+  }
 }
 
 .admin-shell {
