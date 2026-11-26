@@ -51,6 +51,12 @@ const productCatalog = [
     action: 'Explore Setu CRM'
   }
 ];
+const careerRoles = [
+  ['Graphic Design Intern', 'Learn by producing social posts, campaign creatives and brand assets with the design team.'],
+  ['Video Editor / Video Editor Intern', 'Edit short-form videos, reels and campaign content for real client work.'],
+  ['QA Intern', 'Help test websites and software, document issues and improve release quality.'],
+  ['Full time Graphic Designer', 'Create visual systems and campaign assets for Kritech and its clients.']
+];
 const SEO_VERSION = '2026-07-23-global-outsourcing-v1';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
@@ -1360,6 +1366,12 @@ const defaultSeo = {
     description:
       'Contact Kritech Solution in Butwal for SEO, digital marketing, web development, and IT service consultation.'
   },
+  careers: {
+    path: '/careers',
+    title: 'Careers at Kritech Solution | Join Our Team',
+    description:
+      'Apply for graphic design, video editing and QA roles at Kritech Solution in Butwal, Nepal.'
+  },
   htmlSitemap: {
     path: '/sitemap',
     title: 'HTML Sitemap | Kritech Solution',
@@ -2207,6 +2219,7 @@ function App() {
         {route === '/blog' && <BlogPage posts={posts} go={go} />}
         {route.startsWith('/blog/') && <BlogDetail posts={posts} route={route} go={go} />}
         {route === '/contact' && <ContactPage go={go} />}
+        {route === '/careers' && <CareersPage />}
         {route === '/sitemap' && <PublicSitemapPage posts={posts} go={go} />}
       </main>
       <Footer go={go} />
@@ -2309,7 +2322,7 @@ function setCanonical(href) {
 }
 
 function Header({ go, menuOpen, setMenuOpen }) {
-  const nav = [['Services', '/services'], ['About', '/about'], ['Pricing', '/pricing'], ['Blog', '/blog'], ['Contact', '/contact']];
+  const nav = [['Services', '/services'], ['About', '/about'], ['Pricing', '/pricing'], ['Blog', '/blog'], ['Careers', '/careers'], ['Contact', '/contact']];
   const open = (path) => {
     go(path);
   };
@@ -3676,6 +3689,69 @@ function ContactPage({ go }) {
       </section>
       <FAQSection compact />
       <CTA go={go} />
+    </PageShell>
+  );
+}
+
+function CareersPage() {
+  const [role, setRole] = useState(careerRoles[0][0]);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', portfolio: '', resume: '', message: '' });
+  const [submitState, setSubmitState] = useState({ busy: false, message: '', ok: false });
+
+  const updateForm = (key, value) => setForm((current) => ({ ...current, [key]: value }));
+
+  const submitApplication = async (event) => {
+    event.preventDefault();
+    setSubmitState({ busy: true, message: 'Sending your application...', ok: false });
+
+    try {
+      await apiRequest('/api/inquiries', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: form.name,
+          contact: form.email,
+          service: 'Career Application',
+          role,
+          phone: form.phone,
+          portfolio: form.portfolio,
+          resume: form.resume,
+          message: form.message,
+          sourcePage: window.location.href
+        })
+      });
+      setForm({ name: '', email: '', phone: '', portfolio: '', resume: '', message: '' });
+      setSubmitState({ busy: false, message: 'Application received. Kritech will review it and contact you if there is a match.', ok: true });
+    } catch (error) {
+      setSubmitState({ busy: false, message: error.message, ok: false });
+    }
+  };
+
+  return (
+    <PageShell eyebrow="Careers at Kritech" title="Build useful work with a growing team." text="Choose a role and send your details. A portfolio or resume link helps, but it is optional.">
+      <section className="section careers-grid">
+        <div>
+          <div className="section-head"><div><span className="eyebrow">Open roles</span><h2>Find your place on the team.</h2></div></div>
+          <div className="career-role-list">
+            {careerRoles.map(([title, text]) => (
+              <button className={role === title ? 'career-role active' : 'career-role'} key={title} type="button" onClick={() => setRole(title)} aria-pressed={role === title}>
+                <span><strong>{title}</strong><small>{text}</small></span><ChevronRight size={18} />
+              </button>
+            ))}
+          </div>
+        </div>
+        <form className="contact-form career-form" onSubmit={submitApplication}>
+          <span className="eyebrow">Apply for {role}</span>
+          <label>Your name<input value={form.name} onChange={(event) => updateForm('name', event.target.value)} required /></label>
+          <label>Email<input type="email" value={form.email} onChange={(event) => updateForm('email', event.target.value)} required /></label>
+          <label>Phone / WhatsApp <span className="optional">optional</span><input value={form.phone} onChange={(event) => updateForm('phone', event.target.value)} /></label>
+          <label>Portfolio link <span className="optional">optional</span><input type="url" placeholder="https://..." value={form.portfolio} onChange={(event) => updateForm('portfolio', event.target.value)} /></label>
+          <label>Resume link <span className="optional">optional</span><input type="url" placeholder="Google Drive, LinkedIn, or other link" value={form.resume} onChange={(event) => updateForm('resume', event.target.value)} /></label>
+          <label>Why are you a good fit?<textarea rows="5" value={form.message} onChange={(event) => updateForm('message', event.target.value)} required /></label>
+          <button className="primary" disabled={submitState.busy}>{submitState.busy ? 'Sending...' : 'Send Application'} <Send size={18} /></button>
+          {submitState.message && <p className={submitState.ok ? 'form-message success' : 'form-message'} role="status">{submitState.message}</p>}
+          <small className="form-note">Your application is stored securely as an inquiry and emailed to the Kritech team when mail delivery is configured.</small>
+        </form>
+      </section>
     </PageShell>
   );
 }
@@ -5326,7 +5402,7 @@ function Footer({ go }) {
       </div>
       <div>
         <h4>Company</h4>
-        {['Services', 'Products', 'About', 'Pricing', 'Blog', 'Contact', 'Sitemap'].map((item) => {
+        {['Services', 'Products', 'About', 'Pricing', 'Blog', 'Careers', 'Contact', 'Sitemap'].map((item) => {
           const path = `/${item.toLowerCase()}`;
           return <a key={item} href={path} onClick={(event) => followInternalLink(event, go, path)}>{item}</a>;
         })}

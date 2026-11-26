@@ -707,6 +707,66 @@ p {
   gap: 14px;
 }
 
+.careers-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.career-role-list {
+  display: grid;
+  gap: 12px;
+}
+
+.career-role {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  padding: 20px;
+  color: var(--ink);
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.career-role:hover,
+.career-role.active {
+  border-color: var(--green);
+  box-shadow: 0 12px 30px rgba(4, 32, 18, 0.08);
+}
+
+.career-role span {
+  display: grid;
+  gap: 7px;
+}
+
+.career-role small,
+.optional,
+.form-note {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.career-form label {
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.career-form .optional {
+  display: inline;
+  margin-left: 4px;
+  font-weight: 400;
+}
+
+.form-note {
+  margin: 0;
+}
+
 .form-message {
   margin: 0;
   padding: 12px 14px;
@@ -1510,6 +1570,7 @@ label textarea.tall {
   .split,
   .case-study,
   .contact-grid,
+  .careers-grid,
   footer,
   .admin-shell,
   .editor-grid {
